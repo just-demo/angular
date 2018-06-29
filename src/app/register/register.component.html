@@ -1,0 +1,7 @@
+<div>
+  Register a new account
+  <div>Username: <input required [(ngModel)]="user.username"></div>
+  <div>Password: <input required [(ngModel)]="user.password"></div>
+</div>
+<button (click)="register()">Register</button>
+<a routerLink="/login">Login with existing account</a>
