@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MessageService} from '../message.service';
-import {UserLogin} from '../user-login';
-import {UserRegistration} from '../user-registration';
+import {Credentials} from '../credentials';
+import {AuthenticationService} from '../authentication.service';
 
 @Component({
   selector: 'app-register',
@@ -9,16 +9,17 @@ import {UserRegistration} from '../user-registration';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  user: UserRegistration;
+  credentials: Credentials;
 
-  constructor(public messageService: MessageService) {}
+  constructor(public authenticationService: AuthenticationService) {
+  }
 
   ngOnInit() {
-    this.user = {};
+    this.credentials = {} as Credentials;
   }
 
   register() {
-    this.messageService.add(`Register as ${this.user.username}/${this.user.password}`);
+    this.authenticationService.register(this.credentials);
   }
 
 }

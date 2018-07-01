@@ -2,6 +2,9 @@
 <nav>
   <a routerLink="/dashboard">Dashboard</a>
   <a routerLink="/heroes">Heroes</a>
+  <a *ngIf="!isAuthenticated()" routerLink="/login">Login</a>
+  <a *ngIf="!isAuthenticated()" routerLink="/register">Register</a>
+  <a *ngIf="isAuthenticated()" (click)="logout()" routerLink="/">Logout</a>
 </nav>
 <router-outlet></router-outlet>
 <app-messages></app-messages>

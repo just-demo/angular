@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MessageService} from '../message.service';
-import {UserLogin} from '../user-login';
+import {Credentials} from '../credentials';
+import {AuthenticationService} from '../authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -8,16 +9,16 @@ import {UserLogin} from '../user-login';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  user: UserLogin;
+  credentials: Credentials;
 
-  constructor(public messageService: MessageService) {}
+  constructor(public authenticationService: AuthenticationService) {
+  }
 
   ngOnInit() {
-    this.user = {};
+    this.credentials = {} as Credentials;
   }
 
   login() {
-    this.messageService.add(`Login with ${this.user.username}/${this.user.password}`);
+    this.authenticationService.login(this.credentials);
   }
-
 }
