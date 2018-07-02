@@ -1,10 +1,9 @@
-<h1>{{title}}</h1>
 <nav>
-  <a routerLink="/dashboard">Dashboard</a>
-  <a routerLink="/heroes">Heroes</a>
-  <a *ngIf="!isAuthenticated()" routerLink="/login">Login</a>
-  <a *ngIf="!isAuthenticated()" routerLink="/register">Register</a>
-  <a *ngIf="isAuthenticated()" (click)="logout()" routerLink="/">Logout</a>
+  <a routerLink="/book">Book</a>
+  <a routerLink="/practice">Practice</a>
+  <a *ngIf="!isAuthenticated()" routerLink="/register" class="right">Register</a>
+  <a *ngIf="!isAuthenticated()" routerLink="/login" class="right">Login</a>
+  <a *ngIf="isAuthenticated()" (click)="logout()" routerLink="/" class="right">Logout</a>
 </nav>
 <router-outlet></router-outlet>
 <app-messages></app-messages>

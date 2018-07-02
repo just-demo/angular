@@ -17,6 +17,11 @@ import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {AuthenticationService} from './authentication.service';
 import {BackendRequestInterceptor} from './backend-request-interceptor';
+import { BookComponent } from './book/book.component';
+import { BookUploadComponent } from './book-upload/book-upload.component';
+import { BookEnterComponent } from './book-enter/book-enter.component';
+import { PracticeComponent } from './practice/practice.component';
+import { BookStatisticsComponent } from './book-statistics/book-statistics.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +32,12 @@ import {BackendRequestInterceptor} from './backend-request-interceptor';
     DashboardComponent,
     HeroSearchComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    BookComponent,
+    BookUploadComponent,
+    BookEnterComponent,
+    PracticeComponent,
+    BookStatisticsComponent
   ],
   imports: [
     BrowserModule,

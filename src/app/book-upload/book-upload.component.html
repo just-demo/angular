@@ -1,0 +1,4 @@
+<input type="file" (change)="upload($event.target.files)">
+<!--<input type="button" (click)="testNavigation()" value="Test">-->
+
+<app-book-statistics *ngIf="statistics" [statistics]="statistics"></app-book-statistics>

@@ -1,7 +1,17 @@
 <div>
-  Login with existing account
-  <div>Username: <input required [(ngModel)]="credentials.username"></div>
-  <div>Password: <input required [(ngModel)]="credentials.password"></div>
+  <span>Login with existing account</span>
+  <table>
+    <tr>
+      <td>Username</td>
+      <td><input required [(ngModel)]="credentials.username"></td>
+    </tr>
+    <tr>
+      <td>Password</td>
+      <td><input required [(ngModel)]="credentials.password"></td>
+    </tr>
+    <tr>
+      <td colspan="2"><button (click)="login()">Submit</button></td>
+    </tr>
+  </table>
+  <span class="error">{{error}}</span>
 </div>
-<button (click)="login()">Login</button>
-<a routerLink="/register">Register a new account</a>

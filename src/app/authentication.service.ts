@@ -2,12 +2,14 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {MessageService} from './message.service';
 import {Credentials} from './credentials';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private authentication = null;
+  private authHeaders = null;
+  private authUser = null;
 
   constructor(
     private http: HttpClient,
@@ -15,26 +17,31 @@ export class AuthenticationService {
   ) {
   }
 
-  login(credentials: Credentials) {
+  login(credentials: Credentials): Observable {
     this.messageService.add(`Login with ${credentials.username}/${credentials.password}`);
-    this.http.post<Credentials>('http://localhost:8080/auth', credentials)
-      .subscribe(authentication => this.authentication = authentication);
+    const response = this.http.post ('/auth', credentials);
+    response.subscribe(authHeaders => {
+      this.authUser = credentials.username;
+      this.authHeaders = authHeaders;
+    });
+    return response;
   }
 
   register(credentials: Credentials) {
     this.messageService.add(`Register user with ${credentials.username}/${credentials.password}`);
-    this.http.put<Credentials>('http://localhost:8080/auth', credentials).subscribe();
+    this.http.put('/auth', credentials).subscribe();
   }
 
   logout() {
-    this.authentication = null;
+    this.authHeaders = null;
+    this.authUser = null;
   }
 
   isAuthenticated(): boolean {
-    return !!this.authentication;
+    return !!this.authHeaders;
   }
 
-  getAuthentication() {
-    return this.authentication;
+  getAuthHeaders() {
+    return this.authHeaders;
   }
 }

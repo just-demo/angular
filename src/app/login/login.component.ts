@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {MessageService} from '../message.service';
 import {Credentials} from '../credentials';
 import {AuthenticationService} from '../authentication.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,8 +10,12 @@ import {AuthenticationService} from '../authentication.service';
 })
 export class LoginComponent implements OnInit {
   credentials: Credentials;
+  error: string;
 
-  constructor(public authenticationService: AuthenticationService) {
+  constructor(
+    private authenticationService: AuthenticationService,
+    private router: Router
+  ) {
   }
 
   ngOnInit() {
@@ -19,6 +23,16 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.authenticationService.login(this.credentials);
+    this.authenticationService.login(this.credentials)
+      .subscribe(
+        data => {
+          console.log('Login successful');
+          this.router.navigateByUrl('/');
+        },
+        error => {
+          console.error('Error: ' + error);
+          this.error = 'Login failed';
+        }
+      );
   }
 }
