@@ -25,6 +25,7 @@ import { BookStatisticsComponent } from './book-statistics/book-statistics.compo
 import { KeysPipe } from './pipes/keys.pipe';
 import { ValuesPipe } from './pipes/values.pipe';
 import { SumPipe } from './pipes/sum.pipe';
+import { BookReaderComponent } from './book-reader/book-reader.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { SumPipe } from './pipes/sum.pipe';
     BookStatisticsComponent,
     KeysPipe,
     ValuesPipe,
-    SumPipe
+    SumPipe,
+    BookReaderComponent
   ],
   imports: [
     BrowserModule,

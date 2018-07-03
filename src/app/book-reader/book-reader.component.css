@@ -1,0 +1,9 @@
+div.text {
+  white-space: pre;
+}
+
+span.word:hover {
+  background-color: #DDDDDD;
+  cursor: pointer;
+}
+

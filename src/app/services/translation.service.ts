@@ -10,7 +10,11 @@ export class TranslationService {
   constructor(private http: HttpClient) {
   }
 
-  getTranslations(words: string[]): Observable {
+  getTranslations(words: string): Observable {
     return this.http.post('/translations', words);
+  }
+
+  getTranslation(word: string): Observable {
+    return this.http.post('/translations');
   }
 }

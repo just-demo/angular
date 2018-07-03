@@ -1,0 +1,10 @@
+<p>
+  book-reader works!
+</p>
+<!--<p class="text">-->
+  <!--{{text}}-->
+<!--</p>-->
+<div class="text">
+  <!--{{tokens.length}}-->
+  <span *ngFor="let token of tokens" [ngClass]="{'word': isWord(token)}" (click)="isWord(token) && showTranslation(token)">{{token}}</span>
+</div>
