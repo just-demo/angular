@@ -1,4 +1,31 @@
 book-statistics works!
-<li *ngFor="let statisticsItem of statistics">
-  {{statisticsItem | json}}
-</li>
+<p>{{statistics | json}}</p>
+
+<!--<table id="words">-->
+  <!--<tr *ngFor="let group of statistics" class="group">-->
+    <!--<td>-->
+      <!--<table>-->
+        <!--<tr *ngFor="let word of group | keys; let first = first" class="word">-->
+          <!--&lt;!&ndash;<td *ngIf="first" rowspan="1">{{group | values | sum}}</td>&ndash;&gt;-->
+          <!--&lt;!&ndash;<td rowSpan="{{1}}">{{group | values | sum}}</td>&ndash;&gt;-->
+          <!--<td><input type="text" name="text" value="{{word}}"/></td>-->
+          <!--<td class="number">{{group[word]}}</td>-->
+          <!--<td *ngIf="first" rowSpan="{{(group | keys).length}}">{{group | values | sum}}</td>-->
+        <!--</tr>-->
+      <!--</table>-->
+    <!--</td>-->
+  <!--</tr>-->
+<!--</table>-->
+
+
+<!--<div id="words">-->
+  <!--<div *ngFor="let group of statistics" class="group">-->
+    <!--<div class="groupWrapper">-->
+      <!--<div *ngFor="let word of group | keys; let first = first" class="word">-->
+        <!--<span><span *ngIf="first">AAAAA</span><input type="text" name="text" value="{{word}}"/></span>-->
+        <!--<span class="number">{{group[word]}}</span>-->
+        <!--<span class="number">{{group | values | sum}}</span>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MessageService} from '../message.service';
 import {Credentials} from '../credentials';
-import {AuthenticationService} from '../authentication.service';
+import {AuthService} from '../auth.service';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +11,7 @@ import {AuthenticationService} from '../authentication.service';
 export class RegisterComponent implements OnInit {
   credentials: Credentials;
 
-  constructor(public authenticationService: AuthenticationService) {
+  constructor(public authService: AuthService) {
   }
 
   ngOnInit() {
@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    this.authenticationService.register(this.credentials);
+    this.authService.register(this.credentials);
   }
 
 }

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Credentials} from '../credentials';
-import {AuthenticationService} from '../authentication.service';
+import {AuthService} from '../auth.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   error: string;
 
   constructor(
-    private authenticationService: AuthenticationService,
+    private authService: AuthService,
     private router: Router
   ) {
   }
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.authenticationService.login(this.credentials)
+    this.authService.login(this.credentials)
       .subscribe(
         data => {
           console.log('Login successful');

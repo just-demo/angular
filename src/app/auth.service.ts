@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationService {
+export class AuthService {
   private authHeaders = null;
   private authUser = null;
 
@@ -19,7 +19,7 @@ export class AuthenticationService {
 
   login(credentials: Credentials): Observable {
     this.messageService.add(`Login with ${credentials.username}/${credentials.password}`);
-    const response = this.http.post ('/auth', credentials);
+    const response = this.http.post('/auth', credentials);
     response.subscribe(authHeaders => {
       this.authUser = credentials.username;
       this.authHeaders = authHeaders;
@@ -43,5 +43,9 @@ export class AuthenticationService {
 
   getAuthHeaders() {
     return this.authHeaders;
+  }
+
+  getAuthUser() {
+    return this.authUser;
   }
 }

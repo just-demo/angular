@@ -6,13 +6,19 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./book-statistics.component.css']
 })
 export class BookStatisticsComponent implements OnInit {
-  @Input() statistics;
+  @Input() statistics: any[];
 
-  constructor() { }
+  // statisticsGroups;
+
+  constructor() {
+  }
 
   ngOnInit() {
     console.log('Statistics:');
     console.log(this.statistics);
+    // for (const group of this.statistics) {
+    //   for (const word of)
+    // }
   }
 
 }

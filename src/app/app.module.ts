@@ -15,13 +15,16 @@ import {InMemoryDataService} from './in-memory-data.service';
 import {HeroSearchComponent} from './hero-search/hero-search.component';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
-import {AuthenticationService} from './authentication.service';
+import {AuthService} from './auth.service';
 import {BackendRequestInterceptor} from './backend-request-interceptor';
 import { BookComponent } from './book/book.component';
 import { BookUploadComponent } from './book-upload/book-upload.component';
 import { BookEnterComponent } from './book-enter/book-enter.component';
 import { PracticeComponent } from './practice/practice.component';
 import { BookStatisticsComponent } from './book-statistics/book-statistics.component';
+import { KeysPipe } from './pipes/keys.pipe';
+import { ValuesPipe } from './pipes/values.pipe';
+import { SumPipe } from './pipes/sum.pipe';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,10 @@ import { BookStatisticsComponent } from './book-statistics/book-statistics.compo
     BookUploadComponent,
     BookEnterComponent,
     PracticeComponent,
-    BookStatisticsComponent
+    BookStatisticsComponent,
+    KeysPipe,
+    ValuesPipe,
+    SumPipe
   ],
   imports: [
     BrowserModule,
@@ -52,7 +58,7 @@ import { BookStatisticsComponent } from './book-statistics/book-statistics.compo
 //     )
 
   ],
-  // providers: [AuthenticationService],
+  // providers: [AuthService],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: BackendRequestInterceptor, multi: true}
   ],
