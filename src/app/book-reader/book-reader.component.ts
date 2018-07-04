@@ -17,7 +17,6 @@ export class BookReaderComponent implements OnInit {
   constructor() {
   }
 
-  // TODO: why is last page empty???
   getPageNavigation(): number[][] {
     const maxVisible = 9;
     const maxVisibleOf2 = maxVisible - 2; // -1 other and -1 delimiter
@@ -25,7 +24,7 @@ export class BookReaderComponent implements OnInit {
     const minPartDistance = 3;
     const minIndex = 0;
     const actualLength = this.pages.length;
-    const maxIndex = minIndex + actualLength;
+    const maxIndex = minIndex + actualLength - 1;
     if (actualLength <= maxVisible) {
       return [this.range(minIndex, actualLength)];
     }
