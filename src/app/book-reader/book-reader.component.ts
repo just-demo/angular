@@ -138,8 +138,12 @@ export class BookReaderComponent implements OnInit {
     return this.words.hasOwnProperty(token);
   }
 
-  showTranslation(token: string): void {
+  showTranslationTooltip(token: string): void {
     console.log(token + ' is to be translated...'); // TODO: implement
+  }
+
+  showTranslationDialog(token: string): void {
+    console.log(token + ' is to be managed...'); // TODO: implement
   }
 
   private reduceToken(token: string): string {

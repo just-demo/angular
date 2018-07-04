@@ -26,6 +26,9 @@ import { KeysPipe } from './pipes/keys.pipe';
 import { ValuesPipe } from './pipes/values.pipe';
 import { SumPipe } from './pipes/sum.pipe';
 import { BookReaderComponent } from './book-reader/book-reader.component';
+import { LoginDialogComponent } from './login-dialog/login-dialog.component';
+import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatRippleModule} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -45,13 +48,21 @@ import { BookReaderComponent } from './book-reader/book-reader.component';
     KeysPipe,
     ValuesPipe,
     SumPipe,
-    BookReaderComponent
+    BookReaderComponent,
+    LoginDialogComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule,
+    BrowserAnimationsModule,
+
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRippleModule,
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
 // and returns simulated server responses.
 // Remove it when a real server is ready to receive requests.
@@ -64,6 +75,7 @@ import { BookReaderComponent } from './book-reader/book-reader.component';
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: BackendRequestInterceptor, multi: true}
   ],
+  entryComponents: [LoginDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

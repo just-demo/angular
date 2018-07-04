@@ -2,7 +2,7 @@
   <a routerLink="/book">Book</a>
   <a routerLink="/practice">Practice</a>
   <a *ngIf="!isAuthenticated()" routerLink="/register" class="right">Register</a>
-  <a *ngIf="!isAuthenticated()" routerLink="/login" class="right">Login</a>
+  <a *ngIf="!isAuthenticated()" (click)="openLoginDialog()" class="right">Login</a>
   <a *ngIf="isAuthenticated()" (click)="logout()" routerLink="/" class="right">Logout</a>
 </nav>
 <router-outlet></router-outlet>

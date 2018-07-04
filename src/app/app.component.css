@@ -36,3 +36,8 @@ nav a.active {
 nav a.right {
   float: right;
 }
+
+nav a {
+  /* in case there is no routerLink */
+  cursor: pointer;
+}

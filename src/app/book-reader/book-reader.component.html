@@ -19,8 +19,12 @@
 <!--<ng-container *ngFor="let page of pages">-->
 <div class="page">
   <ng-container *ngFor="let line of pages[pageIndexSelected]">
-      <span *ngFor="let token of line" [ngClass]="{'word': isWord(token)}"
-            (click)="isWord(token) && showTranslation(token)">{{token}}</span>
+    <span *ngFor="let token of line"
+          [ngClass]="{'word': isWord(token)}"
+          (click)="isWord(token) && showTranslationTooltip(token)"
+          <!-- double click triggers click as well ........ -->
+          (dblclick)="isWord(token) && showTranslationDialog(token)"
+    >{{token}}</span>
   </ng-container>
 </div>
 <!--</ng-container>-->
