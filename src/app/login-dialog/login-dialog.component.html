@@ -1,0 +1,33 @@
+<div>
+  <span>Login with existing account</span>
+  <table>
+    <tr>
+      <td>Username</td>
+      <td><input required [(ngModel)]="credentials.username"></td>
+    </tr>
+    <tr>
+      <td>Password</td>
+      <td><input required [(ngModel)]="credentials.password"></td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <button (click)="cancel()">Cancel</button>
+        <button (click)="submit()">Submit</button>
+      </td>
+    </tr>
+  </table>
+  <span class="error">{{error}}</span>
+</div>
+
+<h1 mat-dialog-title>Hi {{credentials.name}}</h1>
+<div mat-dialog-content>
+  <p>What's your favorite animal?</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="credentials.username">
+    <input matInput [(ngModel)]="credentials.password">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cancel()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="credentials.username" cdkFocusInitial>Ok</button>
+</div>
