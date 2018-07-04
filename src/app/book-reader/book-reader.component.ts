@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {min} from 'rxjs/operators';
 
 @Component({
   selector: 'app-book-reader',
@@ -14,6 +15,41 @@ export class BookReaderComponent implements OnInit {
   pageIndexSelected = 0;
 
   constructor() {
+  }
+
+  // TODO: why is last page empty???
+  getPageNavigation(): number[][] {
+    const maxVisible = 9;
+    const maxVisibleOf2 = maxVisible - 2; // -1 other and -1 delimiter
+    const maxVisibleOf3 = maxVisible - 4; // -2 others and -2 delimiters
+    const minPartDistance = 3;
+    const minIndex = 0;
+    const actualLength = this.pages.length;
+    const maxIndex = minIndex + actualLength;
+    if (actualLength <= maxVisible) {
+      return [this.range(minIndex, actualLength)];
+    }
+
+    const minIndexCentral = this.pageIndexSelected - Math.floor(maxVisibleOf3 / 2);
+    const maxIndexCentral = minIndexCentral + maxVisibleOf3 - 1;
+    if (minIndexCentral - minIndex < minPartDistance) {
+      return [this.range(minIndex, maxVisibleOf2), [maxIndex]];
+    }
+
+    if (maxIndex - maxIndexCentral < minPartDistance) {
+      return [[minIndex], this.range(maxIndex + 1 - maxVisibleOf2, maxVisibleOf2)];
+    }
+
+    return [[minIndex], this.range(minIndexCentral, maxVisibleOf3), [maxIndex]];
+  }
+
+  private range(start: number, length: number): number[] {
+    const result = [];
+    const end = start + length;
+    for (let i = start; i < end; i++) {
+      result.push(i);
+    }
+    return result;
   }
 
   ngOnInit() {

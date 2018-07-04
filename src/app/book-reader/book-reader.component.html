@@ -8,10 +8,12 @@
 <!--</div>-->
 
 <div>
-  <span *ngFor="let page of pages; let index = index"
-        [ngClass]="{'pageIndex': true, 'selected': index === pageIndexSelected}"
-        (click)="pageIndexSelected = index"
-  >{{index}}</span>
+  <ng-container *ngFor="let indexes of getPageNavigation(); let first = first">
+    <span *ngIf="!first">...</span>
+    <span *ngFor="let index of indexes"
+          [ngClass]="{'pageIndex': true, 'selected': index === pageIndexSelected}"
+          (click)="pageIndexSelected = index">{{index + 1}}</span>
+  </ng-container>
 </div>
 
 <!--<ng-container *ngFor="let page of pages">-->
