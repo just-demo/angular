@@ -10,6 +10,7 @@ export class BookReaderComponent implements OnInit {
   private knownTokens: string[] = []; // TODO: implement
   tokens: string[] = [];
   words: Object = {};
+  pages: string[][][];
 
   constructor() {
   }
@@ -33,7 +34,69 @@ export class BookReaderComponent implements OnInit {
         }
       }
     }
+    this.pages = this.splitIntoPages(this.tokens);
   }
+
+  private splitIntoPages(tokens: string[]): string[][][] {
+    const pageWidth = 50;
+    const pageHeight = 20;
+    const pages: string[][][] = [];
+    const lines = this.splitIntoLines(tokens, pageWidth);
+    let page: string[][] = [];
+
+    for (const line of lines) {
+      page.push(line);
+      if (page.length >= pageHeight) {
+        pages.push(page);
+        page = [];
+      }
+    }
+
+    if (page.length > 0) {
+      pages.push(page);
+    }
+
+    return pages;
+  }
+
+  private splitIntoLines(tokens: string[], lineWidth: number): string[][] {
+    const lines: string[][] = [];
+    let line: string[] = [];
+
+    for (const token of tokens) {
+      if (token === '\n') {
+        line.push(token);
+        lines.push(line);
+        line = [];
+      } else if (this.estimateWidth(...line, token) > lineWidth) {
+        line.push('\n'); // to force line breaks on page
+        lines.push(line);
+        line = token === ' ' ? [] : [token]; // just one space not to mess up paragraphs, titles and so on
+      } else {
+        line.push(token);
+      }
+    }
+
+    if (line.length > 0) {
+      lines.push(line);
+    }
+
+    return lines;
+  }
+
+  private estimateWidth(...tokens: string[]): number {
+    return tokens.reduce((a, b) => a + b.length, 0);
+  }
+
+  /*
+  function estimateWidth(...tokens) {
+    return tokens.reduce((a, b) => a + b.length, 0);
+  }
+
+  estimateWidth('aa', 'bbbb');
+    estimateWidth(...['aa', 'bbbb']);
+    estimateWidth(...['aa', 'bbbb'], 'cc');
+   */
 
   isWord(token: string): boolean {
     return this.words.hasOwnProperty(token);
@@ -109,7 +172,8 @@ export class BookReaderComponent implements OnInit {
 
   private splitIntoTokens(text: string): string[] {
     const tokens = [];
-    const p = /([a-z'\-]+|[^a-z'\-]+)/gi;
+    // each new line character is treated as a separate token to ease pagination
+    const p = /([a-z'\-]+|[^a-z'\-\n]+|\n)/gi;
     let m;
     while (m = p.exec(text)) {
       tokens.push(m[1]);
@@ -127,3 +191,11 @@ export class BookReaderComponent implements OnInit {
     return tokens;
   }
 }
+
+// export class Page {
+//   constructor(
+//     public first: number,
+//     public last: number
+//   ) {
+//   }
+// }

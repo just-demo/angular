@@ -1,9 +1,17 @@
-div.text {
+div.page {
+  font-family: monospace;
   white-space: pre;
+  width: 50ch;
+  height: 20em;
+  line-height: 1em;
+  padding: 1em 1ch;
+  border: #aaa solid 2px;
+  overflow: hidden;
+
 }
 
 span.word:hover {
-  background-color: #DDDDDD;
+  background-color: #ddd;
   cursor: pointer;
 }
 
