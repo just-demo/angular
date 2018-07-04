@@ -15,3 +15,18 @@ span.word:hover {
   cursor: pointer;
 }
 
+span.pageIndex {
+  cursor: pointer;
+  padding: 5px 10px;
+  margin: 5px;
+  display: inline-block;
+  background-color: #ddd;
+  border: #eee solid 2px;
+  border-radius: 4px;
+}
+
+span.pageIndex.selected {
+  background-color: #eee;
+  border-color: #dedede;
+}
+

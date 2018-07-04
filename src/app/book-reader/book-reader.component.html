@@ -7,13 +7,19 @@
 <!--(click)="isWord(token) && showTranslation(token)">{{token}}</span>-->
 <!--</div>-->
 
+<div>
+  <span *ngFor="let page of pages; let index = index"
+        [ngClass]="{'pageIndex': true, 'selected': index === pageIndexSelected}"
+        (click)="pageIndexSelected = index"
+  >{{index}}</span>
+</div>
 
-<ng-container *ngFor="let page of pages">
-  <div class="page">
-    <ng-container *ngFor="let line of page">
+<!--<ng-container *ngFor="let page of pages">-->
+<div class="page">
+  <ng-container *ngFor="let line of pages[pageIndexSelected]">
       <span *ngFor="let token of line" [ngClass]="{'word': isWord(token)}"
             (click)="isWord(token) && showTranslation(token)">{{token}}</span>
-    </ng-container>
-  </div>
-</ng-container>
+  </ng-container>
+</div>
+<!--</ng-container>-->
 

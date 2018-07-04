@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, NgZone, OnInit} from '@angular/core';
 import {BookService} from '../services/book.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {map, switchMap} from 'rxjs/operators';
@@ -14,9 +14,13 @@ import {UserService} from '../services/user.service';
 })
 export class BookUploadComponent implements OnInit {
   statistics: Object[];
-  text: string;
+  book = {
+    text: null
+  };
 
   constructor(
+    private zone: NgZone,
+    // private changeDetector: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute,
     private bookService: BookService,
@@ -41,7 +45,11 @@ export class BookUploadComponent implements OnInit {
   upload(file: File) {
     const reader = new FileReader();
     reader.onload = () => {
-      this.text = reader.result;
+      this.zone.run(() => {
+        this.book.text = reader.result;
+      });
+      // console.log(this.book.text);
+      // this.changeDetector.detectChanges();
     };
     reader.readAsText(file);
 

@@ -6,17 +6,18 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./book-reader.component.css']
 })
 export class BookReaderComponent implements OnInit {
-  @Input() text: string;
+  @Input() book: any;
   private knownTokens: string[] = []; // TODO: implement
   tokens: string[] = [];
   words: Object = {};
   pages: string[][][];
+  pageIndexSelected = 0;
 
   constructor() {
   }
 
   ngOnInit() {
-    for (const token of this.splitIntoTokens(this.text)) {
+    for (const token of this.splitIntoTokens(this.book.text)) {
       if (this.words.hasOwnProperty(token) || !this.hasAnyLetter(token)) {
         this.tokens.push(token);
       } else {
