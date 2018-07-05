@@ -1,26 +1,22 @@
-<button mat-button [matMenuTriggerFor]="bookMenu" class="menu">Read</button>
-<mat-menu #bookMenu="matMenu">
-  <button mat-menu-item (click)="bookUpload.click()">Open...</button>
-  <button mat-menu-item>New...</button>
-  <button mat-menu-item>Recent</button>
-</mat-menu>
-<input type="file" hidden #bookUpload (change)="uploadBook($event.target.files.item(0))">
-
-
-<mat-menu #appMenu="matMenu">
-  <button mat-menu-item>Settings</button>
-  <button mat-menu-item>Help</button>
-</mat-menu>
-
-<button mat-icon-button [matMenuTriggerFor]="appMenu">
-  <mat-icon>more_vert</mat-icon>
-</button>
 <nav>
-  <a routerLink="/book">Book</a>
-  <a routerLink="/practice">Practice</a>
-  <a *ngIf="!isAuthenticated()" routerLink="/register" class="right">Register</a>
-  <a *ngIf="!isAuthenticated()" (click)="openLoginDialog()" class="right">Login</a>
-  <a *ngIf="isAuthenticated()" (click)="logout()" routerLink="/" class="right">Logout</a>
+  <button mat-button [matMenuTriggerFor]="bookMenu" class="mainMenuItem">Book</button>
+  <input type="file" hidden #bookUpload (change)="uploadBook($event.target.files.item(0)); bookUpload.value=''">
+  <mat-menu #bookMenu="matMenu">
+    <button mat-menu-item (click)="bookUpload.click()">Open...</button>
+    <!-- TODO: do not create option to copy paste a new book because it is not a likely scenario and there will be more
+    difficult to specify book name to show it as active book for example... -->
+    <!-- TODO: 1) disable saved if not logged in 2) create a sublist or popup dialog with saved books selection -->
+    <button mat-menu-item>Open Saved</button>
+    <!-- TODO: show active book item if present, consider naming it Draft with a submenu with single item -->
+    <button mat-menu-item>Active book</button>
+  </mat-menu>
+  <button mat-button class="mainMenuItem" [routerLink]="['/practice']">Practice</button>
+
+  <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem right">Register</button>
+  <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem right" (click)="openLoginDialog()">Login</button>
+  <button *ngIf="isAuthenticated()" mat-button class="mainMenuItem right" (click)="logout()">Logout</button>
 </nav>
+<!-- TODO: create default home page with a list of saved books /books
+book -> saved -> top ten sorted by recent activity and All... pointed to home page /books
+-->
 <router-outlet></router-outlet>
-<app-messages></app-messages>

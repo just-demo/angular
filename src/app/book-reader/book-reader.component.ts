@@ -75,7 +75,7 @@ export class BookReaderComponent implements OnInit {
 
   private splitIntoPages(tokens: string[]): string[][][] {
     const pageWidth = 50;
-    const pageHeight = 40;
+    const pageHeight = 25;
     const pages: string[][][] = [];
     const lines = this.splitIntoLines(tokens, pageWidth);
     let page: string[][] = [];

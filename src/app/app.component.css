@@ -33,15 +33,16 @@ nav a.active {
   color: #039be5;
 }
 
-nav a.right {
-  float: right;
-}
-
 nav a {
   /* in case there is no routerLink */
   cursor: pointer;
 }
 
-.menu {
+nav .mainMenuItem {
+  margin: 5px;
   background-color: #f0f0f0;
+}
+
+nav .mainMenuItem.right {
+  float: right;
 }

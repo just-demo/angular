@@ -7,6 +7,7 @@
 <!--(click)="isWord(token) && showTranslation(token)">{{token}}</span>-->
 <!--</div>-->
 
+<!-- TODO: make page navigation via router link: /book/:bookId/pages/:pageId -->
 <div>
   <ng-container *ngFor="let indexes of getPageNavigation(); let first = first">
     <span *ngIf="!first">...</span>

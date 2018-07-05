@@ -20,10 +20,10 @@ export class LoginDialogComponent {
     // };
   }
 
-  submit(): string {
+  submit(): void {
     this.aaa.emit('dummy result emitted');
     this.dialogRef.close();
-    return 'dummy result returned';
+    // return 'dummy result returned';
   }
 
   cancel(): void {

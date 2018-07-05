@@ -17,7 +17,7 @@ export class AuthService {
   ) {
   }
 
-  login(credentials: Credentials): Observable {
+  login(credentials: Credentials): Observable<Object> {
     this.messageService.add(`Login with ${credentials.username}/${credentials.password}`);
     const response = this.http.post('/auth', credentials);
     response.subscribe(authHeaders => {

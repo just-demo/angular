@@ -23,8 +23,8 @@ export class AppComponent {
 
   openLoginDialog(): void {
     const dialogRef = this.dialog.open(LoginDialogComponent, {
-      width: '250px',
-      data: {username: 'dummy name', password: 'dummy pass'}
+      width: '235px',
+      data: {username: '', password: ''}
     });
 
     dialogRef.afterClosed().subscribe(result => {
