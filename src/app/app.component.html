@@ -1,3 +1,20 @@
+<button mat-button [matMenuTriggerFor]="bookMenu" class="menu">Read</button>
+<mat-menu #bookMenu="matMenu">
+  <button mat-menu-item (click)="bookUpload.click()">Open...</button>
+  <button mat-menu-item>New...</button>
+  <button mat-menu-item>Recent</button>
+</mat-menu>
+<input type="file" hidden #bookUpload (change)="uploadBook($event.target.files.item(0))">
+
+
+<mat-menu #appMenu="matMenu">
+  <button mat-menu-item>Settings</button>
+  <button mat-menu-item>Help</button>
+</mat-menu>
+
+<button mat-icon-button [matMenuTriggerFor]="appMenu">
+  <mat-icon>more_vert</mat-icon>
+</button>
 <nav>
   <a routerLink="/book">Book</a>
   <a routerLink="/practice">Practice</a>

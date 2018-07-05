@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material';
+import {BookUploadDialogComponent} from '../book-upload-dialog/book-upload-dialog.component';
+import {ActiveBook} from '../active-book';
 
 @Component({
   selector: 'app-book',
@@ -7,9 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BookComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(public activeBook: ActiveBook) {
   }
 
+  ngOnInit() {
+    console.log('active book:...');
+    console.log(this.activeBook.text);
+  }
 }

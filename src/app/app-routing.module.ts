@@ -9,11 +9,15 @@ import {BookEnterComponent} from './book-enter/book-enter.component';
 import {BookUploadComponent} from './book-upload/book-upload.component';
 import {PracticeComponent} from './practice/practice.component';
 import {BookStatisticsComponent} from './book-statistics/book-statistics.component';
+import {ActiveBookGuard} from './active-book.guard';
 
 const routes: Routes = [
   {
-    path: 'book', component: BookComponent, children: [
-      {path: '', redirectTo: 'upload', pathMatch: 'full'},
+    path: 'book',
+    component: BookComponent,
+    canActivate: [ActiveBookGuard],
+    children: [
+      // {path: '', redirectTo: 'upload', pathMatch: 'full'},
       {path: 'upload', component: BookUploadComponent},
       {path: 'enter', component: BookEnterComponent},
       {path: 'statistics', component: BookStatisticsComponent},
@@ -22,7 +26,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'detail/:id', component: HeroDetailComponent},
-  {path: '', redirectTo: 'book', pathMatch: 'full'},
+  // {path: '', redirectTo: 'book', pathMatch: 'full'},
   {path: 'practice', component: PracticeComponent},
   {path: 'heroes', component: HeroesComponent}
 ];

@@ -41,3 +41,7 @@ nav a {
   /* in case there is no routerLink */
   cursor: pointer;
 }
+
+.menu {
+  background-color: #f0f0f0;
+}

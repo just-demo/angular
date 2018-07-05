@@ -1,6 +1,7 @@
-<nav>
-  <!-- TODO: place them on a modal dialog -->
-  <a routerLink="./upload">Upload</a>
-  <a routerLink="./enter">Enter</a>
-</nav>
-<router-outlet></router-outlet>
+<!--<nav>-->
+  <!--&lt;!&ndash; TODO: place them on a modal dialog &ndash;&gt;-->
+  <!--<a routerLink="./upload">Upload</a>-->
+  <!--<a routerLink="./enter">Enter</a>-->
+<!--</nav>-->
+<!--<router-outlet></router-outlet>-->
+<app-book-reader *ngIf="activeBook.text" [book]="activeBook"></app-book-reader>
