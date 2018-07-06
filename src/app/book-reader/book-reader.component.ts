@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {min} from 'rxjs/operators';
+import {WORDS} from '../stub-words';
 
 @Component({
   selector: 'app-book-reader',
@@ -8,7 +9,7 @@ import {min} from 'rxjs/operators';
 })
 export class BookReaderComponent implements OnInit {
   @Input() book: any;
-  private knownTokens: string[] = []; // TODO: implement
+  private knownTokens = {}; // TODO: implement
   tokens: string[] = [];
   words: Object = {};
   pages: string[][][];
@@ -52,6 +53,9 @@ export class BookReaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Building a map for better performance
+    WORDS.forEach(value => this.knownTokens[value] = value);
+
     for (const token of this.splitIntoTokens(this.book.text)) {
       if (this.words.hasOwnProperty(token) || !this.hasAnyLetter(token)) {
         this.tokens.push(token);
@@ -190,7 +194,8 @@ export class BookReaderComponent implements OnInit {
   }
 
   private isKnown(token: string): boolean {
-    return this.knownTokens.includes(token);
+    // return this.knownTokens.includes(token);
+    return this.knownTokens.hasOwnProperty(token);
   }
 
   private hasAnyLetter(str: string): boolean {
