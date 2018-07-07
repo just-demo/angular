@@ -86,10 +86,28 @@ export class BookReaderComponent implements OnInit {
       .reduce((groupOccurrence, wordOccurrence) => groupOccurrence + wordOccurrence, 0);
   }
 
+  private getGroupOccurrences(token: string): string[] {
+    const word = this.bookDetails.words[token];
+    const group: string[] = this.bookDetails.groups[word] || [];
+    const groupOccurrences = {};
+    group.filter(groupWord => this.bookDetails.occurrences[groupWord])
+      .forEach(groupWord => {
+        groupOccurrences[groupWord] = this.bookDetails.occurrences[groupWord];
+      });
+    console.log('Occc:' + JSON.stringify(groupOccurrences));
+    return groupOccurrences;
+  }
+
   openWordDialog(word: string): void {
     const dialogRef = this.dialog.open(WordDialogComponent, {
       width: '235px',
-      data: {word: word, translations: []}
+      data: {
+        word: word,
+        translations: this.getTranslations(word),
+        groupOccurrence: this.getGroupOccurrence(word),
+        occurrence: this.getOccurrence(word),
+        groupOccurrences: this.getGroupOccurrences(word)
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -31,10 +31,7 @@
   <ng-container *ngFor="let line of getPage(getPageIndexSelected())">
     <ng-container *ngFor="let token of line">
       <span *ngIf="!isWord(token)">{{token}}</span>
-      <span *ngIf="isWord(token)" class="word" #tooltip="matTooltip"
-            (click)="openWordDialog(token)"
-            [matTooltip]="getTranslationTooltip(token)"
-            matTooltipPosition="below"
+      <span *ngIf="isWord(token)" class="word" (click)="openWordDialog(token)"
       >{{token}}</span>
     </ng-container>
   </ng-container>

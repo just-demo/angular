@@ -15,6 +15,14 @@ export class AppComponent {
               private dialog: MatDialog,
               private activeBook: ActiveBook,
               private router: Router) {
+    this.activeBook.text = '\n' +
+      '    Chapter 1.\n' +
+      '\n' +
+      'This is a test book. Nothing interesting here. Just a test. unbeknownst unbeknown.\n' +
+      '\n' +
+      'a aa aaa a aa\n' +
+      '\n' +
+      'b bb bbb';
   }
 
   isAuthenticated(): boolean {

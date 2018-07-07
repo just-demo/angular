@@ -1,5 +1,24 @@
-<!--<h1 mat-dialog-title>Login with existing account</h1>-->
-<!--<div mat-dialog-content>-->
+<div mat-dialog-content>
+  <mat-tab-group>
+    <mat-tab label="A">
+      <div>
+        <b>{{data.word}}:</b>
+      </div>
+      <div *ngFor="let translation of data.translations">
+        <!-- TODO: replace current popup with translations for selected word???? -->
+        <span [matMenuTriggerFor]="practice">{{translation}}</span>
+        <mat-menu #practice="matMenu">
+          <!-- TODO: Popup with translation for dived word? or let's place it on related words tab? -->
+          <div>{{translation}}1</div>
+          <div>{{translation}}2</div>
+          <div>{{translation}}3</div>
+        </mat-menu>
+
+      </div>
+    </mat-tab>
+    <mat-tab label="B"> Content 2 </mat-tab>
+    <mat-tab label="C"> Content 3 </mat-tab>
+  </mat-tab-group>
   <!--&lt;!&ndash;<form>&ndash;&gt;-->
   <!--<mat-form-field>-->
     <!--<input matInput [(ngModel)]="credentials.username" placeholder="Enter your username">-->
@@ -8,11 +27,32 @@
     <!--<input matInput [(ngModel)]="credentials.password" placeholder="Enter your password">-->
   <!--</mat-form-field>-->
   <!--&lt;!&ndash;</form>&ndash;&gt;-->
-<!--</div>-->
-<!--<div mat-dialog-actions>-->
-  <!--<button mat-button (click)="cancel()">Cancel</button>-->
-  <!--<button mat-button (click)="submit()">Login</button>-->
-<!--</div>-->
-<div>
-  {{data.word}}
+
+<!-- TODO: Make multitab
+1 - Translation (icon = earth)
+2 - Occurrence (icon = magnifier) OR Related words and an icont with multiple bodies (like a family)!!!!!
+3 - Practice / Learn (icon = hat) // here you can mark it as ignored as well
+
+When a user clicks on a word/translation/group item he is redirected to practice tab with the given selection.
+Practice word can be associated with book name (as a tag) and on a Practice screen the user is able to select practice set
+-->
+  <!--<mat-accordion>-->
+    <!--<mat-expansion-panel >-->
+      <!--<mat-expansion-panel-header>-->
+        <!--<mat-panel-title>-->
+          <!--Occurrence-->
+        <!--</mat-panel-title>-->
+        <!--<mat-panel-description>-->
+          <!--<b>{{data.groupOccurrence}}</b>({{data.occurrence}})-->
+        <!--</mat-panel-description>-->
+      <!--</mat-expansion-panel-header>-->
+      <!--<div *ngFor="let groupWord of data.groupOccurrences | keys">-->
+        <!--{{groupWord}}: {{data.groupOccurrences[groupWord]}}-->
+      <!--</div>-->
+    <!--</mat-expansion-panel>-->
+  <!--</mat-accordion>-->
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]>OK</button>
 </div>
