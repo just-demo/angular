@@ -1,6 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {min} from 'rxjs/operators';
 import {WORDS} from '../stub-words';
+import {TRANSLATIONS} from '../stub-translations';
+import {BookDetails, BookParserService} from './book-parser.service';
+import {PaginationService} from './pagination.service';
+import {LoginDialogComponent} from '../login-dialog/login-dialog.component';
+import {MatDialog} from '@angular/material';
+import {WordDialogComponent} from '../word-dialog/word-dialog.component';
 
 @Component({
   selector: 'app-book-reader',
@@ -9,238 +15,82 @@ import {WORDS} from '../stub-words';
 })
 export class BookReaderComponent implements OnInit {
   @Input() book: any;
-  private knownTokens = {}; // TODO: implement
-  tokens: string[] = [];
-  words: Object = {};
-  pages: string[][][];
-  pageIndexSelected = 0;
+  private bookDetails: BookDetails;
+  private pageIndexSelected = 0;
 
-  constructor() {
-  }
-
-  getPageNavigation(): number[][] {
-    const maxVisible = 9;
-    const maxVisibleOf2 = maxVisible - 2; // -1 other and -1 delimiter
-    const maxVisibleOf3 = maxVisible - 4; // -2 others and -2 delimiters
-    const minPartDistance = 3;
-    const minIndex = 0;
-    const actualLength = this.pages.length;
-    const maxIndex = minIndex + actualLength - 1;
-    if (actualLength <= maxVisible) {
-      return [this.range(minIndex, actualLength)];
-    }
-
-    const minIndexCentral = this.pageIndexSelected - Math.floor(maxVisibleOf3 / 2);
-    const maxIndexCentral = minIndexCentral + maxVisibleOf3 - 1;
-    if (minIndexCentral - minIndex < minPartDistance) {
-      return [this.range(minIndex, maxVisibleOf2), [maxIndex]];
-    }
-
-    if (maxIndex - maxIndexCentral < minPartDistance) {
-      return [[minIndex], this.range(maxIndex + 1 - maxVisibleOf2, maxVisibleOf2)];
-    }
-
-    return [[minIndex], this.range(minIndexCentral, maxVisibleOf3), [maxIndex]];
-  }
-
-  private range(start: number, length: number): number[] {
-    const result = [];
-    const end = start + length;
-    for (let i = start; i < end; i++) {
-      result.push(i);
-    }
-    return result;
+  constructor(private bookParserService: BookParserService,
+              private paginationService: PaginationService,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
-    // Building a map for better performance
-    WORDS.forEach(value => this.knownTokens[value] = value);
-
-    for (const token of this.splitIntoTokens(this.book.text)) {
-      if (this.words.hasOwnProperty(token) || !this.hasAnyLetter(token)) {
-        this.tokens.push(token);
-      } else {
-        const reducedToken = this.reduceToken(token);
-        if (reducedToken) {
-          this.words[token] = reducedToken;
-          this.tokens.push(token);
-        } else {
-          for (const subToken of this.splitIntoSubTokens(token)) {
-            if (!this.words.hasOwnProperty(subToken) && this.hasAnyLetter(subToken)) {
-              this.words[subToken] = this.reduceToKnownToken(subToken) || subToken;
-            }
-            this.tokens.push(subToken);
-          }
-        }
-      }
-    }
-    this.pages = this.splitIntoPages(this.tokens);
+    this.bookDetails = this.bookParserService.parse(this.book.text);
   }
 
-  private splitIntoPages(tokens: string[]): string[][][] {
-    const pageWidth = 50;
-    const pageHeight = 25;
-    const pages: string[][][] = [];
-    const lines = this.splitIntoLines(tokens, pageWidth);
-    let page: string[][] = [];
-
-    for (const line of lines) {
-      page.push(line);
-      if (page.length >= pageHeight) {
-        pages.push(page);
-        page = [];
-      }
-    }
-
-    if (page.length > 0) {
-      pages.push(page);
-    }
-
-    return pages;
+  getPageNavigation(): number[][] {
+    return this.paginationService.paginate(this.bookDetails.pages.length, this.pageIndexSelected, 9);
   }
 
-  private splitIntoLines(tokens: string[], lineWidth: number): string[][] {
-    const lines: string[][] = [];
-    let line: string[] = [];
-
-    for (const token of tokens) {
-      if (token === '\n') {
-        line.push(token);
-        lines.push(line);
-        line = [];
-      } else if (this.estimateWidth(...line, token) > lineWidth) {
-        line.push('\n'); // to force line breaks on page
-        lines.push(line);
-        line = token === ' ' ? [] : [token]; // just one space not to mess up paragraphs, titles and so on
-      } else {
-        line.push(token);
-      }
-    }
-
-    if (line.length > 0) {
-      lines.push(line);
-    }
-
-    return lines;
+  getPage(pageIndex: number): string[][] {
+    return this.bookDetails.pages[pageIndex];
   }
 
-  private estimateWidth(...tokens: string[]): number {
-    return tokens.reduce((a, b) => a + b.length, 0);
+  getPageIndexSelected(): number {
+    return this.pageIndexSelected;
   }
 
-  /*
-  function estimateWidth(...tokens) {
-    return tokens.reduce((a, b) => a + b.length, 0);
+  setPageIndexSelected(index: number): void {
+    this.pageIndexSelected = index;
   }
 
-  estimateWidth('aa', 'bbbb');
-    estimateWidth(...['aa', 'bbbb']);
-    estimateWidth(...['aa', 'bbbb'], 'cc');
-   */
+  isPageIndexSelected(index: number): boolean {
+    return this.pageIndexSelected === index;
+  }
 
   isWord(token: string): boolean {
-    return this.words.hasOwnProperty(token);
+    return this.bookDetails.words.hasOwnProperty(token);
   }
 
-  showTranslationTooltip(token: string): void {
-    console.log(token + ' is to be translated...'); // TODO: implement
-  }
-
-  showTranslationDialog(token: string): void {
-    console.log(token + ' is to be managed...'); // TODO: implement
-  }
-
-  private reduceToken(token: string): string {
-    let knownToken = this.reduceToKnownToken(token);
-    if (knownToken) {
-      return knownToken;
+  getTranslationTooltip(token: string): string {
+    const tooltipLines: string[] = [];
+    tooltipLines.push(...this.getTranslations(token));
+    if (tooltipLines.length === 0) {
+      tooltipLines.push('¯\\_(ツ)_/¯');
     }
-
-    if (this.hasOnlyLetters(token)) {
-      return token.toLowerCase();
-    }
-
-    if (this.hasAnyDash(token)) {
-      knownToken = this.reduceToKnownToken(this.removeDashes(token));
-      if (knownToken) {
-        return knownToken;
-      }
-    }
-
-    return null;
+    const maxLength = tooltipLines.reduce((length, line) => Math.max(length, line.length), 0);
+    tooltipLines.unshift('-' + this.padAround(' ' + this.getOccurrence(token) + ' ', maxLength - 2 , '-') + '-')
+    return tooltipLines.join('\n');
+    // return  (translations && translations[0]) || '¯\\_(ツ)_/¯';
+    // return `${token}1\n${token}2\n${token}3`; // TODO: implement
   }
 
-  private reduceToKnownToken(token: string): string {
-    if (this.isKnown(token)) {
-      return token;
-    }
-
-    token = token.toLowerCase();
-    if (this.isKnown(token)) {
-      return token;
-    }
-
-    token = token.charAt(0).toUpperCase() + token.slice(1);
-    if (this.isKnown(token)) {
-      return token;
-    }
-
-    token = token.toUpperCase();
-    if (this.isKnown(token)) {
-      return token;
-    }
-
-    return null;
+  private padAround(str: string, targetLength: number, fillStr: string): string {
+    const padStart = Math.floor((targetLength - str.length) / 2) + str.length;
+    // console.log(typeof str);
+    // console.log('====: ' + str.length);
+    // console.log('Max length: ' + targetLength);
+    // console.log('Pad start: ' + padStart);
+    return ('' + str).padStart(padStart, fillStr).padEnd(targetLength, fillStr);
   }
 
-  private isKnown(token: string): boolean {
-    // return this.knownTokens.includes(token);
-    return this.knownTokens.hasOwnProperty(token);
+  private getTranslations(token: string): string[] {
+    return TRANSLATIONS[this.bookDetails.words[token]] || [];
   }
 
-  private hasAnyLetter(str: string): boolean {
-    return /[a-z]/i.test(str);
-  }
-
-  private hasAnyDash(str: string): boolean {
-    return /-/.test(str);
-  }
-
-  private removeDashes(str: string): string {
-    return str.replace(/-/g, '');
+  private getOccurrence(token: string): string[] {
+    return this.bookDetails.occurrences[this.bookDetails.words[token]] || 0;
   }
 
 
-  private hasOnlyLetters(str: string): boolean {
-    return !/[^a-z]/i.test(str);
+  openWordDialog(word: string): void {
+    const dialogRef = this.dialog.open(WordDialogComponent, {
+      width: '235px',
+      data: {word: word, translations: []}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('dialog output: ' + result);
+    });
   }
 
-  private splitIntoTokens(text: string): string[] {
-    const tokens = [];
-    // each new line character is treated as a separate token to ease pagination
-    const p = /([a-z'\-]+|[^a-z'\-\n]+|\n)/gi;
-    let m;
-    while (m = p.exec(text)) {
-      tokens.push(m[1]);
-    }
-    return tokens;
-  }
-
-  private splitIntoSubTokens(text: string): string[] {
-    const tokens = [];
-    const p = /([a-z]+|[^a-z]+)/gi;
-    let m;
-    while (m = p.exec(text)) {
-      tokens.push(m[1]);
-    }
-    return tokens;
-  }
 }
-
-// export class Page {
-//   constructor(
-//     public first: number,
-//     public last: number
-//   ) {
-//   }
-// }

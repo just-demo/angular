@@ -11,8 +11,8 @@ import {Router} from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(public authService: AuthService,
-              public dialog: MatDialog,
+  constructor(private authService: AuthService,
+              private dialog: MatDialog,
               private activeBook: ActiveBook,
               private router: Router) {
   }
@@ -38,7 +38,7 @@ export class AppComponent {
     reader.onload = () => {
       this.activeBook.text = reader.result;
       console.log('Uploaded book...');
-      console.log(this.activeBook.text);
+      // console.log(this.activeBook.text);
       this.router.navigateByUrl('book');
       // this.router.navigate(['statistics', {foo: 'foo'}], {relativeTo: this.route.parent})
     };

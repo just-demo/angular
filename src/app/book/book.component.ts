@@ -15,6 +15,6 @@ export class BookComponent implements OnInit {
 
   ngOnInit() {
     console.log('active book:...');
-    console.log(this.activeBook.text);
+    // console.log(this.activeBook.text);
   }
 }

@@ -30,3 +30,7 @@ span.pageIndex.selected {
   border-color: #dedede;
 }
 
+::ng-deep .mat-tooltip  {
+  white-space: pre;
+  font-family: monospace;
+}

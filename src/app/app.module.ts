@@ -31,6 +31,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BookUploadDialogComponent} from './book-upload-dialog/book-upload-dialog.component';
 import {MaterialAllModule} from './material-all/material-all.module';
 import {ActiveBook} from './active-book';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { WordDialogComponent } from './word-dialog/word-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,9 +54,11 @@ import {ActiveBook} from './active-book';
     SumPipe,
     BookReaderComponent,
     LoginDialogComponent,
-    BookUploadDialogComponent
+    BookUploadDialogComponent,
+    WordDialogComponent
   ],
   imports: [
+    NgbModule.forRoot(),
     BrowserModule,
     FormsModule,
     AppRoutingModule,
@@ -75,7 +79,7 @@ import {ActiveBook} from './active-book';
     {provide: HTTP_INTERCEPTORS, useClass: BackendRequestInterceptor, multi: true},
     ActiveBook
   ],
-  entryComponents: [LoginDialogComponent, BookUploadDialogComponent],
+  entryComponents: [LoginDialogComponent, BookUploadDialogComponent, WordDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

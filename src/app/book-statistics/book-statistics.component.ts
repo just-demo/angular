@@ -63,9 +63,9 @@ export class BookStatisticsComponent implements OnInit {
     // }
   }
 
-  getTranslations(word: string): string[] {
-    return
-  }
+  // getTranslations(word: string): string[] {
+  //   return
+  // }
 
 
   /*

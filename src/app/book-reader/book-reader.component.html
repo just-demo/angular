@@ -12,21 +12,45 @@
   <ng-container *ngFor="let indexes of getPageNavigation(); let first = first">
     <span *ngIf="!first">...</span>
     <span *ngFor="let index of indexes"
-          [ngClass]="{'pageIndex': true, 'selected': index === pageIndexSelected}"
-          (click)="pageIndexSelected = index">{{index + 1}}</span>
+          [ngClass]="{'pageIndex': true, 'selected': isPageIndexSelected(index)}"
+          (click)="setPageIndexSelected(index)">{{index + 1}}</span>
   </ng-container>
 </div>
+
+<p>
+  You can easily override open and close triggers by specifying event names (separated by <code>:</code>) in the <code>triggers</code> property.
+</p>
+
+<button type="button" class="btn btn-outline-secondary" ngbTooltip="You see, I show up on click!" triggers="click:blur">
+  Click me!
+</button>
 
 <!--<ng-container *ngFor="let page of pages">-->
 <!-- TODO: double click triggers click as well ........ -->
 <div class="page">
-  <ng-container *ngFor="let line of pages[pageIndexSelected]">
-    <span *ngFor="let token of line"
-          [ngClass]="{'word': isWord(token)}"
-          (click)="isWord(token) && showTranslationTooltip(token)"
-          (dblclick)="isWord(token) && showTranslationDialog(token)"
-    >{{token}}</span>
+  <ng-container *ngFor="let line of getPage(getPageIndexSelected())">
+    <ng-container *ngFor="let token of line">
+      <span *ngIf="!isWord(token)">{{token}}</span>
+      <span *ngIf="isWord(token)" class="word" #tooltip="matTooltip"
+            (click)="openWordDialog(token)"
+            [matTooltip]="getTranslationTooltip(token)"
+            matTooltipPosition="below"
+      >{{token}}</span>
+    </ng-container>
   </ng-container>
 </div>
+
+<!--<button mat-raised-button #tooltip="matTooltip"-->
+        <!--matTooltip="Info about the action"-->
+        <!--matTooltipPosition="right"-->
+        <!--aria-tooltip="Button that displays and hides a tooltip triggered by other buttons">-->
+  <!--Action-->
+<!--</button>-->
+
+<ng-template #htmlContent>
+AAAAAAAAAAAA
+</ng-template>
+<i class="fa fa-info-circle" placement="right" [ngbTooltip]="htmlContent">Hmmmm</i>
+
 <!--</ng-container>-->
 
