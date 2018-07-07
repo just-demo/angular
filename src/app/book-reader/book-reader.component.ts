@@ -52,25 +52,22 @@ export class BookReaderComponent implements OnInit {
   }
 
   getTranslationTooltip(token: string): string {
+    // console.log('building tooltip...');
     const tooltipLines: string[] = [];
     tooltipLines.push(...this.getTranslations(token));
     if (tooltipLines.length === 0) {
       tooltipLines.push('¯\\_(ツ)_/¯');
     }
     const maxLength = tooltipLines.reduce((length, line) => Math.max(length, line.length), 0);
-    tooltipLines.unshift('-' + this.padAround(' ' + this.getOccurrence(token) + ' ', maxLength - 2 , '-') + '-')
+    const occurrence = this.getOccurrence(token) + '/' + this.getGroupOccurrence(token);
+    // console.log('occurrence: ' + occurrence);
+    tooltipLines.push('-' + this.padAround(' ' + occurrence + ' ', maxLength - 2, '-') + '-');
     return tooltipLines.join('\n');
-    // return  (translations && translations[0]) || '¯\\_(ツ)_/¯';
-    // return `${token}1\n${token}2\n${token}3`; // TODO: implement
   }
 
   private padAround(str: string, targetLength: number, fillStr: string): string {
     const padStart = Math.floor((targetLength - str.length) / 2) + str.length;
-    // console.log(typeof str);
-    // console.log('====: ' + str.length);
-    // console.log('Max length: ' + targetLength);
-    // console.log('Pad start: ' + padStart);
-    return ('' + str).padStart(padStart, fillStr).padEnd(targetLength, fillStr);
+    return str.padStart(padStart, fillStr).padEnd(targetLength, fillStr);
   }
 
   private getTranslations(token: string): string[] {
@@ -78,9 +75,16 @@ export class BookReaderComponent implements OnInit {
   }
 
   private getOccurrence(token: string): string[] {
-    return this.bookDetails.occurrences[this.bookDetails.words[token]] || 0;
+    const word = this.bookDetails.words[token];
+    return this.bookDetails.occurrences[word] || 0;
   }
 
+  private getGroupOccurrence(token: string): string[] {
+    const word = this.bookDetails.words[token];
+    const group: string[] = this.bookDetails.groups[word] || [];
+    return group.map(groupWord => this.bookDetails.occurrences[groupWord] || 0)
+      .reduce((groupOccurrence, wordOccurrence) => groupOccurrence + wordOccurrence, 0);
+  }
 
   openWordDialog(word: string): void {
     const dialogRef = this.dialog.open(WordDialogComponent, {

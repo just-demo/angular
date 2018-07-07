@@ -1,15 +1,18 @@
 import {Injectable} from '@angular/core';
 import {WORDS} from '../stub-words';
+import {GROUPS} from '../stub-groups';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookParserService {
-  private knownTokens = {}; // TODO: implement
+  private knownTokens = {};
+  private wordGroups = {};
 
   constructor() {
     // Building a map for better performance
-    WORDS.forEach(value => this.knownTokens[value] = value);
+    WORDS.forEach(word => this.knownTokens[word] = word);
+    GROUPS.forEach(group => group.forEach(word => this.wordGroups[word] = group));
   }
 
   parse(text: string): BookDetails {
@@ -37,7 +40,23 @@ export class BookParserService {
 
     const pages = this.splitIntoPages(tokens);
     const occurrences = this.gatherWordOccurrences(tokens, words);
-    return new BookDetails(pages, words, occurrences);
+    const wordsSet: Set<string> = new Set(Object.values(words));
+    const groups = this.group(Array.from(wordsSet));
+    return new BookDetails(pages, words, groups, occurrences);
+  }
+
+  private group(words: string[]): any {
+    const groupBuffer = new Map<string, string[]>();
+    const groups = {};
+    words.forEach(word => {
+      const groupId = this.wordGroups.hasOwnProperty(word) ? this.wordGroups[word][0] : word;
+      if (!groupBuffer.has(groupId)) {
+        groupBuffer.set(groupId, []);
+      }
+      groupBuffer.get(groupId).push(word);
+    });
+    groupBuffer.forEach(group => group.forEach(word => groups[word] = group));
+    return groups;
   }
 
   private gatherWordOccurrences(tokens: string[], words: any): any {
@@ -82,7 +101,7 @@ export class BookParserService {
         line.push(token);
         lines.push(line);
         line = [];
-      } else if (this.calculateWidth(...line, token) > lineWidth) {
+      } else if (this.sumLength(...line, token) > lineWidth) {
         line.push('\n'); // to force line breaks on page
         lines.push(line);
         line = token === ' ' ? [] : [token]; // just one space not to mess up paragraphs, titles and so on
@@ -98,8 +117,8 @@ export class BookParserService {
     return lines;
   }
 
-  private calculateWidth(...tokens: string[]): number {
-    return tokens.reduce((a, b) => a + b.length, 0);
+  private sumLength(...tokens: string[]): number {
+    return tokens.reduce((length, token) => length + token.length, 0);
   }
 
   private reduceToken(token: string): string {
@@ -193,6 +212,7 @@ export class BookDetails {
   constructor(
     public pages: string[][][],
     public words: any,
+    public groups: any,
     public occurrences: any
   ) {
   }
