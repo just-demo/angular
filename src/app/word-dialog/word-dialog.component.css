@@ -1,4 +1,12 @@
 ::ng-deep .mat-tab-label  {
-  /*width: 20px !important;*/
-  min-width: 1px !important;
+  min-width: 0 !important;
+  height: 30px !important;
+}
+
+.translation, .clickable {
+  cursor: pointer;
+}
+
+.translation.selected {
+  background-color: darkseagreen;
 }

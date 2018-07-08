@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {Credentials} from '../credentials';
 import {AppComponent} from '../app.component';
 import {BookReaderComponent} from '../book-reader/book-reader.component';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-word-dialog',
@@ -10,7 +11,10 @@ import {BookReaderComponent} from '../book-reader/book-reader.component';
   styleUrls: ['./word-dialog.component.css']
 })
 export class WordDialogComponent {
-  @Output() aaa = new EventEmitter<string>();
+  redirect: EventEmitter<string> = new EventEmitter<string>();
+  selectedTabIndex = 0;
+  // customTranslation: string;
+  selected = {};
 
   constructor(
     public dialogRef: MatDialogRef<BookReaderComponent>,
@@ -30,6 +34,20 @@ export class WordDialogComponent {
 
   cancel(): void {
     this.dialogRef.close();
+  }
+
+  isSelected(translation: string): boolean {
+    return !!this.selected[translation];
+  }
+
+  toggleSelection(translation: string): void {
+    this.selected[translation] = !this.selected[translation];
+  }
+
+  redirectTo(word: string): void {
+    this.redirect.emit(word);
+    this.selectedTabIndex = 0;
+    // console.log('Emitted....');
   }
 
 }
