@@ -12,7 +12,7 @@ import {FormControl} from '@angular/forms';
 })
 export class WordDialogComponent {
   redirect: EventEmitter<string> = new EventEmitter<string>();
-  selectedTabIndex = 0;
+  // selectedTabIndex = 0;
   // customTranslation: string;
   selected = {};
 
@@ -27,7 +27,7 @@ export class WordDialogComponent {
   }
 
   submit(): void {
-    this.aaa.emit('dummy result emitted');
+    // this.aaa.emit('dummy result emitted');
     this.dialogRef.close();
     // return 'dummy result returned';
   }
@@ -45,8 +45,9 @@ export class WordDialogComponent {
   }
 
   redirectTo(word: string): void {
+    // TODO: consider making the dialog to gather information directly from bookDetails
     this.redirect.emit(word);
-    this.selectedTabIndex = 0;
+    // this.selectedTabIndex = 0;
     // console.log('Emitted....');
   }
 

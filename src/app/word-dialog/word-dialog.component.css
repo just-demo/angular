@@ -3,10 +3,23 @@
   height: 30px !important;
 }
 
-.translation, .clickable {
+::ng-deep .mat-dialog-title {
+  margin-bottom: 5px !important;
+}
+
+::ng-deep .mat-divider {
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+}
+
+.translation, .groupMember {
   cursor: pointer;
 }
 
 .translation.selected {
   background-color: darkseagreen;
+}
+
+.groupMember.selected {
+  font-weight: bold;
 }

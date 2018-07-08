@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
@@ -6,12 +6,24 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class TranslationService {
+  private translations = {};
 
   constructor(private http: HttpClient) {
+    this.initTranslations();
   }
 
-  getTranslations(words: string): Observable<Object> {
-    return this.http.post('/translations', words);
+  private initTranslations(): void {
+    console.log('Init translations...');
+    this.http.get('/translations').subscribe(translations => {
+      this.translations = translations;
+      // console.log(JSON.stringify(translations));
+    });
+  }
+
+  getTranslations(word: string): string[] {
+    // console.log(JSON.stringify(this.translations)); /////////
+    // TRANSLATIONS[word]
+    return this.translations[word] || [];
   }
 
   getTranslation(word: string): Observable<Object> {

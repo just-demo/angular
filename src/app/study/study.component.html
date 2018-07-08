@@ -1,0 +1,46 @@
+<div>
+  <span>{{getTranslationKey()}}</span>
+</div>
+
+<div>
+  <mat-form-field>
+    <input matInput [(ngModel)]="inputTranslation" placeholder="Translate"/>
+  </mat-form-field>
+  <span [hidden]="!isHintVisible()" class="hint">{{getTranslationValue()}}</span>
+</div>
+
+<div>
+  <span *ngIf="isResult('pass')" class="pass">{{getTranslationValue()}}</span>
+  <span *ngIf="isResult('check')">
+    <!-- TODO: make result a class with missingPrefix, missingSuffix, matches and so on -->
+    <!-- TODO: make a copy of input translation for result so that the result is not dynamically updated when user continue typing test -->
+    <span *ngFor="let inputIndex of inputTranslation | indexes"
+          [ngClass]="{'yes': resultMatches[inputIndex], 'no': !resultMatches[inputIndex]}">
+          {{inputTranslation[inputIndex]}}
+    </span>
+    <span *ngIf="!resultMatches">
+      <span class="no">(?)</span><span class="yes">{{inputTranslation}}</span><span class="no">(?)</span>
+    </span>
+  </span>
+</div>
+
+<div id="commands">
+  <button mat-button (click)="back()"  matTooltip="Shift+Tab">Back</button>&nbsp;
+  <button mat-button (click)="next()"  matTooltip="Tab">Next</button>&nbsp;
+  <button mat-button (click)="check()" matTooltip="Enter">Check</button>&nbsp;
+  <button mat-button (click)="pass()"  matTooltip="Ctrl+Enter">Pass</button>&nbsp;
+  <button mat-button (click)="hint()"  matTooltip="Ctrl+Space">Hint</button>&nbsp;
+</div>
+
+<div id="options">
+  <mat-form-field>
+    <mat-select [(value)]="sequenceMode" placeholder="Sequence mode">
+      <mat-option *ngFor="let mode of sequenceModes | keys" [value]="mode">
+        {{sequenceModes[mode]}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  &nbsp;
+  <span>{{getCounter()}}</span>
+</div>
+

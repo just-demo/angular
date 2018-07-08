@@ -10,7 +10,7 @@
     <!-- TODO: show active book item if present, consider naming it Draft with a submenu with single item -->
     <button mat-menu-item>Active book</button>
   </mat-menu>
-  <button mat-button class="mainMenuItem" [routerLink]="['/practice']">Practice</button>
+  <button mat-button class="mainMenuItem" [routerLink]="['/study']">Study</button>
 
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem right">Register</button>
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem right" (click)="openLoginDialog()">Login</button>

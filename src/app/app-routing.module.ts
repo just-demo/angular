@@ -7,9 +7,9 @@ import {RegisterComponent} from './register/register.component';
 import {BookComponent} from './book/book.component';
 import {BookEnterComponent} from './book-enter/book-enter.component';
 import {BookUploadComponent} from './book-upload/book-upload.component';
-import {PracticeComponent} from './practice/practice.component';
 import {BookStatisticsComponent} from './book-statistics/book-statistics.component';
 import {ActiveBookGuard} from './active-book.guard';
+import {StudyComponent} from './study/study.component';
 
 const routes: Routes = [
   {
@@ -27,7 +27,7 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'detail/:id', component: HeroDetailComponent},
   // {path: '', redirectTo: 'book', pathMatch: 'full'},
-  {path: 'practice', component: PracticeComponent},
+  {path: 'study', component: StudyComponent},
   {path: 'heroes', component: HeroesComponent}
 ];
 

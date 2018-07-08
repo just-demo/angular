@@ -20,7 +20,6 @@ import {BackendRequestInterceptor} from './backend-request-interceptor';
 import {BookComponent} from './book/book.component';
 import {BookUploadComponent} from './book-upload/book-upload.component';
 import {BookEnterComponent} from './book-enter/book-enter.component';
-import {PracticeComponent} from './practice/practice.component';
 import {BookStatisticsComponent} from './book-statistics/book-statistics.component';
 import {KeysPipe} from './pipes/keys.pipe';
 import {ValuesPipe} from './pipes/values.pipe';
@@ -33,6 +32,8 @@ import {MaterialAllModule} from './material-all/material-all.module';
 import {ActiveBook} from './active-book';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { WordDialogComponent } from './word-dialog/word-dialog.component';
+import { StudyComponent } from './study/study.component';
+import { IndexesPipe } from './pipes/indexes.pipe';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,6 @@ import { WordDialogComponent } from './word-dialog/word-dialog.component';
     BookComponent,
     BookUploadComponent,
     BookEnterComponent,
-    PracticeComponent,
     BookStatisticsComponent,
     KeysPipe,
     ValuesPipe,
@@ -55,7 +55,9 @@ import { WordDialogComponent } from './word-dialog/word-dialog.component';
     BookReaderComponent,
     LoginDialogComponent,
     BookUploadDialogComponent,
-    WordDialogComponent
+    WordDialogComponent,
+    StudyComponent,
+    IndexesPipe
   ],
   imports: [
     NgbModule.forRoot(),

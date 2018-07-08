@@ -7,6 +7,8 @@ import {PaginationService} from './pagination.service';
 import {LoginDialogComponent} from '../login-dialog/login-dialog.component';
 import {MatDialog} from '@angular/material';
 import {WordDialogComponent} from '../word-dialog/word-dialog.component';
+import {TranslationService} from '../services/translation.service';
+import {GroupService} from '../services/group.service';
 
 @Component({
   selector: 'app-book-reader',
@@ -20,6 +22,8 @@ export class BookReaderComponent implements OnInit {
 
   constructor(private bookParserService: BookParserService,
               private paginationService: PaginationService,
+              private translationService: TranslationService,
+              private groupService: GroupService,
               private dialog: MatDialog) {
   }
 
@@ -71,7 +75,7 @@ export class BookReaderComponent implements OnInit {
   // }
 
   private getTranslations(word: string): string[] {
-    return TRANSLATIONS[word] || [];
+    return this.translationService.getTranslations(word);
   }
 
   private getOccurrence(word: string): string[] {
@@ -88,11 +92,12 @@ export class BookReaderComponent implements OnInit {
 
   private getGroupOccurrences(word: string): any {
     // const word = this.bookDetails.words[token];
-    const group: string[] = this.bookDetails.groups[word] || [];
+    // const group: string[] = this.bookDetails.groups[word] || [];
+    const group: string[] = this.groupService.getGroup(word);
     const groupOccurrences = {};
     group
     // not need to filter because group members are built based on real book tokens, so their appearance in the book is guaranteed
-    // .filter(groupWord => this.bookDetails.occurrences[groupWord])
+      .filter(groupWord => this.bookDetails.occurrences[groupWord])
       .forEach(groupWord => groupOccurrences[groupWord] = this.bookDetails.occurrences[groupWord]);
     // console.log('Occc:' + JSON.stringify(groupOccurrences));
     return groupOccurrences;
