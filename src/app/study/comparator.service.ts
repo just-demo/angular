@@ -33,18 +33,18 @@ export class ComparatorService {
   private getDifference(actual: string, expected: string): number[] {
     const difference = [];
     for (let a = 0, e = 0; a < actual.length; a++) {
-      // If prev was matched then current actual character should match current expected character (not any subsequent one) in order to be
-      // treated as matched, otherwise a missing expected character could be left undetected.
-      const prevWasDifferent = (difference.length && a - difference[difference.length - 1] === 1);
-      const eeLimit = prevWasDifferent || e === expected.length ? expected.length : e + 1;
-      let ee = e;
-      while (ee < eeLimit && actual[a] !== expected[ee]) {
-        ee++;
+      // If prev was matched then only current expected character (not any subsequent one) is examined
+      // to make sure no missing expected character is left unnoticed.
+      const prevWasDifferent = difference.length && a - difference[difference.length - 1] === 1;
+      let different = true;
+      for (let ee = e; ee < expected.length && different && (prevWasDifferent || ee === e); ee++) {
+        if (actual[a] === expected[ee]) {
+          different = false;
+          e = ee + 1;
+        }
       }
 
-      if (ee < eeLimit) {
-        e = ee + 1;
-      } else {
+      if (different) {
         difference.push(a);
       }
     }
