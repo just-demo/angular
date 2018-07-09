@@ -24,27 +24,31 @@ export class ComparatorService {
   }
 
   /**
-   * TODO: fix it (first character problem, e.g. getDifference('ello', 'hello') and make more readable
+   * hello:
+   *     pllo   => *llo
+   *     phello => *hello
+   *     heilo  => he*l* //TODO: optimize this
    * @return indexes of actual string that do not match expected ones
    */
   private getDifference(actual: string, expected: string): number[] {
-    const depth = 3;
-    // const matches: number[] = [];
-    const difference: number[] = [];
-    let forceFirstActual = true; // TODO: what it this???
-    outerLoop:
-      for (let i = 0, j = 0; i < expected.length, j < actual.length; ++j) {
-        for (let i2 = i; i2 < i + depth && i2 < expected.length && (!forceFirstActual || i2 === i); ++i2) {
-          if (actual[j] === expected[i2]) {
-            // matches.push(j);
-            i = i2 + 1;
-            forceFirstActual = true;
-            continue outerLoop;
-          }
-        }
-        forceFirstActual = false;
-        difference.push(j);
+    const difference = [];
+    for (let a = 0, e = 0; a < actual.length; a++) {
+      // If prev was matched then current actual character should match current expected character (not any subsequent one) in order to be
+      // treated as matched, otherwise a missing expected character could be left undetected.
+      const prevWasDifferent = (difference.length && a - difference[difference.length - 1] === 1);
+      const eeLimit = prevWasDifferent || e === expected.length ? expected.length : e + 1;
+      let ee = e;
+      while (ee < eeLimit && actual[a] !== expected[ee]) {
+        ee++;
       }
+
+      if (ee < eeLimit) {
+        e = ee + 1;
+      } else {
+        difference.push(a);
+      }
+    }
+
     return difference;
   }
 }
