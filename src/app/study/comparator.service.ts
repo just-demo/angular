@@ -6,20 +6,20 @@ import {Injectable} from '@angular/core';
 export class ComparatorService {
   compare(actual: string, expected: string): MatchResult {
     const result = new MatchResult(actual.split(''));
-    const difference = this.getDifference(actual, expected);
-    difference.forEach(charIndex => result.matches[charIndex] = false);
-
-    if (!difference.length && expected.length > actual.length) {
-      if (expected.startsWith(actual)) {
-        result.missingSuffix = true;
-      } else {
-        result.missingPrefix = true;
-        if (!expected.endsWith(actual)) {
+    if (actual !== expected) {
+      if (expected.includes(actual)) {
+        if (expected.startsWith(actual)) {
           result.missingSuffix = true;
+        } else {
+          result.missingPrefix = true;
+          if (!expected.endsWith(actual)) {
+            result.missingSuffix = true;
+          }
         }
+      } else {
+        this.getDifference(actual, expected).forEach(charIndex => result.matches[charIndex] = false);
       }
     }
-
     return result;
   }
 
@@ -31,7 +31,7 @@ export class ComparatorService {
     const depth = 3;
     // const matches: number[] = [];
     const difference: number[] = [];
-    let forceFirstActual = true;
+    let forceFirstActual = true; // TODO: what it this???
     outerLoop:
       for (let i = 0, j = 0; i < expected.length, j < actual.length; ++j) {
         for (let i2 = i; i2 < i + depth && i2 < expected.length && (!forceFirstActual || i2 === i); ++i2) {
