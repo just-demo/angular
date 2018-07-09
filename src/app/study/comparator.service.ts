@@ -4,43 +4,61 @@ import {Injectable} from '@angular/core';
   providedIn: 'root'
 })
 export class ComparatorService {
+  compare(actual: string, expected: string): MatchResult {
+    const result = new MatchResult(actual.split(''));
+    const difference = this.getDifference(actual, expected);
+    difference.forEach(charIndex => result.matches[charIndex] = false);
 
-  constructor() {
-  }
-
-  compare(actual: string, required: string): boolean[] {
-    const matches = this.findMatches(actual, required);
-
-    // if actual string is a substring of required one (some characters are missed at the begining or/and at the end of the string)
-    if (matches.length === actual.length && actual.length !== required.length) {
-      return null;
-    }
-
-    // TODO: try just Array without new
-    const result = new Array(actual.length).fill(false);
-    for (const i of matches) {
-      result[i] = true;
+    if (!difference.length && expected.length > actual.length) {
+      if (expected.startsWith(actual)) {
+        result.missingSuffix = true;
+      } else {
+        result.missingPrefix = true;
+        if (!expected.endsWith(actual)) {
+          result.missingSuffix = true;
+        }
+      }
     }
 
     return result;
   }
 
-  private findMatches(actual: string, required: string): number[] {
+  /**
+   * TODO: fix it (first character problem, e.g. getDifference('ello', 'hello') and make more readable
+   * @return indexes of actual string that do not match expected ones
+   */
+  private getDifference(actual: string, expected: string): number[] {
     const depth = 3;
-    const matches: number[] = [];
+    // const matches: number[] = [];
+    const difference: number[] = [];
     let forceFirstActual = true;
     outerLoop:
-      for (let i = 0, j = 0; i < required.length, j < actual.length; ++j) {
-        for (let i2 = i; i2 < i + depth && i2 < required.length && (!forceFirstActual || i2 === i); ++i2) {
-          if (actual[j] === required[i2]) {
-            matches.push(j);
+      for (let i = 0, j = 0; i < expected.length, j < actual.length; ++j) {
+        for (let i2 = i; i2 < i + depth && i2 < expected.length && (!forceFirstActual || i2 === i); ++i2) {
+          if (actual[j] === expected[i2]) {
+            // matches.push(j);
             i = i2 + 1;
             forceFirstActual = true;
             continue outerLoop;
           }
         }
         forceFirstActual = false;
+        difference.push(j);
       }
-    return matches;
+    return difference;
+  }
+}
+
+export class MatchResult {
+  chars: string[];
+  matches: boolean[];
+  missingPrefix: boolean;
+  missingSuffix: boolean;
+
+  constructor(chars: string[]) {
+    this.chars = chars;
+    this.matches = Array(chars.length).fill(true);
+    this.missingPrefix = false;
+    this.missingSuffix = false;
   }
 }

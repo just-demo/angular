@@ -12,24 +12,18 @@
 <div>
   <span *ngIf="isResult('pass')" class="pass">{{getTranslationValue()}}</span>
   <span *ngIf="isResult('check')">
-    <!-- TODO: make result a class with missingPrefix, missingSuffix, matches and so on -->
-    <!-- TODO: make a copy of input translation for result so that the result is not dynamically updated when user continue typing test -->
-    <span *ngFor="let inputIndex of inputTranslation | indexes"
-          [ngClass]="{'yes': resultMatches[inputIndex], 'no': !resultMatches[inputIndex]}">
-          {{inputTranslation[inputIndex]}}
-    </span>
-    <span *ngIf="!resultMatches">
-      <span class="no">(?)</span><span class="yes">{{inputTranslation}}</span><span class="no">(?)</span>
-    </span>
+    <span *ngIf="matchResult.missingPrefix" class="no">(?)</span>
+    <span *ngFor="let char of matchResult.chars; let index = index" [ngClass]="{'yes': matchResult.matches[index], 'no': !matchResult.matches[index]}">{{char}}</span>
+    <span *ngIf="matchResult.missingSuffix" class="no">(?)</span>
   </span>
 </div>
 
 <div id="commands">
-  <button mat-button (click)="back()"  matTooltip="Shift+Tab">Back</button>&nbsp;
-  <button mat-button (click)="next()"  matTooltip="Tab">Next</button>&nbsp;
+  <button mat-button (click)="back()" matTooltip="Shift+Tab">Back</button>&nbsp;
+  <button mat-button (click)="next()" matTooltip="Tab">Next</button>&nbsp;
   <button mat-button (click)="check()" matTooltip="Enter">Check</button>&nbsp;
-  <button mat-button (click)="pass()"  matTooltip="Ctrl+Enter">Pass</button>&nbsp;
-  <button mat-button (click)="hint()"  matTooltip="Ctrl+Space">Hint</button>&nbsp;
+  <button mat-button (click)="pass()" matTooltip="Ctrl+Enter">Pass</button>&nbsp;
+  <button mat-button (click)="hint()" matTooltip="Ctrl+Space">Hint</button>&nbsp;
 </div>
 
 <div id="options">

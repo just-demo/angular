@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'indexes'
 })
 export class IndexesPipe implements PipeTransform {
-  transform(value: string, args?: any): any {
+  transform(value: any[], args?: any): any {
     return value ? Array.from(Array(value.length).keys()) : [];
   }
 }

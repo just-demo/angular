@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ComparatorService} from './comparator.service';
+import {ComparatorService, MatchResult} from './comparator.service';
 import {RandomService} from './random.service';
 
 @Component({
@@ -22,9 +22,9 @@ export class StudyComponent implements OnInit {
   history: number[];
   inputTranslation: string;
   sequenceMode = 'uniform';
-  resultType: string; // pass
-  resultMatches: boolean[];
-  hintVisible: false; // TODO: implement
+  resultType: string; // pass, check
+  matchResult: MatchResult;
+  hintVisible = false; // TODO: implement
 
   constructor(private randomService: RandomService,
               private comparatorService: ComparatorService) {
@@ -69,7 +69,7 @@ export class StudyComponent implements OnInit {
 
   check(): void {
     this.resultType = 'check';
-    this.resultMatches = this.comparatorService.compare(this.inputTranslation, this.getTranslationValue());
+    this.matchResult = this.comparatorService.compare(this.inputTranslation, this.getTranslationValue());
     this.focusInput();
   }
 
@@ -126,22 +126,22 @@ export class StudyComponent implements OnInit {
     // TODO: focus user input
   }
 
-  // ====================
+  // TODO: implement
   private bindShortCuts() {
-    $(window).keydown(function (event) {
+    document.addEventListener('keydown', event => {
       switch (event.keyCode) {
         case 9: /* tab */
           event.preventDefault();
-          event.shiftKey ? next(true) : next();
+          event.shiftKey ? this.back() : this.next();
           break;
         case 13: /* enter */
           event.preventDefault();
-          event.ctrlKey ? pass() : check();
+          event.ctrlKey ? this.pass() : this.check();
           break;
         case 32: /*white space*/
           if (event.ctrlKey) {
             event.preventDefault();
-            hint();
+            this.hint();
           }
           break;
       }

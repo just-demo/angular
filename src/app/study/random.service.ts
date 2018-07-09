@@ -24,7 +24,7 @@ export class RandomService {
     return randomValues;
   }
 
-  private randomInt(limit: number): number {
-    return Math.floor(Math.random() * length);
+  randomInt(limit: number): number {
+    return Math.floor(Math.random() * limit);
   }
 }
