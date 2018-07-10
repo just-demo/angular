@@ -1,11 +1,26 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ComparatorService, MatchResult} from './comparator.service';
 import {RandomService} from './random.service';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
 
 @Component({
   selector: 'app-study',
   templateUrl: './study.component.html',
-  styleUrls: ['./study.component.css']
+  styleUrls: ['./study.component.css'],
+  animations: [
+    trigger('hintState', [
+      state('1', style({opacity: 0.25})),
+      state('0', style({opacity: 0})),
+      transition('0 => 1', animate('250ms')),
+      transition('1 => 0', animate('750ms')),
+    ])
+  ]
 })
 export class StudyComponent implements OnInit {
   @ViewChild('input') input: ElementRef;
@@ -25,7 +40,9 @@ export class StudyComponent implements OnInit {
   sequenceMode = 'uniform';
   resultType: string; // pass, check
   matchResult: MatchResult;
-  hintVisible = false; // TODO: implement
+  hintVisible = false;
+
+  // hintState = 'off';
 
   constructor(private randomService: RandomService,
               private comparatorService: ComparatorService) {
@@ -55,7 +72,7 @@ export class StudyComponent implements OnInit {
       case ' ':
         if (event.ctrlKey) {
           event.preventDefault();
-          this.hint();
+          this.showHint();
         }
         break;
     }
@@ -98,14 +115,21 @@ export class StudyComponent implements OnInit {
     this.focusInput();
   }
 
-  hint(): void {
+  showHint(): void {
+    this.hintVisible = true;
+
     // TODO: consider resultType hint? maybe not...
     // $("#hint").css({opacity: 0.25}).html($("#required").val()).fadeTo(1000, 0);
     // $("#actual").focus();
-    this.hintVisible = true;
-    setTimeout(() => {
-      this.hintVisible = false;
-    }, 200);
+    // this.hintVisible = true;
+    // setTimeout(() => {
+    //   this.hintVisible = false;
+    // }, 200);
+    this.focusInput();
+  }
+
+  hideHint(): void {
+    this.hintVisible = false;
   }
 
   getTranslationKey(): string {
