@@ -4,7 +4,7 @@
 
 <div>
   <mat-form-field>
-    <input matInput [(ngModel)]="inputTranslation" placeholder="Translate"/>
+    <input matInput #input [(ngModel)]="inputTranslation" placeholder="Translate" (keydown)="onKeyDown($event)"/>
   </mat-form-field>
   <span [hidden]="!isHintVisible()" class="hint">{{getTranslationValue()}}</span>
 </div>

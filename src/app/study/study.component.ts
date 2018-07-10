@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ComparatorService, MatchResult} from './comparator.service';
 import {RandomService} from './random.service';
 
@@ -8,6 +8,7 @@ import {RandomService} from './random.service';
   styleUrls: ['./study.component.css']
 })
 export class StudyComponent implements OnInit {
+  @ViewChild('input') input: ElementRef;
   sequenceModes = {
     'uniform': 'Uniform',
     'ordered': 'Ordered',
@@ -41,6 +42,25 @@ export class StudyComponent implements OnInit {
     this.next();
   }
 
+  onKeyDown(event: KeyboardEvent): void {
+    switch (event.key) {
+      case 'Tab':
+        event.preventDefault();
+        event.shiftKey ? this.back() : this.next();
+        break;
+      case 'Enter':
+        event.preventDefault();
+        event.ctrlKey ? this.pass() : this.check();
+        break;
+      case ' ':
+        if (event.ctrlKey) {
+          event.preventDefault();
+          this.hint();
+        }
+        break;
+    }
+  }
+
   next(): void {
     this.sequenceIndex = (this.sequenceIndex + 1) % this.translationKeys.length;
     let currentIndex;
@@ -69,7 +89,7 @@ export class StudyComponent implements OnInit {
 
   check(): void {
     this.resultType = 'check';
-    this.matchResult = this.comparatorService.compare(this.inputTranslation, this.getTranslationValue());
+    this.matchResult = this.comparatorService.compare(this.inputTranslation || '', this.getTranslationValue());
     this.focusInput();
   }
 
@@ -100,10 +120,6 @@ export class StudyComponent implements OnInit {
     return this.resultType === resultType;
   }
 
-  hasResult(): boolean {
-    return !!this.resultType;
-  }
-
   isHintVisible(): boolean {
     return this.hintVisible;
   }
@@ -117,34 +133,13 @@ export class StudyComponent implements OnInit {
   }
 
   private resetResult(): void {
-    // TODO: reset result
-    // TODO: reset user input
+    this.resultType = null;
+    this.matchResult = null;
+    this.inputTranslation = null;
     this.focusInput();
   }
 
   private focusInput() {
-    // TODO: focus user input
-  }
-
-  // TODO: implement
-  private bindShortCuts() {
-    document.addEventListener('keydown', event => {
-      switch (event.keyCode) {
-        case 9: /* tab */
-          event.preventDefault();
-          event.shiftKey ? this.back() : this.next();
-          break;
-        case 13: /* enter */
-          event.preventDefault();
-          event.ctrlKey ? this.pass() : this.check();
-          break;
-        case 32: /*white space*/
-          if (event.ctrlKey) {
-            event.preventDefault();
-            this.hint();
-          }
-          break;
-      }
-    });
+    this.input.nativeElement.focus();
   }
 }
