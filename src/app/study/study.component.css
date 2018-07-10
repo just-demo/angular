@@ -1,22 +1,60 @@
-.yes{color: green;}
-.no{color: red;}
-.pass{color: blue;}
-#commands {
-  margin-top: 10px;
+div.yes {
+  background-color: #efe;
 }
-#options {
-  margin-top: 10px;
+
+div.no {
+  background-color: #fee;
+}
+
+span.yes {
+  color: green;
+}
+
+span.no {
+  color: red;
+}
+
+span.pass {
+  color: blue;
 }
 
 button {
-  margin: 5px;
-  background-color: #f0f0f0;
+  text-decoration: underline;
 }
 
-input {
-  border: black 1px;
+button:hover {
+  text-decoration: none;
 }
 
-/*.hint {*/
-  /*opacity: 0.25;*/
-/*}*/
+#commands, #options {
+  margin-top: 15pt;
+}
+
+.study {
+  text-align: center;
+}
+
+.inputs {
+  display: inline-block;
+  text-align: left;
+  width: 180px;
+  font-size: 16pt;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.hint {
+  opacity: 0.25;
+}
+
+.source {
+  margin-top: 20pt;
+  font-weight: bold;
+}
+
+.output {
+  height: 20pt;
+}
+
+span.counter {
+  margin-left: 10pt;
+}

@@ -1,26 +1,11 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ComparatorService, MatchResult} from './comparator.service';
 import {RandomService} from './random.service';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition
-} from '@angular/animations';
 
 @Component({
   selector: 'app-study',
   templateUrl: './study.component.html',
-  styleUrls: ['./study.component.css'],
-  animations: [
-    trigger('hintState', [
-      state('1', style({opacity: 0.25})),
-      state('0', style({opacity: 0})),
-      transition('0 => 1', animate('250ms')),
-      transition('1 => 0', animate('750ms')),
-    ])
-  ]
+  styleUrls: ['./study.component.css']
 })
 export class StudyComponent implements OnInit {
   @ViewChild('input') input: ElementRef;
@@ -42,16 +27,15 @@ export class StudyComponent implements OnInit {
   matchResult: MatchResult;
   hintVisible = false;
 
-  // hintState = 'off';
-
   constructor(private randomService: RandomService,
               private comparatorService: ComparatorService) {
   }
 
   ngOnInit() {
     this.translationMap = {
-      'привет': 'hello',
-      'пока': 'bye'
+      'один': 'one',
+      'два': 'two',
+      'три': 'three'
     };
     this.translationKeys = Object.keys(this.translationMap);
     this.sequenceIndex = -1;
@@ -72,7 +56,7 @@ export class StudyComponent implements OnInit {
       case ' ':
         if (event.ctrlKey) {
           event.preventDefault();
-          this.showHint();
+          this.hint();
         }
         break;
     }
@@ -115,21 +99,11 @@ export class StudyComponent implements OnInit {
     this.focusInput();
   }
 
-  showHint(): void {
+  hint(): void {
     this.hintVisible = true;
-
-    // TODO: consider resultType hint? maybe not...
-    // $("#hint").css({opacity: 0.25}).html($("#required").val()).fadeTo(1000, 0);
-    // $("#actual").focus();
-    // this.hintVisible = true;
-    // setTimeout(() => {
-    //   this.hintVisible = false;
-    // }, 200);
-    this.focusInput();
-  }
-
-  hideHint(): void {
-    this.hintVisible = false;
+    setTimeout(() => {
+      this.hintVisible = false;
+    }, 500);
   }
 
   getTranslationKey(): string {
@@ -163,7 +137,7 @@ export class StudyComponent implements OnInit {
     this.focusInput();
   }
 
-  private focusInput() {
+  focusInput(): void {
     this.input.nativeElement.focus();
   }
 }

@@ -1,37 +1,20 @@
-<!--<p class="text">-->
-<!--{{text}}-->
-<!--</p>-->
-<!--<div class="text">-->
-<!--&lt;!&ndash;{{tokens.length}}&ndash;&gt;-->
-<!--<span *ngFor="let token of tokens" [ngClass]="{'word': isWord(token)}"-->
-<!--(click)="isWord(token) && showTranslation(token)">{{token}}</span>-->
-<!--</div>-->
-
-<!-- TODO: make page navigation via router link: /book/:bookId/pages/:pageId -->
-<div>
-  <ng-container *ngFor="let indexes of getPageNavigation(); let first = first">
-    <span *ngIf="!first">...</span>
-    <span *ngFor="let index of indexes"
-          [ngClass]="{'pageIndex': true, 'selected': isPageIndexSelected(index)}"
-          (click)="setPageIndexSelected(index)">{{index + 1}}</span>
-  </ng-container>
-</div>
-<!--<ng-container *ngFor="let page of pages">-->
-<!-- TODO: double click triggers click as well ........ -->
-<div class="page">
-  <ng-container *ngFor="let line of getPage(getPageIndexSelected())">
-    <ng-container *ngFor="let token of line">
-      <span *ngIf="!isWord(token)">{{token}}</span>
-      <span *ngIf="isWord(token)" class="word" (click)="openWordDialog(token)"
-      >{{token}}</span>
+<div class="reader">
+  <!-- TODO: make page navigation via router link: /book/:bookId/pages/:pageId -->
+  <div>
+    <ng-container *ngFor="let indexes of getPageNavigation(); let first = first">
+      <span *ngIf="!first">...</span>
+      <span *ngFor="let index of indexes"
+            [ngClass]="{'pageIndex': true, 'selected': isPageIndexSelected(index)}"
+            (click)="setPageIndexSelected(index)">{{index + 1}}</span>
     </ng-container>
-  </ng-container>
+  </div>
+  <div class="page">
+    <ng-container *ngFor="let line of getPage(getPageIndexSelected())">
+      <ng-container *ngFor="let token of line">
+        <span *ngIf="!isWord(token)">{{token}}</span>
+        <span *ngIf="isWord(token)" class="word" (click)="openWordDialog(token)"
+        >{{token}}</span>
+      </ng-container>
+    </ng-container>
+  </div>
 </div>
-
-<!--<button mat-raised-button #tooltip="matTooltip"-->
-        <!--matTooltip="Info about the action"-->
-        <!--matTooltipPosition="right"-->
-        <!--aria-tooltip="Button that displays and hides a tooltip triggered by other buttons">-->
-  <!--Action-->
-<!--</button>-->
-

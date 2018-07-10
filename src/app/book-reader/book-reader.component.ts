@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {min} from 'rxjs/operators';
 import {WORDS} from '../stub-words';
 import {TRANSLATIONS} from '../stub-translations';
@@ -29,6 +29,21 @@ export class BookReaderComponent implements OnInit {
 
   ngOnInit() {
     this.bookDetails = this.bookParserService.parse(this.book.text);
+  }
+
+  // @HostListener('document:keydown', ['$event'])
+  // onKeyDown(event: KeyboardEvent): void {
+  //   console.log(event.key);
+  // }
+
+  @HostListener('document:keydown.arrowright')
+  nextPage(): void {
+    this.pageIndexSelected = Math.min(this.pageIndexSelected + 1, this.bookDetails.pages.length - 1);
+  }
+
+  @HostListener('document:keydown.arrowleft')
+  prevPage(): void {
+    this.pageIndexSelected = Math.max(0, this.pageIndexSelected - 1);
   }
 
   getPageNavigation(): number[][] {

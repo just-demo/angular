@@ -65,4 +65,8 @@ export class MatchResult {
     this.missingPrefix = false;
     this.missingSuffix = false;
   }
+
+  isFullMatch(): boolean {
+    return !(this.missingPrefix || this.missingSuffix || this.matches.filter(value => !value).length);
+  }
 }

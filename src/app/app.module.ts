@@ -10,12 +10,9 @@ import {MessagesComponent} from './messages/messages.component';
 import {AppRoutingModule} from './app-routing.module';
 import {DashboardComponent} from './dashboard/dashboard.component';
 
-import {HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api';
-import {InMemoryDataService} from './in-memory-data.service';
 import {HeroSearchComponent} from './hero-search/hero-search.component';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
-import {AuthService} from './auth.service';
 import {BackendRequestInterceptor} from './backend-request-interceptor';
 import {BookComponent} from './book/book.component';
 import {BookUploadComponent} from './book-upload/book-upload.component';
@@ -30,10 +27,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BookUploadDialogComponent} from './book-upload-dialog/book-upload-dialog.component';
 import {MaterialAllModule} from './material-all/material-all.module';
 import {ActiveBook} from './active-book';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { WordDialogComponent } from './word-dialog/word-dialog.component';
-import { StudyComponent } from './study/study.component';
-import { IndexesPipe } from './pipes/indexes.pipe';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {WordDialogComponent} from './word-dialog/word-dialog.component';
+import {StudyComponent} from './study/study.component';
+import {IndexesPipe} from './pipes/indexes.pipe';
 
 @NgModule({
   declarations: [
@@ -65,7 +62,6 @@ import { IndexesPipe } from './pipes/indexes.pipe';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    // MatDialogModule,
     BrowserAnimationsModule,
     MaterialAllModule
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
