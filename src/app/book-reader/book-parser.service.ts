@@ -18,7 +18,7 @@ export class BookParserService {
     // groupService.getGroups().forEach(group => group.forEach(word => this.wordGroups[word] = group));
   }
 
-  parse(text: string): BookDetails {
+  parse(text: string, charsPerLine: number, linesPerPage: number): BookDetails {
     const tokens: string[] = [];
     const words = {};
 
@@ -41,7 +41,7 @@ export class BookParserService {
       }
     }
 
-    const pages = this.splitIntoPages(tokens);
+    const pages = this.splitIntoPages(tokens, charsPerLine, linesPerPage);
     const occurrences = this.gatherWordOccurrences(tokens, words);
     const wordsSet: Set<string> = new Set(Object.values(words));
     const groups = this.group(Array.from(wordsSet));
@@ -73,16 +73,14 @@ export class BookParserService {
     return wordOccurrences;
   }
 
-  private splitIntoPages(tokens: string[]): string[][][] {
-    const pageWidth = 50;
-    const pageHeight = 25;
+  private splitIntoPages(tokens: string[], charsPerLine: number, linesPerPage: number): string[][][] {
     const pages: string[][][] = [];
-    const lines = this.splitIntoLines(tokens, pageWidth);
+    const lines = this.splitIntoLines(tokens, charsPerLine);
     let page: string[][] = [];
 
     for (const line of lines) {
       page.push(line);
-      if (page.length >= pageHeight) {
+      if (page.length >= linesPerPage) {
         pages.push(page);
         page = [];
       }

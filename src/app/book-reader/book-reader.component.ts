@@ -17,8 +17,11 @@ import {GroupService} from '../services/group.service';
 })
 export class BookReaderComponent implements OnInit {
   @Input() book: any;
+  private charsPerLine = 50;
+  private linesPerPage = 25;
   private bookDetails: BookDetails;
   private pageIndexSelected = 0;
+  private lineIndexSelected = 0;
 
   constructor(private bookParserService: BookParserService,
               private paginationService: PaginationService,
@@ -28,7 +31,7 @@ export class BookReaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.bookDetails = this.bookParserService.parse(this.book.text);
+    this.bookDetails = this.bookParserService.parse(this.book.text, this.charsPerLine, this.linesPerPage);
   }
 
   // @HostListener('document:keydown', ['$event'])
@@ -37,13 +40,28 @@ export class BookReaderComponent implements OnInit {
   // }
 
   @HostListener('document:keydown.arrowright')
-  nextPage(): void {
+  private nextPage(): void {
     this.pageIndexSelected = Math.min(this.pageIndexSelected + 1, this.bookDetails.pages.length - 1);
   }
 
   @HostListener('document:keydown.arrowleft')
-  prevPage(): void {
+  private prevPage(): void {
     this.pageIndexSelected = Math.max(0, this.pageIndexSelected - 1);
+  }
+
+  @HostListener('document:keydown.arrowup')
+  private lineUp(): void {
+    // TODO: implement - lineIndexSelected instead of splitting lines per pages
+    // TODO: consider books/:bookId/pages/:pageId/lines/:lineId with aliases or redirects:
+    // books/:bookId/pages/:pageId == books/:bookId/pages/:pageId/lines/0
+    // books/:bookId == books/:bookId/pages/0
+    this.lineIndexSelected = Math.max(0, this.lineIndexSelected - 1);
+  }
+
+  @HostListener('document:keydown.arrowdown')
+  private lineDown(): void {
+    // TODO: implement
+    this.lineIndexSelected = Math.min(this.pageIndexSelected + 1, this.linesPerPage - 1);
   }
 
   getPageNavigation(): number[][] {
