@@ -6,7 +6,7 @@
   <mat-form-field>
     <input matInput #input [(ngModel)]="inputTranslation" placeholder="Translate" (keydown)="onKeyDown($event)"/>
   </mat-form-field>
-  <span [hidden]="!isHintVisible()" class="hint">{{getTranslationValue()}}</span>
+  <span [@hintState]="isHintVisible()" (@hintState.done)="hideHint()">{{getTranslationValue()}}</span>
 </div>
 
 <div>
@@ -23,7 +23,7 @@
   <button mat-button (click)="next()" matTooltip="Tab">Next</button>&nbsp;
   <button mat-button (click)="check()" matTooltip="Enter">Check</button>&nbsp;
   <button mat-button (click)="pass()" matTooltip="Ctrl+Enter">Pass</button>&nbsp;
-  <button mat-button (click)="hint()" matTooltip="Ctrl+Space">Hint</button>&nbsp;
+  <button mat-button (click)="showHint()" matTooltip="Ctrl+Space">Hint</button>&nbsp;
 </div>
 
 <div id="options">
