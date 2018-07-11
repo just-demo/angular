@@ -15,9 +15,9 @@ export class AppComponent {
               private dialog: MatDialog,
               private activeBook: ActiveBook,
               private router: Router) {
-    this.activeBook.text = Array.from(Array(100).keys())
+    this.activeBook.load('test.txt', Array.from(Array(100).keys())
       .map(i => 'line ' + ('' + i).padStart(4, '0'))
-      .join('\n');
+      .join('\n'));
   }
 
   isAuthenticated(): boolean {
@@ -36,13 +36,12 @@ export class AppComponent {
   }
 
   uploadBook(file: File) {
-    this.activeBook.text = null;
+    this.activeBook.clear();
     const reader = new FileReader();
     reader.onload = () => {
-      this.activeBook.text = reader.result;
-      console.log('Uploaded book...');
-      // console.log(this.activeBook.text);
-      this.router.navigateByUrl('book');
+      this.activeBook.load(file.name, reader.result);
+      this.router.navigate(['books', this.activeBook.id, 'pages', 1]);
+      // this.router.navigateByUrl('book');
       // this.router.navigate(['statistics', {foo: 'foo'}], {relativeTo: this.route.parent})
     };
     reader.readAsText(file);

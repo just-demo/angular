@@ -1,11 +1,12 @@
-<div class="reader">
+<div class="reader" *ngIf="isReady()">
+  <div class="name">{{bookId}}</div>
   <!-- TODO: make page navigation via router link: /book/:bookId/pages/:pageId -->
   <div>
     <ng-container *ngFor="let indexes of getPageNavigation(); let first = first">
       <span *ngIf="!first">...</span>
       <span *ngFor="let index of indexes"
             [ngClass]="{'pageIndex': true, 'selected': isPageIndexSelected(index)}"
-            (click)="setPageIndexSelected(index)">{{index + 1}}</span>
+            [routerLink]="['/books', bookId, 'pages', index + 1]">{{index + 1}}</span>
     </ng-container>
   </div>
   <div class="page">

@@ -9,6 +9,8 @@ import {MatDialog} from '@angular/material';
 import {WordDialogComponent} from '../word-dialog/word-dialog.component';
 import {TranslationService} from '../services/translation.service';
 import {GroupService} from '../services/group.service';
+import {ActivatedRoute} from '@angular/router';
+import {ActiveBook} from '../active-book';
 
 @Component({
   selector: 'app-book-reader',
@@ -16,7 +18,8 @@ import {GroupService} from '../services/group.service';
   styleUrls: ['./book-reader.component.css']
 })
 export class BookReaderComponent implements OnInit {
-  @Input() book: any;
+  private bookId: string;
+
   private charsPerLine = 50;
   private linesPerPage = 25;
   private bookDetails: BookDetails;
@@ -27,11 +30,36 @@ export class BookReaderComponent implements OnInit {
               private paginationService: PaginationService,
               private translationService: TranslationService,
               private groupService: GroupService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              public activeBook: ActiveBook,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.bookDetails = this.bookParserService.parse(this.book.text, this.charsPerLine, this.linesPerPage);
+    this.route.params.subscribe(params => {
+      this.init(params['bookId'], params['pageId']);
+    });
+  }
+
+  isReady(): boolean {
+    return !!this.bookDetails;
+  }
+
+  private init(bookId: string, pageId: string): void {
+    console.log('help!!!!!!');
+    console.log('actual id: ' + bookId);
+    console.log('expected id: ' + this.activeBook.id);
+    if (this.activeBook.id !== bookId) {
+      // TODO: retrieve from database;
+      this.activeBook.load(bookId, 'Book not found...');
+    }
+
+    if (this.bookId !== this.activeBook.id) {
+      this.bookId = this.activeBook.id;
+      this.bookDetails = this.bookParserService.parse(this.activeBook.text, this.charsPerLine, this.linesPerPage);
+    }
+
+    this.pageIndexSelected = Math.max(0, parseInt(pageId, 10) - 1 || 0);
   }
 
   // @HostListener('document:keydown', ['$event'])

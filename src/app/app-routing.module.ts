@@ -10,11 +10,12 @@ import {BookUploadComponent} from './book-upload/book-upload.component';
 import {BookStatisticsComponent} from './book-statistics/book-statistics.component';
 import {ActiveBookGuard} from './active-book.guard';
 import {StudyComponent} from './study/study.component';
+import {BookReaderComponent} from './book-reader/book-reader.component';
 
 const routes: Routes = [
   {
-    path: 'book',
-    component: BookComponent,
+    path: 'books/:bookId/pages/:pageId',
+    component: BookReaderComponent,
     canActivate: [ActiveBookGuard],
     children: [
       // {path: '', redirectTo: 'upload', pathMatch: 'full'},
