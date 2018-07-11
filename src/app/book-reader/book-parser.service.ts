@@ -18,7 +18,7 @@ export class BookParserService {
     // groupService.getGroups().forEach(group => group.forEach(word => this.wordGroups[word] = group));
   }
 
-  parse(text: string, charsPerLine: number, linesPerPage: number): BookDetails {
+  parse(text: string, charsPerLine: number): BookDetails {
     const tokens: string[] = [];
     const words = {};
 
@@ -41,11 +41,11 @@ export class BookParserService {
       }
     }
 
-    const pages = this.splitIntoPages(tokens, charsPerLine, linesPerPage);
+    const lines = this.splitIntoLines(tokens, charsPerLine);
     const occurrences = this.gatherWordOccurrences(tokens, words);
     const wordsSet: Set<string> = new Set(Object.values(words));
     const groups = this.group(Array.from(wordsSet));
-    return new BookDetails(pages, words, groups, occurrences);
+    return new BookDetails(lines, words, groups, occurrences);
   }
 
   private group(words: string[]): any {
@@ -73,25 +73,26 @@ export class BookParserService {
     return wordOccurrences;
   }
 
-  private splitIntoPages(tokens: string[], charsPerLine: number, linesPerPage: number): string[][][] {
-    const pages: string[][][] = [];
-    const lines = this.splitIntoLines(tokens, charsPerLine);
-    let page: string[][] = [];
-
-    for (const line of lines) {
-      page.push(line);
-      if (page.length >= linesPerPage) {
-        pages.push(page);
-        page = [];
-      }
-    }
-
-    if (page.length > 0) {
-      pages.push(page);
-    }
-
-    return pages;
-  }
+  // TODO: remove if not needed anymore
+  // private splitIntoPages(tokens: string[], charsPerLine: number, linesPerPage: number): string[][][] {
+  //   const pages: string[][][] = [];
+  //   const lines = this.splitIntoLines(tokens, charsPerLine);
+  //   let page: string[][] = [];
+  //
+  //   for (const line of lines) {
+  //     page.push(line);
+  //     if (page.length >= linesPerPage) {
+  //       pages.push(page);
+  //       page = [];
+  //     }
+  //   }
+  //
+  //   if (page.length > 0) {
+  //     pages.push(page);
+  //   }
+  //
+  //   return pages;
+  // }
 
   private splitIntoLines(tokens: string[], lineWidth: number): string[][] {
     const lines: string[][] = [];
@@ -211,7 +212,8 @@ export class BookParserService {
 
 export class BookDetails {
   constructor(
-    public pages: string[][][],
+    // public pages: string[][][],
+    public lines: string[][],
     public words: any,
     public groups: any,
     public occurrences: any

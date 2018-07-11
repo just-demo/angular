@@ -23,7 +23,6 @@ export class BookReaderComponent implements OnInit {
   private charsPerLine = 50;
   private linesPerPage = 25;
   private bookDetails: BookDetails;
-  private pageIndexSelected = 0;
   private lineIndexSelected = 0;
 
   constructor(private bookParserService: BookParserService,
@@ -56,10 +55,10 @@ export class BookReaderComponent implements OnInit {
 
     if (this.bookId !== this.activeBook.id) {
       this.bookId = this.activeBook.id;
-      this.bookDetails = this.bookParserService.parse(this.activeBook.text, this.charsPerLine, this.linesPerPage);
+      this.bookDetails = this.bookParserService.parse(this.activeBook.text, this.charsPerLine);
     }
 
-    this.pageIndexSelected = Math.max(0, parseInt(pageId, 10) - 1 || 0);
+    this.setPageIndexSelected(parseInt(pageId, 10) - 1 || 0);
   }
 
   // @HostListener('document:keydown', ['$event'])
@@ -69,17 +68,16 @@ export class BookReaderComponent implements OnInit {
 
   @HostListener('document:keydown.arrowright')
   private nextPage(): void {
-    this.pageIndexSelected = Math.min(this.pageIndexSelected + 1, this.bookDetails.pages.length - 1);
+    this.setPageIndexSelected(this.getPageIndexSelected() + 1);
   }
 
   @HostListener('document:keydown.arrowleft')
   private prevPage(): void {
-    this.pageIndexSelected = Math.max(0, this.pageIndexSelected - 1);
+    this.setPageIndexSelected(this.getPageIndexSelected() - 1);
   }
 
   @HostListener('document:keydown.arrowup')
   private lineUp(): void {
-    // TODO: implement - lineIndexSelected instead of splitting lines per pages
     // TODO: consider books/:bookId/pages/:pageId/lines/:lineId with aliases or redirects:
     // books/:bookId/pages/:pageId == books/:bookId/pages/:pageId/lines/0
     // books/:bookId == books/:bookId/pages/0
@@ -88,28 +86,35 @@ export class BookReaderComponent implements OnInit {
 
   @HostListener('document:keydown.arrowdown')
   private lineDown(): void {
-    // TODO: implement
-    this.lineIndexSelected = Math.min(this.pageIndexSelected + 1, this.linesPerPage - 1);
+    this.lineIndexSelected = Math.min( this.lineIndexSelected + 1, this.bookDetails.lines.length);
   }
 
   getPageNavigation(): number[][] {
-    return this.paginationService.paginate(this.bookDetails.pages.length, this.pageIndexSelected, 9);
+    return this.paginationService.paginate(this.getPagesCount(), this.getPageIndexSelected(), 9);
   }
 
-  getPage(pageIndex: number): string[][] {
-    return this.bookDetails.pages[pageIndex];
+  // TODO: consider returning array of indexes instead of page...
+  getPageSelected(): string[][] {
+    return this.bookDetails.lines.slice(
+      this.lineIndexSelected,
+      Math.min(this.lineIndexSelected + this.linesPerPage, this.bookDetails.lines.length)
+    );
   }
 
-  getPageIndexSelected(): number {
-    return this.pageIndexSelected;
+  private getPageIndexSelected(): number {
+    return Math.floor(this.lineIndexSelected / this.linesPerPage);
   }
 
-  setPageIndexSelected(index: number): void {
-    this.pageIndexSelected = index;
+  setPageIndexSelected(pageIndex: number): void {
+    this.lineIndexSelected = Math.min(Math.max(0, pageIndex * this.linesPerPage), this.bookDetails.lines.length - 1);
   }
 
   isPageIndexSelected(index: number): boolean {
-    return this.pageIndexSelected === index;
+    return this.getPageIndexSelected() === index;
+  }
+
+  private getPagesCount(): number {
+    return Math.ceil(this.bookDetails.lines.length / this.linesPerPage);
   }
 
   isWord(token: string): boolean {
