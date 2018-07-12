@@ -74,24 +74,19 @@ export class BookReaderComponent implements OnInit {
     // TODO: consider books/:bookId/pages/:pageId/lines/:lineId with aliases or redirects:
     // books/:bookId/pages/:pageId == books/:bookId/pages/:pageId/lines/0
     // books/:bookId == books/:bookId/pages/0
-    this.setLineIndexSelected(Math.max(0, this.lineIndexSelected - 1));
+    this.setLineIndexSelected(this.lineIndexSelected - 1);
   }
 
   @HostListener('document:keydown.arrowdown')
   private lineDown(): void {
-    this.setLineIndexSelected(Math.min(this.lineIndexSelected + 1, this.bookDetails.lines.length));
+    this.setLineIndexSelected(this.lineIndexSelected + 1);
   }
 
-  @HostListener('window:scroll')
-  private onScroll(event: any): void {
-    console.log(event);
+  @HostListener('window:mousewheel', ['$event'])
+  private onScrollWheel(event: WheelEvent): void {
+    // 100 was determined empirically
+    this.setLineIndexSelected(this.lineIndexSelected + Math.ceil(event.deltaY / 100));
   }
-
-  @HostListener('window:mousewheel')
-  private onScrollWheel(event: any): void {
-    console.log(event);
-  }
-
 
   getPageNavigation(): number[][] {
     return this.pagination;
@@ -118,11 +113,11 @@ export class BookReaderComponent implements OnInit {
   }
 
   private setPageIndexSelected(pageIndex: number): void {
-    this.setLineIndexSelected(Math.min(Math.max(0, pageIndex * this.linesPerPage), this.bookDetails.lines.length - 1));
+    this.setLineIndexSelected(pageIndex * this.linesPerPage);
   }
 
   private setLineIndexSelected(lineIndex: number): void {
-    this.lineIndexSelected = lineIndex;
+    this.lineIndexSelected = Math.min(Math.max(0, lineIndex), this.bookDetails.lines.length - 1);
     this.pagination = this.paginationService.paginate(this.getPagesCount(), this.getPageIndexSelected(), 9);
   }
 

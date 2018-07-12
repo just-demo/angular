@@ -12,8 +12,12 @@
   margin-bottom: 5px !important;
 }
 
-.translation mat-icon, .groupMember mat-icon {
+mat-icon {
   padding-right: 5px;
+}
+
+.groupMember mat-icon {
+  transform: scale(0.75);
 }
 
 .translation, .groupMember {
@@ -22,7 +26,7 @@
   align-items: center;
 }
 
-.translation mat-icon.hidden, .groupMember mat-icon.hidden {
+.hidden {
   visibility: hidden;
 }
 
