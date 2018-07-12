@@ -2,16 +2,19 @@ import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {AppComponent} from '../app.component';
 import {Credentials} from '../credentials';
+import {AuthService} from '../auth.service';
 
 @Component({
   selector: 'app-login-dialog',
-  templateUrl: './login-dialog.component.html'
+  templateUrl: './login-dialog.component.html',
+  styleUrls: ['./login-dialog.component.css']
 })
 export class LoginDialogComponent {
-  @Output() aaa = new EventEmitter<string>();
+  error: string;
 
   constructor(
-    public dialogRef: MatDialogRef<AppComponent>,
+    private authService: AuthService,
+    private dialogRef: MatDialogRef<AppComponent>,
     @Inject(MAT_DIALOG_DATA) public credentials: Credentials
   ) {
     // credentials = credentials || {
@@ -20,14 +23,16 @@ export class LoginDialogComponent {
     // };
   }
 
-  submit(): void {
-    this.aaa.emit('dummy result emitted');
-    this.dialogRef.close();
-    // return 'dummy result returned';
+  login() {
+    this.authService.login(this.credentials)
+      .subscribe(
+        () => {
+          this.dialogRef.close();
+        },
+        error => {
+          console.error('Error: ' + error);
+          this.error = 'Login failed';
+        }
+      );
   }
-
-  cancel(): void {
-    this.dialogRef.close();
-  }
-
 }

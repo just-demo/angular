@@ -36,7 +36,7 @@ export class UserService {
 
   isSelected(word: string, translation?: string): boolean {
     return this.selection[word] && (translation === undefined ?
-        Object.values(this.selection[word]).some(selected => selected) :
+        Object.values(this.selection[word]).some(selected => !!selected) :
         this.selection[word][translation]
     );
   }

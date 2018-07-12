@@ -12,6 +12,7 @@ export class GroupService {
   }
 
   private initGroups(): void {
+    [['book', 'books']].forEach(group => group.forEach(word => this.groups[word] = group));
     console.log('Init groups...');
     this.http.get<string[][]>('/groups').subscribe(groups => {
       // GROUPS

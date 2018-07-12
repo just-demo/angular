@@ -13,6 +13,10 @@ export class TranslationService {
   }
 
   private initTranslations(): void {
+    this.translations = {
+      'book': ['книга'],
+      'books': ['книги']
+    };
     console.log('Init translations...');
     this.http.get('/translations').subscribe(translations => {
       this.translations = translations;

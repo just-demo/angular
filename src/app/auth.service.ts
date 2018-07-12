@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {MessageService} from './message.service';
 import {Credentials} from './credentials';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,9 @@ export class AuthService {
     private http: HttpClient,
     private messageService: MessageService
   ) {
+    // TODO: remove hardcoded values
+    this.authUser = 'test.user';
+    this.authHeaders = {};
   }
 
   login(credentials: Credentials): Observable<Object> {
@@ -32,7 +35,7 @@ export class AuthService {
     this.http.put('/auth', credentials).subscribe();
   }
 
-  logout() {
+  logout(): void {
     this.authHeaders = null;
     this.authUser = null;
   }

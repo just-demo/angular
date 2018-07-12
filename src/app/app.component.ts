@@ -24,6 +24,10 @@ export class AppComponent {
     return this.authService.isAuthenticated();
   }
 
+  getAuthUser(): string {
+    return this.authService.getAuthUser();
+  }
+
   openLoginDialog(): void {
     const dialogRef = this.dialog.open(LoginDialogComponent, {
       width: '235px',
@@ -33,6 +37,10 @@ export class AppComponent {
     dialogRef.afterClosed().subscribe(result => {
       console.log('dialog output: ' + result);
     });
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 
   uploadBook(file: File) {

@@ -82,6 +82,17 @@ export class BookReaderComponent implements OnInit {
     this.setLineIndexSelected(Math.min(this.lineIndexSelected + 1, this.bookDetails.lines.length));
   }
 
+  @HostListener('window:scroll')
+  private onScroll(event: any): void {
+    console.log(event);
+  }
+
+  @HostListener('window:mousewheel')
+  private onScrollWheel(event: any): void {
+    console.log(event);
+  }
+
+
   getPageNavigation(): number[][] {
     return this.pagination;
   }

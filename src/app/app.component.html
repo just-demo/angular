@@ -19,6 +19,7 @@
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem right">Register</button>
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem right" (click)="openLoginDialog()">Login</button>
   <button *ngIf="isAuthenticated()" mat-button class="mainMenuItem right" (click)="logout()">Logout</button>
+  <div *ngIf="isAuthenticated()" class="authUser right"><mat-icon>account_box</mat-icon>{{getAuthUser()}}</div>
 </nav>
 <!-- TODO: create default home page with a list of saved books /books
 book -> saved -> top ten sorted by recent activity and All... pointed to home page /books
