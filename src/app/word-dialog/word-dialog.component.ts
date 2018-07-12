@@ -19,22 +19,20 @@ export class WordDialogComponent {
     public dialogRef: MatDialogRef<BookReaderComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-
   }
 
   isSelected(word: string, translation?: string): boolean {
-    return this.userService.isSelected(word, translation);
+    return this.userService.hasTranslation(word, translation);
   }
 
   toggleSelection(word: string, translation: string): void {
-    return this.userService.setSelected(word, translation, !this.userService.isSelected(word, translation));
+    return this.userService.hasTranslation(word, translation) ?
+      this.userService.removeTranslation(word, translation) :
+      this.userService.addTranslation(word, translation);
   }
 
   redirectTo(word: string): void {
     // TODO: consider making the dialog to gather information directly from bookDetails
     this.redirect.emit(word);
-    // this.selectedTabIndex = 0;
-    // console.log('Emitted....');
   }
-
 }

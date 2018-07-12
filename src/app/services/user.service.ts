@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  private selection = {};
+  private translations = {};
 
   constructor(private http: HttpClient) {
   }
@@ -15,29 +15,48 @@ export class UserService {
     return this.http.get('/user/' + username);
   }
 
-  getSelection(): any {
+  /**
+   * @return {word: [translation, ...]}
+   */
+  getTranslations(): any {
     // TODO: find a better data structure
-    const selection = {};
-    Object.keys(this.selection).forEach(word => {
-      Object.keys(this.selection[word]).forEach(translation => {
-        if (this.selection[word][translation]) {
-          selection[word] = selection[word] || {};
-          selection[word][translation] = true;
+    const translations = {};
+    Object.keys(this.translations).forEach(word => {
+      Object.keys(this.translations[word]).forEach(translation => {
+        if (this.translations[word][translation]) {
+          translations[word] = translations[word] || [];
+          translations[word].push(translation);
         }
       });
     });
-    return selection;
+
+    // TODO: remove hard-coded values
+    if (!Object.keys(this.translations).length) {
+      translations['one'] = ['один', 'адын'];
+      translations['two'] = ['два'];
+      translations['three'] = ['три'];
+    }
+
+    return translations;
   }
 
-  setSelected(word: string, translation: string, selected: boolean): void {
-    this.selection[word] = this.selection[word] || {};
-    this.selection[word][translation] = selected;
+  addTranslation(word: string, translation: string): void {
+    this.putTranslation(word, translation, true);
   }
 
-  isSelected(word: string, translation?: string): boolean {
-    return this.selection[word] && (translation === undefined ?
-        Object.values(this.selection[word]).some(selected => !!selected) :
-        this.selection[word][translation]
+  removeTranslation(word: string, translation: string): void {
+    this.putTranslation(word, translation, false);
+  }
+
+  hasTranslation(word: string, translation?: string): boolean {
+    return this.translations[word] && (translation === undefined ?
+        Object.values(this.translations[word]).some(status => !!status) :
+        this.translations[word][translation]
     );
+  }
+
+  private putTranslation(word: string, translation: string, status: boolean): void {
+    this.translations[word] = this.translations[word] || {};
+    this.translations[word][translation] = status;
   }
 }

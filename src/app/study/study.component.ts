@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ComparatorService, MatchResult} from './comparator.service';
 import {RandomService} from './random.service';
 import {UserService} from '../services/user.service';
+import {KeyValue} from './key-value';
 
 @Component({
   selector: 'app-study',
@@ -16,8 +17,7 @@ export class StudyComponent implements OnInit {
     'random': 'Random'
   };
 
-  translationMap: any;
-  translationKeys: string[];
+  translations: KeyValue[] = [];
   sequenceIndex: number;
 
   randomIndexes: number[];
@@ -36,13 +36,10 @@ export class StudyComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.userService.get
-    this.translationMap = {
-      'один': 'one',
-      'два': 'two',
-      'три': 'three'
-    };
-    this.translationKeys = Object.keys(this.translationMap);
+    const translations = this.userService.getTranslations();
+    Object.keys(translations).forEach(value => translations[value].forEach(key =>
+      this.translations.push(new KeyValue(key, value))
+    ));
     this.sequenceIndex = -1;
     this.history = [];
     this.next();
@@ -68,15 +65,15 @@ export class StudyComponent implements OnInit {
   }
 
   next(): void {
-    this.sequenceIndex = (this.sequenceIndex + 1) % this.translationKeys.length;
+    this.sequenceIndex = (this.sequenceIndex + 1) % this.translations.length;
     let currentIndex;
     if (this.sequenceMode === 'random') {
-      currentIndex = this.randomService.randomInt(this.translationKeys.length);
+      currentIndex = this.randomService.randomInt(this.translations.length);
     } else if (this.sequenceMode === 'ordered') {
       currentIndex = this.sequenceIndex;
     } else if (this.sequenceMode === 'uniform') {
       if (this.sequenceIndex === 0 || !this.randomIndexes) {
-        this.randomIndexes = this.randomService.randomIntArray(this.translationKeys.length);
+        this.randomIndexes = this.randomService.randomIntArray(this.translations.length);
       }
       currentIndex = this.randomIndexes[this.sequenceIndex];
     }
@@ -87,7 +84,7 @@ export class StudyComponent implements OnInit {
 
   back(): void {
     if (this.history.length > 1) {
-      this.sequenceIndex = (this.sequenceIndex - 1 + this.translationKeys.length) % this.translationKeys.length;
+      this.sequenceIndex = (this.sequenceIndex - 1 + this.translations.length) % this.translations.length;
       this.history.pop();
       this.resetResult();
     }
@@ -112,11 +109,11 @@ export class StudyComponent implements OnInit {
   }
 
   getTranslationKey(): string {
-    return this.translationKeys[this.getCurrentIndex()];
+    return this.translations[this.getCurrentIndex()].key;
   }
 
   getTranslationValue(): string {
-    return this.translationMap[this.getTranslationKey()];
+    return this.translations[this.getCurrentIndex()].value;
   }
 
   isResult(resultType: string): boolean {
@@ -131,6 +128,10 @@ export class StudyComponent implements OnInit {
     return this.history.length;
   }
 
+  focusInput(): void {
+    this.input.nativeElement.focus();
+  }
+
   private getCurrentIndex(): number {
     return this.history[this.history.length - 1];
   }
@@ -140,9 +141,5 @@ export class StudyComponent implements OnInit {
     this.matchResult = null;
     this.inputTranslation = null;
     this.focusInput();
-  }
-
-  focusInput(): void {
-    this.input.nativeElement.focus();
   }
 }

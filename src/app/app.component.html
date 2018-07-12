@@ -12,9 +12,10 @@
   </mat-menu>
   <button mat-button class="mainMenuItem" [routerLink]="['/study']">Study</button>
   <!-- Just an example -->
+  <!--
   <mat-icon>face</mat-icon>
-  <mat-icon>home</mat-icon>
   <i class="material-icons">face</i>
+  -->
 
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem right">Register</button>
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem right" (click)="openLoginDialog()">Login</button>
