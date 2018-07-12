@@ -24,12 +24,8 @@ const routes: Routes = [
       {path: 'statistics', component: BookStatisticsComponent},
     ]
   },
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: 'detail/:id', component: HeroDetailComponent},
-  // {path: '', redirectTo: 'book', pathMatch: 'full'},
-  {path: 'study', component: StudyComponent},
-  {path: 'heroes', component: HeroesComponent}
+  {path: 'books/:bookId', redirectTo: 'books/:bookId/pages/1', pathMatch: 'full'},
+  {path: 'study', component: StudyComponent}
 ];
 
 @NgModule({

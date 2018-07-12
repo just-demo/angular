@@ -14,7 +14,7 @@ export class ActiveBook {
     this.text = text;
   }
 
-  loaded(): boolean {
+  isLoaded(): boolean {
     return !!this.id;
   }
 }

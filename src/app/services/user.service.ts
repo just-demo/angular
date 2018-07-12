@@ -7,12 +7,17 @@ import {Observable} from 'rxjs';
 })
 export class UserService {
   private translations = {};
+  private books: string[] = Array.from(Array(20).keys()).map(i => 'test' + i + '.txt');
 
   constructor(private http: HttpClient) {
   }
 
   getUser(username: string): Observable<Object> {
     return this.http.get('/user/' + username);
+  }
+
+  getBooks(): string[] {
+    return this.books;
   }
 
   /**
@@ -31,7 +36,7 @@ export class UserService {
     });
 
     // TODO: remove hard-coded values
-    if (!Object.keys(this.translations).length) {
+    if (!Object.keys(translations).length) {
       translations['one'] = ['один', 'адын'];
       translations['two'] = ['два'];
       translations['three'] = ['три'];

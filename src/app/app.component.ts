@@ -4,6 +4,7 @@ import {MatDialog} from '@angular/material';
 import {LoginDialogComponent} from './login-dialog/login-dialog.component';
 import {ActiveBook} from './active-book';
 import {Router} from '@angular/router';
+import {UserService} from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +12,15 @@ import {Router} from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(private authService: AuthService,
-              private dialog: MatDialog,
-              private activeBook: ActiveBook,
-              private router: Router) {
+  private recentBookCount = 5;
+
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private dialog: MatDialog,
+    private activeBook: ActiveBook,
+    private router: Router
+  ) {
     this.activeBook.load('test.txt', Array.from(Array(100).keys())
       .map(i => 'line ' + ('' + i).padStart(4, '0'))
       .join('\n'));
@@ -22,6 +28,30 @@ export class AppComponent {
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
+  }
+
+  hasActiveBook(): boolean {
+    return this.activeBook.isLoaded();
+  }
+
+  getActiveBookId(): string {
+    return this.activeBook.id;
+  }
+
+  hasSavedBooks(): boolean {
+    return !!this.userService.getBooks().length;
+  }
+
+  getRecentSavedBookIds(): string[] {
+    return this.userService.getBooks().slice(0, this.recentBookCount);
+  }
+
+  hasNonRecentSavedBooks(): boolean {
+    return this.userService.getBooks().length > this.recentBookCount;
+  }
+
+  getSavedBookIds(): string[] {
+    return this.userService.getBooks();
   }
 
   getAuthUser(): string {

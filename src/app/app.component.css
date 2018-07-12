@@ -64,3 +64,7 @@ nav .authUser {
   display: flex;
   align-items: center;
 }
+
+.activeBook {
+  font-weight: bold;
+}
