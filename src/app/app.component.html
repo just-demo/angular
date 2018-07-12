@@ -1,5 +1,4 @@
-<!-- TODO: try using <mat-toolbar> to make it always visible even if there is scrolling on the page -->
-<nav>
+<mat-toolbar>
   <button mat-button [matMenuTriggerFor]="bookMenu" class="mainMenuItem">Book</button>
   <input type="file" hidden #bookUpload (change)="uploadBook($event.target.files.item(0)); bookUpload.value=''">
   <mat-menu #bookMenu="matMenu">
@@ -15,7 +14,6 @@
       {{getActiveBookId()}}
     </button>
   </mat-menu>
-
   <mat-menu #bookSavedMenu="matMenu">
     <ng-template matMenuContent>
       <button mat-menu-item *ngIf="!hasSavedBooks()" disabled>(None)</button>
@@ -25,25 +23,24 @@
       <button mat-menu-item *ngIf="hasNonRecentSavedBooks()" [routerLink]="['books']">Show All...</button>
     </ng-template>
   </mat-menu>
-
-
   <button mat-button class="mainMenuItem" [routerLink]="['study']">Study</button>
   <!-- Just an example -->
   <!--
   <mat-icon>face</mat-icon>
   <i class="material-icons">face</i>
   -->
+  <span class="fill-remaining-space"></span>
 
-  <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem right">Register</button>
-  <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem right" (click)="openLoginDialog()">Login</button>
+  <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem" (click)="openLoginDialog()">Login</button>
+  <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem">Register</button>
   <!-- TODO: make authUser clickable and make logout a menu item of it.
   Other menu items can be "Manage Data" and "Account Settings" -->
-  <button *ngIf="isAuthenticated()" mat-button class="mainMenuItem right" (click)="logout()">Logout</button>
-  <div *ngIf="isAuthenticated()" class="authUser right">
+  <div *ngIf="isAuthenticated()" class="authUser">
     <mat-icon>account_box</mat-icon>
     {{getAuthUser()}}
   </div>
-</nav>
+  <button *ngIf="isAuthenticated()" mat-button class="mainMenuItem" (click)="logout()">Logout</button>
+</mat-toolbar>
 <!-- TODO: create default home page with a list of saved books /books
 book -> saved -> top ten sorted by recent activity and All... pointed to home page /books
 -->

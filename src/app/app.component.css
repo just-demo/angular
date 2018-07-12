@@ -1,54 +1,13 @@
-/* AppComponent's private CSS styles */
-h1 {
-  font-size: 1.2em;
-  color: #999;
-  margin-bottom: 0;
+mat-toolbar {
+  height: 50px;
 }
 
-h2 {
-  font-size: 2em;
-  margin-top: 0;
-  padding-top: 0;
-}
-
-nav a {
-  padding: 5px 10px;
-  text-decoration: none;
-  /*margin-top: 10px;*/
+mat-toolbar .mainMenuItem {
   margin: 5px;
-  display: inline-block;
-  background-color: #ddd;
-  border-radius: 4px;
+  /*background-color: #f0f0f0;*/
 }
 
-nav a:visited, a:link {
-  color: #607d8b;
-}
-
-nav a:hover {
-  color: #039be5;
-  background-color: #cfd8dc;
-}
-
-nav a.active {
-  color: #039be5;
-}
-
-nav a {
-  /* in case there is no routerLink */
-  cursor: pointer;
-}
-
-nav .mainMenuItem {
-  margin: 5px;
-  background-color: #f0f0f0;
-}
-
-nav .right {
-  float: right;
-}
-
-nav .authUser {
+mat-toolbar .authUser {
   margin: 5px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 16px;
@@ -56,15 +15,19 @@ nav .authUser {
   font-weight: bold;
 }
 
-nav mat-icon {
+mat-toolbar mat-icon {
   padding-right: 5px;
 }
 
-nav .authUser {
+mat-toolbar .authUser {
   display: flex;
   align-items: center;
 }
 
 .activeBook {
   font-weight: bold;
+}
+
+.fill-remaining-space {
+  flex: 1 1 auto;
 }
