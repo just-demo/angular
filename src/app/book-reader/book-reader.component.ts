@@ -170,7 +170,7 @@ export class BookReaderComponent implements OnInit {
   openWordDialog(token: string): void {
     const word = this.bookDetails.words[token];
     const dialogRef = this.dialog.open(WordDialogComponent, {
-      width: '250px',
+      width: '300px',
       data: this.gatherDialogData(word)
     });
 

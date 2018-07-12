@@ -4,6 +4,7 @@ import {Credentials} from '../credentials';
 import {AppComponent} from '../app.component';
 import {BookReaderComponent} from '../book-reader/book-reader.component';
 import {FormControl} from '@angular/forms';
+import {UserService} from '../services/user.service';
 
 @Component({
   selector: 'app-word-dialog',
@@ -12,36 +13,21 @@ import {FormControl} from '@angular/forms';
 })
 export class WordDialogComponent {
   redirect: EventEmitter<string> = new EventEmitter<string>();
-  // selectedTabIndex = 0;
-  // customTranslation: string;
-  selected = {};
 
   constructor(
+    private userService: UserService,
     public dialogRef: MatDialogRef<BookReaderComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    // credentials = credentials || {
-    //   username: '',
-    //   password: ''
-    // };
+
   }
 
-  submit(): void {
-    // this.aaa.emit('dummy result emitted');
-    this.dialogRef.close();
-    // return 'dummy result returned';
+  isSelected(word: string, translation?: string): boolean {
+    return this.userService.isSelected(word, translation);
   }
 
-  cancel(): void {
-    this.dialogRef.close();
-  }
-
-  isSelected(translation: string): boolean {
-    return !!this.selected[translation];
-  }
-
-  toggleSelection(translation: string): void {
-    this.selected[translation] = !this.selected[translation];
+  toggleSelection(word: string, translation: string): void {
+    return this.userService.setSelected(word, translation, !this.userService.isSelected(word, translation));
   }
 
   redirectTo(word: string): void {

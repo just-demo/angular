@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ComparatorService, MatchResult} from './comparator.service';
 import {RandomService} from './random.service';
+import {UserService} from '../services/user.service';
 
 @Component({
   selector: 'app-study',
@@ -27,11 +28,15 @@ export class StudyComponent implements OnInit {
   matchResult: MatchResult;
   hintVisible = false;
 
-  constructor(private randomService: RandomService,
-              private comparatorService: ComparatorService) {
+  constructor(
+    private userService: UserService,
+    private randomService: RandomService,
+    private comparatorService: ComparatorService
+  ) {
   }
 
   ngOnInit() {
+    // this.userService.get
     this.translationMap = {
       'один': 'one',
       'два': 'two',
