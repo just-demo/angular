@@ -36,6 +36,8 @@
 
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem right">Register</button>
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem right" (click)="openLoginDialog()">Login</button>
+  <!-- TODO: make authUser clickable and make logout a menu item of it.
+  Other menu items can be "Manage Data" and "Account Settings" -->
   <button *ngIf="isAuthenticated()" mat-button class="mainMenuItem right" (click)="logout()">Logout</button>
   <div *ngIf="isAuthenticated()" class="authUser right">
     <mat-icon>account_box</mat-icon>

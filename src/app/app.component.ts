@@ -50,10 +50,6 @@ export class AppComponent {
     return this.userService.getBooks().length > this.recentBookCount;
   }
 
-  getSavedBookIds(): string[] {
-    return this.userService.getBooks();
-  }
-
   getAuthUser(): string {
     return this.authService.getAuthUser();
   }

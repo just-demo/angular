@@ -14,7 +14,6 @@ import {HeroSearchComponent} from './hero-search/hero-search.component';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {BackendRequestInterceptor} from './backend-request-interceptor';
-import {BookComponent} from './book/book.component';
 import {BookUploadComponent} from './book-upload/book-upload.component';
 import {BookEnterComponent} from './book-enter/book-enter.component';
 import {BookStatisticsComponent} from './book-statistics/book-statistics.component';
@@ -31,6 +30,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {WordDialogComponent} from './word-dialog/word-dialog.component';
 import {StudyComponent} from './study/study.component';
 import {IndexesPipe} from './pipes/indexes.pipe';
+import { BooksComponent } from './books/books.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +42,6 @@ import {IndexesPipe} from './pipes/indexes.pipe';
     HeroSearchComponent,
     LoginComponent,
     RegisterComponent,
-    BookComponent,
     BookUploadComponent,
     BookEnterComponent,
     BookStatisticsComponent,
@@ -54,7 +53,8 @@ import {IndexesPipe} from './pipes/indexes.pipe';
     BookUploadDialogComponent,
     WordDialogComponent,
     StudyComponent,
-    IndexesPipe
+    IndexesPipe,
+    BooksComponent
   ],
   imports: [
     NgbModule.forRoot(),
