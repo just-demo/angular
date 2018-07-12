@@ -23,7 +23,8 @@ export class BookReaderComponent implements OnInit {
   private charsPerLine = 50;
   private linesPerPage = 25;
   private bookDetails: BookDetails;
-  private lineIndexSelected = 0;
+  private lineIndexSelected;
+  private pagination: number[][];
 
   constructor(private bookParserService: BookParserService,
               private paginationService: PaginationService,
@@ -45,9 +46,6 @@ export class BookReaderComponent implements OnInit {
   }
 
   private init(bookId: string, pageId: string): void {
-    console.log('help!!!!!!');
-    console.log('actual id: ' + bookId);
-    console.log('expected id: ' + this.activeBook.id);
     if (this.activeBook.id !== bookId) {
       // TODO: retrieve from database;
       this.activeBook.load(bookId, 'Book not found...');
@@ -60,11 +58,6 @@ export class BookReaderComponent implements OnInit {
 
     this.setPageIndexSelected(parseInt(pageId, 10) - 1 || 0);
   }
-
-  // @HostListener('document:keydown', ['$event'])
-  // onKeyDown(event: KeyboardEvent): void {
-  //   console.log(event.key);
-  // }
 
   @HostListener('document:keydown.arrowright')
   private nextPage(): void {
@@ -81,16 +74,16 @@ export class BookReaderComponent implements OnInit {
     // TODO: consider books/:bookId/pages/:pageId/lines/:lineId with aliases or redirects:
     // books/:bookId/pages/:pageId == books/:bookId/pages/:pageId/lines/0
     // books/:bookId == books/:bookId/pages/0
-    this.lineIndexSelected = Math.max(0, this.lineIndexSelected - 1);
+    this.setLineIndexSelected(Math.max(0, this.lineIndexSelected - 1));
   }
 
   @HostListener('document:keydown.arrowdown')
   private lineDown(): void {
-    this.lineIndexSelected = Math.min( this.lineIndexSelected + 1, this.bookDetails.lines.length);
+    this.setLineIndexSelected(Math.min(this.lineIndexSelected + 1, this.bookDetails.lines.length));
   }
 
   getPageNavigation(): number[][] {
-    return this.paginationService.paginate(this.getPagesCount(), this.getPageIndexSelected(), 9);
+    return this.pagination;
   }
 
   // TODO: consider returning array of indexes instead of page...
@@ -101,24 +94,29 @@ export class BookReaderComponent implements OnInit {
     );
   }
 
-  private getPageIndexSelected(): number {
-    return Math.floor(this.lineIndexSelected / this.linesPerPage);
-  }
-
-  setPageIndexSelected(pageIndex: number): void {
-    this.lineIndexSelected = Math.min(Math.max(0, pageIndex * this.linesPerPage), this.bookDetails.lines.length - 1);
-  }
-
   isPageIndexSelected(index: number): boolean {
     return this.getPageIndexSelected() === index;
   }
 
-  private getPagesCount(): number {
-    return Math.ceil(this.bookDetails.lines.length / this.linesPerPage);
-  }
-
   isWord(token: string): boolean {
     return this.bookDetails.words.hasOwnProperty(token);
+  }
+
+  private getPageIndexSelected(): number {
+    return Math.floor(this.lineIndexSelected / this.linesPerPage);
+  }
+
+  private setPageIndexSelected(pageIndex: number): void {
+    this.setLineIndexSelected(Math.min(Math.max(0, pageIndex * this.linesPerPage), this.bookDetails.lines.length - 1));
+  }
+
+  private setLineIndexSelected(lineIndex: number): void {
+    this.lineIndexSelected = lineIndex;
+    this.pagination = this.paginationService.paginate(this.getPagesCount(), this.getPageIndexSelected(), 9);
+  }
+
+  private getPagesCount(): number {
+    return Math.ceil(this.bookDetails.lines.length / this.linesPerPage);
   }
 
   // getTranslationTooltip(token: string): string {
@@ -176,12 +174,7 @@ export class BookReaderComponent implements OnInit {
       data: this.gatherDialogData(word)
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('dialog output: ' + result);
-    });
-
     dialogRef.componentInstance.redirect.subscribe(redirectWord => {
-      console.log('Redirecting....');
       dialogRef.componentInstance.data = this.gatherDialogData(redirectWord);
       // dialogRef.close();
       // this.openWordDialog(redirectWord);

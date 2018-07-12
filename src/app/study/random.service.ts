@@ -13,8 +13,6 @@ export class RandomService {
    */
   randomIntArray(size: number): number[] {
     const randomValues = [];
-    console.log('Random size: ' + size);
-    // const orderedValues: number[] = [...Array(size).keys()];
     const orderedValues: number[] = Array.from(Array(size).keys());
     while (orderedValues.length) {
       const i = this.randomInt(orderedValues.length);

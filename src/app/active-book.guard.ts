@@ -13,9 +13,6 @@ export class ActiveBookGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    console.log('guard: ...');
-    console.log(next);
-    console.log(this.activeBook.loaded());
     return this.activeBook.loaded();
   }
 }

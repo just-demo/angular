@@ -54,8 +54,6 @@ export class BookStatisticsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('Statistics:');
-    console.log(this.statistics);
     // this.translations = this.translationService.getTranslations()
     // this.user = this.authService.isAuthenticated() ?
     // for (const group of this.statistics) {

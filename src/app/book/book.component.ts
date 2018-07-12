@@ -24,10 +24,7 @@ export class BookComponent implements OnInit {
   }
 
   private init(bookId: string): void {
-    console.log('help!!!!!!');
     // TODO: retrieve from database;
-    console.log('actual id: ' + bookId);
-    console.log('expected id: ' + this.activeBook.id);
     this.bookId = bookId;
     this.text += this.activeBook.id === bookId ? this.activeBook.text : 'Book not found...';
   }
