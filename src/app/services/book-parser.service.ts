@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {WORDS} from '../stub-words';
 import {GROUPS} from '../stub-groups';
-import {GroupService} from '../services/group.service';
+import {GroupService} from './group.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,12 @@ export class BookParserService {
     // groupService.getGroups().forEach(group => group.forEach(word => this.wordGroups[word] = group));
   }
 
-  parse(text: string, charsPerLine: number): BookDetails {
+  parse(text: string): {
+    tokens: string[],
+    words: any,
+    groups: any,
+    occurrences: any
+  } {
     const tokens: string[] = [];
     const words = {};
 
@@ -41,60 +46,18 @@ export class BookParserService {
       }
     }
 
-    const lines = this.splitIntoLines(tokens, charsPerLine);
     const occurrences = this.gatherWordOccurrences(tokens, words);
     const wordsSet: Set<string> = new Set(Object.values(words));
     const groups = this.group(Array.from(wordsSet));
-    return new BookDetails(lines, words, groups, occurrences);
+    return {
+      tokens: tokens,
+      words: words,
+      groups: groups,
+      occurrences: occurrences
+    };
   }
 
-  private group(words: string[]): any {
-    const groupBuffer = new Map<string, string[]>();
-    const groups = {};
-    words.forEach(word => {
-      const groupId = this.groupService.getGroup(word)[0] || word;
-      if (!groupBuffer.has(groupId)) {
-        groupBuffer.set(groupId, []);
-      }
-      groupBuffer.get(groupId).push(word);
-    });
-    groupBuffer.forEach(group => group.forEach(word => groups[word] = group));
-    return groups;
-  }
-
-  private gatherWordOccurrences(tokens: string[], words: any): any {
-    const wordOccurrences = {};
-    for (const token of tokens) {
-      if (words.hasOwnProperty(token)) {
-        const word = words[token];
-        wordOccurrences[word] = (wordOccurrences[word] || 0) + 1;
-      }
-    }
-    return wordOccurrences;
-  }
-
-  // TODO: remove if not needed anymore
-  // private splitIntoPages(tokens: string[], charsPerLine: number, linesPerPage: number): string[][][] {
-  //   const pages: string[][][] = [];
-  //   const lines = this.splitIntoLines(tokens, charsPerLine);
-  //   let page: string[][] = [];
-  //
-  //   for (const line of lines) {
-  //     page.push(line);
-  //     if (page.length >= linesPerPage) {
-  //       pages.push(page);
-  //       page = [];
-  //     }
-  //   }
-  //
-  //   if (page.length > 0) {
-  //     pages.push(page);
-  //   }
-  //
-  //   return pages;
-  // }
-
-  private splitIntoLines(tokens: string[], lineWidth: number): string[][] {
+  splitIntoLines(tokens: string[], lineWidth: number): string[][] {
     const lines: string[][] = [];
     let line: string[] = [];
 
@@ -121,6 +84,31 @@ export class BookParserService {
 
   private sumLength(...tokens: string[]): number {
     return tokens.reduce((length, token) => length + token.length, 0);
+  }
+
+  private group(words: string[]): any {
+    const groupBuffer = new Map<string, string[]>();
+    const groups = {};
+    words.forEach(word => {
+      const groupId = this.groupService.getGroup(word)[0] || word;
+      if (!groupBuffer.has(groupId)) {
+        groupBuffer.set(groupId, []);
+      }
+      groupBuffer.get(groupId).push(word);
+    });
+    groupBuffer.forEach(group => group.forEach(word => groups[word] = group));
+    return groups;
+  }
+
+  private gatherWordOccurrences(tokens: string[], words: any): any {
+    const wordOccurrences = {};
+    for (const token of tokens) {
+      if (words.hasOwnProperty(token)) {
+        const word = words[token];
+        wordOccurrences[word] = (wordOccurrences[word] || 0) + 1;
+      }
+    }
+    return wordOccurrences;
   }
 
   private reduceToken(token: string): string {
@@ -207,16 +195,5 @@ export class BookParserService {
       tokens.push(m[1]);
     }
     return tokens;
-  }
-}
-
-export class BookDetails {
-  constructor(
-    // public pages: string[][][],
-    public lines: string[][],
-    public words: any,
-    public groups: any,
-    public occurrences: any
-  ) {
   }
 }

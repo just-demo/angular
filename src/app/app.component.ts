@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AuthService} from './auth.service';
+import {AuthService} from './services/auth.service';
 import {MatDialog} from '@angular/material';
 import {LoginDialogComponent} from './login-dialog/login-dialog.component';
 import {ActiveBook} from './active-book';
@@ -21,6 +21,7 @@ export class AppComponent {
     private activeBook: ActiveBook,
     private router: Router
   ) {
+    // TODO: remove
     this.activeBook.load('test.txt', Array.from(Array(100).keys())
       .map(i => 'line ' + ('' + i).padStart(4, '0'))
       .join('\n'));

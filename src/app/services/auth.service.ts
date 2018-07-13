@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {MessageService} from './message.service';
-import {Credentials} from './credentials';
+import {Credentials} from '../credentials';
 import {Observable, of} from 'rxjs';
 
 @Injectable({
@@ -12,8 +11,7 @@ export class AuthService {
   private authUser = null;
 
   constructor(
-    private http: HttpClient,
-    private messageService: MessageService
+    private http: HttpClient
   ) {
     // TODO: remove hardcoded values
     this.authUser = 'test.user';
@@ -21,7 +19,6 @@ export class AuthService {
   }
 
   login(credentials: Credentials): Observable<Object> {
-    this.messageService.add(`Login with ${credentials.username}/${credentials.password}`);
     const response = this.http.post('/auth', credentials);
     response.subscribe(authHeaders => {
       this.authUser = credentials.username;
@@ -31,7 +28,6 @@ export class AuthService {
   }
 
   register(credentials: Credentials) {
-    this.messageService.add(`Register user with ${credentials.username}/${credentials.password}`);
     this.http.put('/auth', credentials).subscribe();
   }
 

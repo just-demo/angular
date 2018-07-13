@@ -1,10 +1,6 @@
-import {Component, HostListener, Input, OnInit} from '@angular/core';
-import {min} from 'rxjs/operators';
-import {WORDS} from '../stub-words';
-import {TRANSLATIONS} from '../stub-translations';
-import {BookDetails, BookParserService} from './book-parser.service';
+import {Component, HostListener, OnInit} from '@angular/core';
+import {BookDetails, BookParserService} from '../services/book-parser.service';
 import {PaginationService} from './pagination.service';
-import {LoginDialogComponent} from '../login-dialog/login-dialog.component';
 import {MatDialog} from '@angular/material';
 import {WordDialogComponent} from '../word-dialog/word-dialog.component';
 import {TranslationService} from '../services/translation.service';
@@ -18,12 +14,10 @@ import {ActiveBook} from '../active-book';
   styleUrls: ['./book-reader.component.css']
 })
 export class BookReaderComponent implements OnInit {
-  private bookId: string;
-
   private charsPerLine = 50;
   private linesPerPage = 25;
-  private bookDetails: BookDetails;
   private lineIndexSelected;
+  private lines: string[][];
   private pagination: number[][];
 
   constructor(private bookParserService: BookParserService,
@@ -31,32 +25,15 @@ export class BookReaderComponent implements OnInit {
               private translationService: TranslationService,
               private groupService: GroupService,
               private dialog: MatDialog,
-              public activeBook: ActiveBook,
+              private activeBook: ActiveBook,
               private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.lines = this.bookParserService.splitIntoLines(this.activeBook.tokens, this.charsPerLine);
     this.route.params.subscribe(params => {
-      this.init(params['bookId'], params['pageId']);
+      this.setPageIndexSelected(parseInt(params['pageId'], 10) - 1 || 0);
     });
-  }
-
-  isReady(): boolean {
-    return !!this.bookDetails;
-  }
-
-  private init(bookId: string, pageId: string): void {
-    if (this.activeBook.id !== bookId) {
-      // TODO: retrieve from database;
-      this.activeBook.load(bookId, 'Book not found...');
-    }
-
-    if (this.bookId !== this.activeBook.id) {
-      this.bookId = this.activeBook.id;
-      this.bookDetails = this.bookParserService.parse(this.activeBook.text, this.charsPerLine);
-    }
-
-    this.setPageIndexSelected(parseInt(pageId, 10) - 1 || 0);
   }
 
   @HostListener('document:keydown.arrowright')
@@ -71,9 +48,6 @@ export class BookReaderComponent implements OnInit {
 
   @HostListener('document:keydown.arrowup')
   private lineUp(): void {
-    // TODO: consider books/:bookId/pages/:pageId/lines/:lineId with aliases or redirects:
-    // books/:bookId/pages/:pageId == books/:bookId/pages/:pageId/lines/0
-    // books/:bookId == books/:bookId/pages/0
     this.setLineIndexSelected(this.lineIndexSelected - 1);
   }
 
@@ -87,15 +61,19 @@ export class BookReaderComponent implements OnInit {
     this.setLineIndexSelected(this.lineIndexSelected + Math.ceil(event.deltaY / 100));
   }
 
+  getBookId() {
+    return this.activeBook.id;
+  }
+
   getPageNavigation(): number[][] {
     return this.pagination;
   }
 
   // TODO: consider returning array of indexes instead of page...
   getPageSelected(): string[][] {
-    return this.bookDetails.lines.slice(
+    return this.lines.slice(
       this.lineIndexSelected,
-      Math.min(this.lineIndexSelected + this.linesPerPage, this.bookDetails.lines.length)
+      Math.min(this.lineIndexSelected + this.linesPerPage, this.lines.length)
     );
   }
 
@@ -104,7 +82,7 @@ export class BookReaderComponent implements OnInit {
   }
 
   isWord(token: string): boolean {
-    return this.bookDetails.words.hasOwnProperty(token);
+    return this.activeBook.words.hasOwnProperty(token);
   }
 
   private getPageIndexSelected(): number {
@@ -116,64 +94,40 @@ export class BookReaderComponent implements OnInit {
   }
 
   private setLineIndexSelected(lineIndex: number): void {
-    this.lineIndexSelected = Math.min(Math.max(0, lineIndex), this.bookDetails.lines.length - 1);
+    this.lineIndexSelected = Math.min(Math.max(0, lineIndex), this.lines.length - 1);
     this.pagination = this.paginationService.paginate(this.getPagesCount(), this.getPageIndexSelected(), 9);
   }
 
   private getPagesCount(): number {
-    return Math.ceil(this.bookDetails.lines.length / this.linesPerPage);
+    return Math.ceil(this.lines.length / this.linesPerPage);
   }
-
-  // getTranslationTooltip(token: string): string {
-  //   // console.log('building tooltip...');
-  //   const tooltipLines: string[] = [];
-  //   tooltipLines.push(...this.getTranslations(token));
-  //   if (tooltipLines.length === 0) {
-  //     tooltipLines.push('¯\\_(ツ)_/¯');
-  //   }
-  //   const maxLength = tooltipLines.reduce((length, line) => Math.max(length, line.length), 0);
-  //   const occurrence = this.getOccurrence(token) + '/' + this.getGroupOccurrence(token);
-  //   // console.log('occurrence: ' + occurrence);
-  //   tooltipLines.push('-' + this.padAround(' ' + occurrence + ' ', maxLength - 2, '-') + '-');
-  //   return tooltipLines.join('\n');
-  // }
-  //
-  // private padAround(str: string, targetLength: number, fillStr: string): string {
-  //   const padStart = Math.floor((targetLength - str.length) / 2) + str.length;
-  //   return str.padStart(padStart, fillStr).padEnd(targetLength, fillStr);
-  // }
 
   private getTranslations(word: string): string[] {
     return this.translationService.getTranslations(word);
   }
 
   private getOccurrence(word: string): string[] {
-    // const word = this.bookDetails.words[token];
-    return this.bookDetails.occurrences[word] || 0;
+    return this.activeBook.occurrences[word] || 0;
   }
 
   private getGroupOccurrence(word: string): string[] {
-    // const word = this.bookDetails.words[token];
-    const group: string[] = this.bookDetails.groups[word] || [];
-    return group.map(groupWord => this.bookDetails.occurrences[groupWord] || 0)
+    const group: string[] = this.activeBook.groups[word] || [];
+    return group.map(groupWord => this.activeBook.occurrences[groupWord] || 0)
       .reduce((groupOccurrence, wordOccurrence) => groupOccurrence + wordOccurrence, 0);
   }
 
   private getGroupOccurrences(word: string): any {
-    // const word = this.bookDetails.words[token];
-    // const group: string[] = this.bookDetails.groups[word] || [];
     const group: string[] = this.groupService.getGroup(word);
     const groupOccurrences = {};
     group
-    // not need to filter because group members are built based on real book tokens, so their appearance in the book is guaranteed
-      .filter(groupWord => this.bookDetails.occurrences[groupWord])
-      .forEach(groupWord => groupOccurrences[groupWord] = this.bookDetails.occurrences[groupWord]);
-    // console.log('Occc:' + JSON.stringify(groupOccurrences));
+    // no need to filter because group members are built based on real book tokens, so their appearance in the book is guaranteed
+      .filter(groupWord => this.activeBook.occurrences[groupWord])
+      .forEach(groupWord => groupOccurrences[groupWord] = this.activeBook.occurrences[groupWord]);
     return groupOccurrences;
   }
 
   openWordDialog(token: string): void {
-    const word = this.bookDetails.words[token];
+    const word = this.activeBook.words[token];
     const dialogRef = this.dialog.open(WordDialogComponent, {
       width: '300px',
       data: this.gatherDialogData(word)
@@ -181,8 +135,6 @@ export class BookReaderComponent implements OnInit {
 
     dialogRef.componentInstance.redirect.subscribe(redirectWord => {
       dialogRef.componentInstance.data = this.gatherDialogData(redirectWord);
-      // dialogRef.close();
-      // this.openWordDialog(redirectWord);
     });
   }
 

@@ -1,20 +1,36 @@
 import {Injectable} from '@angular/core';
+import {BookDetails, BookParserService} from './services/book-parser.service';
 
 @Injectable()
 export class ActiveBook {
-  public id: string;
-  public text: string;
+  id: string;
+  tokens: string[];
+  words: any;
+  groups: any;
+  occurrences: any;
+
+  constructor(private bookParserService: BookParserService) {
+  }
 
   clear(): void {
-    this.load(null, null);
+    this.id = null;
+    this.copyState({});
   }
 
   load(id: string, text: string): void {
+    const parseResult = this.bookParserService.parse(text);
+    this.copyState(parseResult);
     this.id = id;
-    this.text = text;
   }
 
   isLoaded(): boolean {
     return !!this.id;
+  }
+
+  private copyState(data: any): void {
+    this.tokens = data.tokens;
+    this.words = data.words;
+    this.groups = data.groups;
+    this.occurrences = data.occurrences;
   }
 }
