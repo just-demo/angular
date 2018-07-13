@@ -82,8 +82,7 @@ export class BookReaderComponent implements OnInit {
     this.setLineIndexSelected(this.lineIndexSelected + 1);
   }
 
-  @HostListener('window:mousewheel', ['$event'])
-  private onScrollWheel(event: WheelEvent): void {
+  scrollPage(event: WheelEvent): void {
     // 100 was determined empirically
     this.setLineIndexSelected(this.lineIndexSelected + Math.ceil(event.deltaY / 100));
   }
