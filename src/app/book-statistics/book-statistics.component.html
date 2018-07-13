@@ -1,16 +1,13 @@
-book-statistics works!
-<p>{{statistics | json}}</p>
-
-<table id="words">
-  <tr *ngFor="let group of statistics" class="group">
-    <td>
-      <table>
-        <tr *ngFor="let word of group | keys; let first = first" class="word">
-          <td><input type="text" name="text" value="{{word}}"/></td>
-          <td class="number">{{group[word]}}</td>
-          <td *ngIf="first" rowSpan="{{(group | keys).length}}">{{group | values | sum}}</td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+<!--book-statistics works!-->
+<!--<p>{{words | json}}</p>-->
+<!-- TODO: user Material Table with Paginator -->
+<mat-list>
+  <!--<h3 mat-subheader>Books Statistics</h3>-->
+  <ng-container *ngFor="let group of getWordsLimited(); let groupFirst = first">
+    <mat-list-item *ngFor="let word of group; let wordFirst = first">
+      <!-- TODO: not sure if mat-divider should be placed here - test it! -->
+      <mat-divider *ngIf="wordFirst && !groupFirst"></mat-divider>
+      {{word}} | {{getTranslation(word)}} | {{getOccurrence(word)}}
+    </mat-list-item>
+  </ng-container>
+</mat-list>

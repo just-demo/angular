@@ -30,7 +30,7 @@ export class TranslationService {
     return this.translations[word] || [];
   }
 
-  getTranslation(word: string): Observable<Object> {
-    return this.http.post('/translations', null);
+  getTranslation(word: string): string {
+    return this.getTranslations(word)[0];
   }
 }

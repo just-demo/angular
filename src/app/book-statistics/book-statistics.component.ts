@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {TranslationService} from '../services/translation.service';
 import {UserService} from '../services/user.service';
+import {ActiveBook} from '../active-book';
+import {KeyValue} from '../study/key-value';
 
 @Component({
   selector: 'app-book-statistics',
@@ -9,86 +11,52 @@ import {UserService} from '../services/user.service';
   styleUrls: ['./book-statistics.component.css']
 })
 export class BookStatisticsComponent implements OnInit {
-  @Input() statistics: any[];
-  private translations;
-  private user;
+  private wordsLimit = 100;
+  private words: string[][];
 
-
-  /*
-        .pipe(
-        switchMap(occurrences => forkJoin([
-          of(occurrences),
-          this.translationService.getTranslations(this.collectKeys(occurrences)),
-          this.authService.isAuthenticated() ? this.userService.getUser(this.authService.getAuthUser()) : of({})
-        ])),
-        map(results => {
-          const occurrences = results[0];
-          const translations = results[1];
-          const user = results[2];
-          const groups = [];
-          for (const occurrence of occurrences) {
-            const group = {};
-            let groupOccurrence = 0;
-            for (const word in occurrence) {
-              groupOccurrence += occurrence[word];
-              group[word] = {
-                occurrence: occurrence[word],
-                translations: translations[word],
-                translation: (user.translations || {})[word],
-                selected: (user.selected || []).includes(word),
-                ignored: (user.ignored || []).includes(word),
-              };
-            }
-            groups.push(group);
-          }
-
-          return groups;
-        })
-      ).subscribe(data => {
-
-   */
-
-  // statisticsGroups;
-
-  constructor(public translationService: TranslationService) {
+  constructor(
+    private translationService: TranslationService,
+    private activeBook: ActiveBook
+  ) {
   }
 
   ngOnInit() {
-    // this.translations = this.translationService.getTranslations()
-    // this.user = this.authService.isAuthenticated() ?
-    // for (const group of this.statistics) {
-    //   for (const word of)
-    // }
+    this.words = this.getSortedWords();
   }
 
-  // getTranslations(word: string): string[] {
-  //   return
-  // }
+  getWordsLimited(): string[][] {
+    return this.words.slice(0, this.wordsLimit);
+  }
 
-
-  /*
-this.userService.getUserId()
-  .switchMap(userResult =>
-    this.userService.getUserPermission(userResult.id)
-    .switchMap(permissionsResult =>
-      this.userService.getUserInfo(userResult.id)
-        .map(infoResult => ({
-          id: userResult.id,
-          name: userResult.name,
-          permissions: permissionsResult.permissions,
-          info: infoResult.info
-        }))
-    )
-  )
-  .subscribe(v => console.log('switchmap:', v));
-   */
-
-  private collectKeys(objects: any[]): any[] {
-    const keys = [];
-    for (const obj of objects) {
-      keys.push(...Object.keys(obj));
+  private getSortedWords(): string[][] {
+    const wordSortBuffer = {};
+    for (const word in this.activeBook.occurrences) {
+      const groupId = this.activeBook.groups[word][0];
+      if (!wordSortBuffer[groupId]) {
+        wordSortBuffer[groupId] = [];
+      }
+      wordSortBuffer[groupId].push(new KeyValue(word, this.activeBook.occurrences[word]));
     }
-    return keys;
+
+    const groupSortBuffer = [];
+    Object.values(wordSortBuffer).forEach(group => {
+      groupSortBuffer.push(new KeyValue(
+        group.sort((a, b) => (a.value > b.value) ? -1 : ((a.value < b.value) ? 1 : 0))
+          .map(keyValue => keyValue.key),
+        group.map(keyValue => keyValue.value)
+          .reduce((a, b) => a + b, 0)
+      ));
+    });
+
+    return groupSortBuffer.sort((a, b) => (a.value > b.value) ? -1 : ((a.value < b.value) ? 1 : 0))
+      .map(keyValue => keyValue.key);
   }
 
+  getOccurrence(word: string): number {
+    return this.activeBook.occurrences[word];
+  }
+
+  getTranslation(word: string): string {
+    return this.translationService.getTranslation(word);
+  }
 }
