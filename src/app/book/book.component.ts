@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BookParserService} from '../services/book-parser.service';
 import {ActiveBook} from '../active-book';
+import {BookReaderComponent} from '../book-reader/book-reader.component';
+import {BookStatisticsComponent} from '../book-statistics/book-statistics.component';
 
 @Component({
   selector: 'app-book',
@@ -9,6 +11,8 @@ import {ActiveBook} from '../active-book';
   styleUrls: ['./book.component.css']
 })
 export class BookComponent implements OnInit {
+  mode: string;
+
   constructor(
     private bookParserService: BookParserService,
     private activeBook: ActiveBook,
@@ -20,6 +24,24 @@ export class BookComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.initBook(params['bookId']);
     });
+  }
+
+  setMode(event: Object): void {
+    if (event instanceof BookReaderComponent) {
+      this.mode = 'pages';
+    } else if (event instanceof BookStatisticsComponent) {
+      this.mode = 'statistics';
+    } else {
+      this.mode = null;
+    }
+  }
+
+  isMode(mode: string): boolean {
+    return this.mode === mode;
+  }
+
+  getBookId(): string {
+    return this.activeBook.id;
   }
 
   private initBook(bookId: string): void {

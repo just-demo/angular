@@ -1,5 +1,5 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {BookDetails, BookParserService} from '../services/book-parser.service';
+import {BookParserService} from '../services/book-parser.service';
 import {PaginationService} from './pagination.service';
 import {MatDialog} from '@angular/material';
 import {WordDialogComponent} from '../word-dialog/word-dialog.component';
