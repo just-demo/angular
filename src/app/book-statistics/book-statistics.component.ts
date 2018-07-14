@@ -24,6 +24,15 @@ export class BookStatisticsComponent implements OnInit {
     this.words = this.getSortedWords();
   }
 
+
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  dataSource = ELEMENT_DATA;
+
+  onChangeParent(event: any): void {
+    console.log('Pagination parent...');
+    console.log(event);
+  }
+
   getWords(): string[][] {
     return this.words;
   }

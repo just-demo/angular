@@ -1,16 +1,46 @@
-<!--book-statistics works!-->
-<!--<p>{{words | json}}</p>-->
-<!-- TODO: user Material Table with Paginator -->
-<!-- TODO: create search input!!!!! -->
-{{getWords().length}}
-<mat-list>
-  <!--<h3 mat-subheader>Books Statistics</h3>-->
-  <ng-container *ngFor="let group of getWordsLimited(); let groupFirst = first">
-    <mat-list-item *ngFor="let word of group; let wordFirst = first">
-      <!-- TODO: not sure if mat-divider should be placed here - test it! -->
-      <!--<mat-divider *ngIf="wordFirst && !groupFirst"></mat-divider>-->
-      <div *ngIf="wordFirst && !groupFirst">=============</div>
-      {{word}} | {{getTranslation(word)}} | {{getOccurrence(word)}}
-    </mat-list-item>
+<app-book-statistics-pagination [length]="getWords().length" (change)="onChangeParent($event)"></app-book-statistics-pagination>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="index">
+    <th mat-header-cell *matHaederCellDef> No. </th>
+    <td mat-cell *matCellDef="let element"> {{element.index}} </td>
   </ng-container>
-</mat-list>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="weight">
+    <th mat-header-cell *matHeaderCellDef> Weight </th>
+    <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="symbol">
+    <th mat-header-cell *matHeaderCellDef> Symbol </th>
+    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<!--<mat-list>-->
+  <!--&lt;!&ndash;<h3 mat-subheader>Books Statistics</h3>&ndash;&gt;-->
+  <!--<ng-container *ngFor="let group of getWordsLimited(); let groupFirst = first">-->
+    <!--<mat-list-item *ngFor="let word of group; let wordFirst = first">-->
+      <!--&lt;!&ndash; TODO: not sure if mat-divider should be placed here - test it! &ndash;&gt;-->
+      <!--&lt;!&ndash;<mat-divider *ngIf="wordFirst && !groupFirst"></mat-divider>&ndash;&gt;-->
+      <!--<div *ngIf="wordFirst && !groupFirst">=============</div>-->
+      <!--{{word}} | {{getTranslation(word)}} | {{getOccurrence(word)}}-->
+    <!--</mat-list-item>-->
+  <!--</ng-container>-->
+<!--</mat-list>-->
