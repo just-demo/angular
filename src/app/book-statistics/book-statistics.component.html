@@ -1,12 +1,15 @@
 <!--book-statistics works!-->
 <!--<p>{{words | json}}</p>-->
 <!-- TODO: user Material Table with Paginator -->
+<!-- TODO: create search input!!!!! -->
+{{getWords().length}}
 <mat-list>
   <!--<h3 mat-subheader>Books Statistics</h3>-->
   <ng-container *ngFor="let group of getWordsLimited(); let groupFirst = first">
     <mat-list-item *ngFor="let word of group; let wordFirst = first">
       <!-- TODO: not sure if mat-divider should be placed here - test it! -->
-      <mat-divider *ngIf="wordFirst && !groupFirst"></mat-divider>
+      <!--<mat-divider *ngIf="wordFirst && !groupFirst"></mat-divider>-->
+      <div *ngIf="wordFirst && !groupFirst">=============</div>
       {{word}} | {{getTranslation(word)}} | {{getOccurrence(word)}}
     </mat-list-item>
   </ng-container>

@@ -24,6 +24,10 @@ export class BookStatisticsComponent implements OnInit {
     this.words = this.getSortedWords();
   }
 
+  getWords(): string[][] {
+    return this.words;
+  }
+
   getWordsLimited(): string[][] {
     return this.words.slice(0, this.wordsLimit);
   }
@@ -39,7 +43,7 @@ export class BookStatisticsComponent implements OnInit {
     }
 
     const groupSortBuffer = [];
-    Object.values(wordSortBuffer).forEach(group => {
+    Object.values(wordSortBuffer).forEach((group: KeyValue[]) => {
       groupSortBuffer.push(new KeyValue(
         group.sort((a, b) => (a.value > b.value) ? -1 : ((a.value < b.value) ? 1 : 0))
           .map(keyValue => keyValue.key),
