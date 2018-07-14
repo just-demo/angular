@@ -79,3 +79,7 @@
   /*color: #AAAAAA;*/
   /*cursor: pointer;*/
 /*}*/
+table {
+  width: 100%;
+  padding-left: 10px;
+}

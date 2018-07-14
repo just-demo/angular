@@ -26,7 +26,6 @@ import {StudyComponent} from './study/study.component';
 import {IndexesPipe} from './pipes/indexes.pipe';
 import { BooksComponent } from './books/books.component';
 import { BookComponent } from './book/book.component';
-import { BookStatisticsPaginationComponent } from './book-statistics-pagination/book-statistics-pagination.component';
 
 @NgModule({
   declarations: [
@@ -45,8 +44,7 @@ import { BookStatisticsPaginationComponent } from './book-statistics-pagination/
     StudyComponent,
     IndexesPipe,
     BooksComponent,
-    BookComponent,
-    BookStatisticsPaginationComponent
+    BookComponent
   ],
   imports: [
     NgbModule.forRoot(),
