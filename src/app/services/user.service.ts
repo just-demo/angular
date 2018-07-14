@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 })
 export class UserService {
   private translations = {};
+  // Array.from({length: 20}, (_, i) => 'test' + i + '.txt');
   private books: string[] = Array.from(Array(20).keys()).map(i => 'test' + i + '.txt');
 
   constructor(private http: HttpClient) {

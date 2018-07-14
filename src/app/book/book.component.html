@@ -27,6 +27,10 @@
          [routerLink]="['/books', getBookId(), 'statistics']">
       <mat-icon>list</mat-icon>
     </div>
+    <!-- TODO: implement Delete icon!!! -->
+    <div class="bottom">
+      <mat-icon>delete</mat-icon>
+    </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <router-outlet (activate)="setMode($event)"></router-outlet>

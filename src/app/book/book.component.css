@@ -1,11 +1,3 @@
-/*.book-options {*/
-/*!*display: flex;*!*/
-/*!*align-items: center;*!*/
-/*!*justify-content: center;*!*/
-/*width: 50px;*/
-/*background: #f0f0f0;*/
-/*}*/
-
 ::ng-deep .mat-drawer-container {
   background-color: white;
 }
@@ -18,6 +10,11 @@
   background-color: #f0f0f0;
 }
 
+.bottom {
+  position: fixed;
+  bottom: 20px;
+}
+
 mat-icon {
   margin: 2px;
   padding: 2px;
@@ -25,13 +22,6 @@ mat-icon {
   background-color: white;
 }
 
-/*.title-wrapper {*/
-  /*text-align: center;*/
-/*}*/
-
-/*.title {*/
-  /*!*display: flex;*!*/
-  /*align-items: center;*/
-  /*!*text-align: center;*!*/
-  /*!*margin: auto;*!*/
-/*}*/
+mat-sidenav-content {
+  padding: 10px 0 0 10px;
+}

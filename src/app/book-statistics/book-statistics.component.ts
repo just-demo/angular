@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {TranslationService} from '../services/translation.service';
 import {ActiveBook} from '../active-book';
 import {KeyValue} from '../study/key-value';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 
 @Component({
   selector: 'app-book-statistics',
@@ -14,6 +14,7 @@ export class BookStatisticsComponent implements OnInit {
   dataSource: MatTableDataSource<string[]>;
   pageSizeOptions: number[];
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private translationService: TranslationService,
@@ -27,21 +28,19 @@ export class BookStatisticsComponent implements OnInit {
     this.pageSizeOptions = this.getPageSizeOptions(words.length);
     this.dataSource = new MatTableDataSource<string[]>(words);
     this.dataSource.paginator = this.paginator;
-    console.log(this.paginator);
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.paginator.firstPage();
+
   }
 
   private getPageSizeOptions(length: number) {
     return Array.from(Array(Math.ceil(Math.log10(Math.max(length || 10)))).keys())
       .map(i => Math.pow(10, i + 1));
   }
-
-  // getWords(): string[][] {
-  //   return this.words;
-  // }
-  //
-  // getWordsLimited(): string[][] {
-  //   return this.words.slice(0, this.wordsLimit);
-  // }
 
   private getSortedWords(): string[][] {
     const wordSortBuffer = {};

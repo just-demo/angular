@@ -32,6 +32,7 @@
   <div id="options">
     <mat-form-field>
       <!-- TODO: implement sequence mode as <mat-sidenav> similar to book mode -->
+      <!-- TODO: implement Settings as <mat-sidenav> where selected words can be edited, removed and so on  -->
       <mat-select [(value)]="sequenceMode" placeholder="Sequence mode" (openedChange)="$event || focusInput()">
         <mat-option *ngFor="let mode of sequenceModes | keys" [value]="mode">
           {{sequenceModes[mode]}}
