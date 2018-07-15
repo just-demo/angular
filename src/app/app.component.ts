@@ -74,6 +74,7 @@ export class AppComponent {
     this.activeBook.clear();
     const reader = new FileReader();
     reader.onload = () => {
+      this.userService.addBook(file.name, reader.result);
       this.activeBook.load(file.name, reader.result);
       this.router.navigate(['books', this.activeBook.id, 'pages', 1]);
       // this.router.navigateByUrl('book');

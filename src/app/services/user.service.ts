@@ -21,6 +21,19 @@ export class UserService {
     return this.books;
   }
 
+  addBook(name: string, text: string): void {
+    // TODO: implement http request
+    this.books.unshift(name);
+  }
+
+  deleteBook(bookId: string): void {
+    // TODO: implement http request
+    const index = this.books.indexOf(bookId);
+    if (index > -1) {
+      this.books.splice(index, 1);
+    }
+  }
+
   /**
    * @return {word: [translation, ...]}
    */

@@ -10,15 +10,15 @@
       <td mat-cell *matCellDef="let index = index">{{index + 1}}</td>
     </ng-container>
     <ng-container matColumnDef="word">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Word</th>
+      <th mat-header-cell *matHeaderCellDef>Word</th>
       <td mat-cell *matCellDef="let words">{{words.join(', ')}}</td>
     </ng-container>
     <ng-container matColumnDef="translation">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Translation</th>
+      <th mat-header-cell *matHeaderCellDef>Translation</th>
       <td mat-cell *matCellDef="let words">{{getTranslation(words[0])}}<span *ngIf="words.length > 1">, ...</span></td>
     </ng-container>
     <ng-container matColumnDef="occurrence">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Occurrence</th>
+      <th mat-header-cell *matHeaderCellDef>Occurrence</th>
       <td mat-cell *matCellDef="let words">{{sumOccurrence(words)}}</td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="columns"></tr>

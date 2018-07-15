@@ -1,9 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {BookParserService} from '../services/book-parser.service';
 import {ActiveBook} from '../active-book';
 import {BookReaderComponent} from '../book-reader/book-reader.component';
 import {BookStatisticsComponent} from '../book-statistics/book-statistics.component';
+import {MatDialog} from '@angular/material';
+import {LoginDialogComponent} from '../login-dialog/login-dialog.component';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+import {UserService} from '../services/user.service';
 
 @Component({
   selector: 'app-book',
@@ -14,15 +18,32 @@ export class BookComponent implements OnInit {
   mode: string;
 
   constructor(
+    private dialog: MatDialog,
     private bookParserService: BookParserService,
+    private userService: UserService,
     private activeBook: ActiveBook,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.initBook(params['bookId']);
+    });
+  }
+
+  deleteBook(): void {
+    this.dialog.open(ConfirmationDialogComponent, {
+      autoFocus: false,
+      data: 'Are you sure you want to delete the book?'
+    }).afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        console.log(`Deleting ${this.activeBook.id}...`);
+        this.userService.deleteBook(this.activeBook.id);
+        this.activeBook.clear();
+        this.router.navigateByUrl('/');
+      }
     });
   }
 

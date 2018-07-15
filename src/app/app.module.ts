@@ -26,6 +26,7 @@ import {StudyComponent} from './study/study.component';
 import {IndexesPipe} from './pipes/indexes.pipe';
 import { BooksComponent } from './books/books.component';
 import { BookComponent } from './book/book.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { BookComponent } from './book/book.component';
     StudyComponent,
     IndexesPipe,
     BooksComponent,
-    BookComponent
+    BookComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     NgbModule.forRoot(),
@@ -67,7 +69,7 @@ import { BookComponent } from './book/book.component';
     {provide: HTTP_INTERCEPTORS, useClass: BackendRequestInterceptor, multi: true},
     ActiveBook
   ],
-  entryComponents: [LoginDialogComponent, WordDialogComponent],
+  entryComponents: [LoginDialogComponent, WordDialogComponent, ConfirmationDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {
