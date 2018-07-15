@@ -1,4 +1,7 @@
 <!-- TODO: implement fixed column width, at least for occurrence and index -->
+<!-- TODO: implement indicator of study (study selection will be managed on translation dialog because translation should be selected for study -->
+<!-- TODO: fix borders -->
+<!-- TODO: implement ingore feature, consider chackboxes or icons -->
 <mat-form-field>
   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
 </mat-form-field>
@@ -29,15 +32,16 @@
           <ng-container matColumnDef="occurrence">
             <td mat-cell *matCellDef="let word">{{getOccurrence(word)}}</td>
           </ng-container>
-          <!--<tr mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>-->
-          <tr mat-row *matRowDef="let word; columns: ['word', 'translation', 'occurrence']"></tr>
-
+          <tr mat-row *matRowDef="let word; columns: ['word', 'translation', 'occurrence']"
+              (click)="openWordDialog(word)"></tr>
         </table>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="['words', 'translations', 'occurrences']; sticky: true"></tr>
-    <tr mat-row *matRowDef="let words; columns: ['words', 'translations', 'occurrences']" (click)="expandedWords = expandedWords === words ? undefined : words"></tr>
+    <tr mat-row *matRowDef="let words; columns: ['words', 'translations', 'occurrences']"
+        [class.multiple]="words.length > 1"
+        (click)="words.length > 1 ? toggleExpandedWords(words) : openWordDialog(words[0])"></tr>
     <tr mat-row *matRowDef="let words; columns: ['wordDetails']" class="word-details-row"></tr>
   </table>
   <mat-paginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>

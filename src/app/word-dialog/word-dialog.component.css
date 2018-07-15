@@ -26,6 +26,10 @@ mat-icon {
   align-items: center;
 }
 
+.translation:hover, .groupMember:hover {
+  background-color: #f0f0f0;
+}
+
 .hidden {
   visibility: hidden;
 }

@@ -3,8 +3,6 @@ import {BookParserService} from '../services/book-parser.service';
 import {PaginationService} from './pagination.service';
 import {MatDialog} from '@angular/material';
 import {WordDialogComponent} from '../word-dialog/word-dialog.component';
-import {TranslationService} from '../services/translation.service';
-import {GroupService} from '../services/group.service';
 import {ActivatedRoute} from '@angular/router';
 import {ActiveBook} from '../active-book';
 
@@ -22,8 +20,6 @@ export class BookReaderComponent implements OnInit {
 
   constructor(private bookParserService: BookParserService,
               private paginationService: PaginationService,
-              private translationService: TranslationService,
-              private groupService: GroupService,
               private dialog: MatDialog,
               private activeBook: ActiveBook,
               private route: ActivatedRoute) {
@@ -59,10 +55,6 @@ export class BookReaderComponent implements OnInit {
   scrollPage(event: WheelEvent): void {
     // 100 was determined empirically
     this.setLineIndexSelected(this.lineIndexSelected + Math.ceil(event.deltaY / 100));
-  }
-
-  getBookId() {
-    return this.activeBook.id;
   }
 
   getPageNavigation(): number[][] {
@@ -102,49 +94,10 @@ export class BookReaderComponent implements OnInit {
     return Math.ceil(this.lines.length / this.linesPerPage);
   }
 
-  private getTranslations(word: string): string[] {
-    return this.translationService.getTranslations(word);
-  }
-
-  private getOccurrence(word: string): string[] {
-    return this.activeBook.occurrences[word] || 0;
-  }
-
-  private getGroupOccurrence(word: string): string[] {
-    const group: string[] = this.activeBook.groups[word] || [];
-    return group.map(groupWord => this.activeBook.occurrences[groupWord] || 0)
-      .reduce((groupOccurrence, wordOccurrence) => groupOccurrence + wordOccurrence, 0);
-  }
-
-  private getGroupOccurrences(word: string): any {
-    const group: string[] = this.groupService.getGroup(word);
-    const groupOccurrences = {};
-    group
-    // no need to filter because group members are built based on real book tokens, so their appearance in the book is guaranteed
-      .filter(groupWord => this.activeBook.occurrences[groupWord])
-      .forEach(groupWord => groupOccurrences[groupWord] = this.activeBook.occurrences[groupWord]);
-    return groupOccurrences;
-  }
-
   openWordDialog(token: string): void {
-    const word = this.activeBook.words[token];
-    const dialogRef = this.dialog.open(WordDialogComponent, {
+    this.dialog.open(WordDialogComponent, {
       width: '300px',
-      data: this.gatherDialogData(word)
+      data: this.activeBook.words[token]
     });
-
-    dialogRef.componentInstance.redirect.subscribe(redirectWord => {
-      dialogRef.componentInstance.data = this.gatherDialogData(redirectWord);
-    });
-  }
-
-  private gatherDialogData(word: string): any {
-    return {
-      word: word,
-      translations: this.getTranslations(word),
-      groupOccurrence: this.getGroupOccurrence(word),
-      occurrence: this.getOccurrence(word),
-      groupOccurrences: this.getGroupOccurrences(word)
-    };
   }
 }

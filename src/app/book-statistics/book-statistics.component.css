@@ -3,6 +3,10 @@ table {
   /*padding-left: 10px;*/
 }
 
+tr:hover {
+  background-color: #eee;
+}
+
 table.main th {
   border-bottom-width: 2px;
 }
@@ -11,9 +15,13 @@ td.wordDetails {
   padding: 0 !important;
 }
 
-td.wordDetails tr {
-  background-color: #f0f0f0
+td.wordDetails td {
+  border: 0;
 }
+
+/*td.wordDetails tr {*/
+  /*background-color: #f0f0f0*/
+/*}*/
 
 
 .mat-form-field {
@@ -32,4 +40,9 @@ tr:not(.mat-header-row):not(.word-details-row) {
 
 tr.word-details-row {
   height: 0;
+}
+
+tr.multiple {
+  font-weight: bold;
+  /*background-color: #f5f5f5;*/
 }
