@@ -3,7 +3,7 @@
   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
 </mat-form-field>
 <div>
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="main">
     <ng-container matColumnDef="words">
       <th mat-header-cell *matHeaderCellDef>Word</th>
       <td mat-cell *matCellDef="let words">{{words.join(', ')}}</td>
@@ -17,28 +17,28 @@
       <td mat-cell *matCellDef="let words">{{sumOccurrence(words)}}</td>
     </ng-container>
 
-    <ng-container matColumnDef="word">
-      <td mat-cell *matCellDef="let word">
-        <div [@wordsExpand]="word === expandedWords ? 'expanded' : 'collapsed'">{{word[0]}}</div>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="translation">
-      <td mat-cell *matCellDef="let word">
-        <div [@wordsExpand]="word === expandedWords ? 'expanded' : 'collapsed'">{{getTranslation(word[0])}}</div>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="occurrence">
-      <td mat-cell *matCellDef="let word">
-        <div [@wordsExpand]="word === expandedWords ? 'expanded' : 'collapsed'">{{getOccurrence(word[0])}}</div>
+    <ng-container matColumnDef="wordDetails">
+      <td mat-cell *matCellDef="let words" [attr.colspan]="3" class="wordDetails">
+        <table mat-table [dataSource]="words" [@wordsExpand]="words === expandedWords ? 'expanded' : 'collapsed'">
+          <ng-container matColumnDef="word">
+            <td mat-cell *matCellDef="let word">{{word}}</td>
+          </ng-container>
+          <ng-container matColumnDef="translation">
+            <td mat-cell *matCellDef="let word">{{getTranslation(word)}}</td>
+          </ng-container>
+          <ng-container matColumnDef="occurrence">
+            <td mat-cell *matCellDef="let word">{{getOccurrence(word)}}</td>
+          </ng-container>
+          <!--<tr mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>-->
+          <tr mat-row *matRowDef="let word; columns: ['word', 'translation', 'occurrence']"></tr>
+
+        </table>
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-header-row *matHeaderRowDef="['words', 'translations', 'occurrences']; sticky: true"></tr>
     <tr mat-row *matRowDef="let words; columns: ['words', 'translations', 'occurrences']" (click)="expandedWords = expandedWords === words ? undefined : words"></tr>
-    <!--<ng-container *ngFor="let word of words">-->
-      <!--<tr mat-row *matRowDef="let words; columns: ['word', 'translation', 'occurrence']"></tr>-->
-    <!--</ng-container>-->
-    <tr mat-row *matRowDef="let words; columns: ['word', 'translation', 'occurrence']" class="word-details-row"></tr>
+    <tr mat-row *matRowDef="let words; columns: ['wordDetails']" class="word-details-row"></tr>
   </table>
   <mat-paginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>
 </div>

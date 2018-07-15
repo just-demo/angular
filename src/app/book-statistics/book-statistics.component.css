@@ -3,6 +3,19 @@ table {
   /*padding-left: 10px;*/
 }
 
+table.main th {
+  border-bottom-width: 2px;
+}
+
+td.wordDetails {
+  padding: 0 !important;
+}
+
+td.wordDetails tr {
+  background-color: #f0f0f0
+}
+
+
 .mat-form-field {
   font-size: 14px;
   width: 100%;
@@ -13,11 +26,10 @@ td, th {
 }
 
 
-tr:not(.word-details-row) {
+tr:not(.mat-header-row):not(.word-details-row) {
   cursor: pointer;
 }
 
 tr.word-details-row {
   height: 0;
-  background-color: #fafafa;
 }
