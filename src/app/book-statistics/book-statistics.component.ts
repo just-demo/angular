@@ -6,6 +6,7 @@ import {KeyValue} from '../study/key-value';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {WordDialogComponent} from '../word-dialog/word-dialog.component';
+import {UserService} from '../services/user.service';
 
 @Component({
   selector: 'app-book-statistics',
@@ -24,11 +25,13 @@ export class BookStatisticsComponent implements OnInit {
   dataSource: MatTableDataSource<string[]>;
   pageSizeOptions: number[];
   expandedWords: string[];
+  showIgnored = true;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private translationService: TranslationService,
+    private userService: UserService,
     private activeBook: ActiveBook,
     private dialog: MatDialog
   ) {
@@ -38,8 +41,23 @@ export class BookStatisticsComponent implements OnInit {
     const words = this.getSortedWords();
     this.pageSizeOptions = this.getPageSizeOptions(words.length);
     this.dataSource = new MatTableDataSource<string[]>(words);
+    // TODO: treat (display/ignore/filter) group members independently, find a way to group them visually
+    const defaultFilterPredicate = this.dataSource.filterPredicate;
+    this.dataSource.filterPredicate = (data, filter) => {
+      return defaultFilterPredicate(data, filter) && (this.showIgnored || this.isAnyNotIgnored(data));
+    };
+    // console.log('Default predicate');
+    // console.log(this.dataSource.filterPredicate);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  private isAnyNotIgnored(words: string[]): boolean {
+    return words.some(word => this.isNotIgnored(word));
+  }
+
+  private isNotIgnored(word: string): boolean {
+    return !this.userService.isIgnored(word);
   }
 
   applyFilter(filterValue: string) {

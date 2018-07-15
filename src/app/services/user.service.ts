@@ -74,6 +74,11 @@ export class UserService {
     );
   }
 
+  isIgnored(word: string): boolean {
+    // TODO: implement
+    return false;
+  }
+
   private putTranslation(word: string, translation: string, status: boolean): void {
     this.translations[word] = this.translations[word] || {};
     this.translations[word][translation] = status;
