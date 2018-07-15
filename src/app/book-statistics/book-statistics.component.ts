@@ -1,18 +1,27 @@
+///<reference path="../../../node_modules/@angular/animations/src/animation_metadata.d.ts"/>
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {TranslationService} from '../services/translation.service';
 import {ActiveBook} from '../active-book';
 import {KeyValue} from '../study/key-value';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-book-statistics',
   templateUrl: './book-statistics.component.html',
-  styleUrls: ['./book-statistics.component.css']
+  styleUrls: ['./book-statistics.component.css'],
+  animations: [
+    trigger('wordsExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class BookStatisticsComponent implements OnInit {
-  columns: string[] = ['index', 'word', 'translation', 'occurrence'];
   dataSource: MatTableDataSource<string[]>;
   pageSizeOptions: number[];
+  expandedWords: string[];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 

@@ -11,3 +11,13 @@ table {
 td, th {
   width: 25%;
 }
+
+
+tr:not(.word-details-row) {
+  cursor: pointer;
+}
+
+tr.word-details-row {
+  height: 0;
+  background-color: #fafafa;
+}
