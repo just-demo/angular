@@ -1,9 +1,9 @@
 ///<reference path="../../../node_modules/@angular/animations/src/animation_metadata.d.ts"/>
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {TranslationService} from '../services/translation.service';
 import {ActiveBook} from '../active-book';
 import {KeyValue} from '../study/key-value';
-import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatPaginator, MatSort, MatTable, MatTableDataSource} from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {WordDialogComponent} from '../word-dialog/word-dialog.component';
 import {UserService} from '../services/user.service';
@@ -24,7 +24,6 @@ export class BookStatisticsComponent implements OnInit {
   // mainColumns: string[] = ['word', 'translation', 'occurrence'];
   dataSource: MatTableDataSource<string>;
   pageSizeOptions: number[];
-  expandedWords: string[];
   showHidden = true;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -45,8 +44,8 @@ export class BookStatisticsComponent implements OnInit {
     // TODO: find a way to group related words visually
     const defaultFilterPredicate = this.dataSource.filterPredicate;
     this.dataSource.filterPredicate = (data, filter) => {
-      // TODO: make hidden take effect!!!
-      return defaultFilterPredicate(data, filter) && (this.showHidden || !this.isHidden(data));
+      // Trimming filter is needed here because refreshTable appends a dummy space to trigger refreshing the table
+      return defaultFilterPredicate(data, filter.trim()) && (this.showHidden || !this.isHidden(data));
     };
     // console.log('Default predicate');
     // console.log(this.dataSource.filterPredicate);
@@ -59,10 +58,6 @@ export class BookStatisticsComponent implements OnInit {
     this.dataSource.paginator.firstPage();
   }
 
-  toggleExpandedWords(words: string[]): void {
-    this.expandedWords = this.expandedWords === words ? undefined : words;
-  }
-
   openWordDialog(word: string): void {
     this.dialog.open(WordDialogComponent, {
       width: '300px',
@@ -72,6 +67,24 @@ export class BookStatisticsComponent implements OnInit {
 
   toggleVisibility(word: string): void {
     this.userService.setHidden(word, !this.userService.isHidden(word));
+    this.refreshTable();
+  }
+
+  getOccurrence(word: string): number {
+    return this.activeBook.occurrences[word];
+  }
+
+  getTranslations(word: string): string[] {
+    return this.translationService.getTranslations(word);
+  }
+
+  isHidden(word: string): boolean {
+    return this.userService.isHidden(word);
+  }
+
+  refreshTable() {
+    // TODO: find an better way to refresh table
+    this.dataSource.filter += ' ';
   }
 
   private getPageSizeOptions(length: number) {
@@ -104,25 +117,5 @@ export class BookStatisticsComponent implements OnInit {
       .map(keyValue => keyValue.key)
       .forEach(words => flatWords.push(...words));
     return flatWords;
-  }
-
-  sumOccurrence(words: string[]): number {
-    return words.map(word => this.getOccurrence(word)).reduce((a, b) => a + b, 0);
-  }
-
-  getOccurrence(word: string): number {
-    return this.activeBook.occurrences[word];
-  }
-
-  getTranslation(word: string): string {
-    return this.translationService.getTranslation(word);
-  }
-
-  getTranslations(word: string): string[] {
-    return this.translationService.getTranslations(word);
-  }
-
-  isHidden(word: string): boolean {
-    return this.userService.isHidden(word);
   }
 }
