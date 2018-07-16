@@ -22,7 +22,7 @@ import {UserService} from '../services/user.service';
 })
 export class BookStatisticsComponent implements OnInit {
   // mainColumns: string[] = ['word', 'translation', 'occurrence'];
-  dataSource: MatTableDataSource<string[]>;
+  dataSource: MatTableDataSource<string>;
   pageSizeOptions: number[];
   expandedWords: string[];
   showHidden = true;
@@ -41,11 +41,12 @@ export class BookStatisticsComponent implements OnInit {
   ngOnInit() {
     const words = this.getSortedWords();
     this.pageSizeOptions = this.getPageSizeOptions(words.length);
-    this.dataSource = new MatTableDataSource<string[]>(words);
-    // TODO: treat (display/ignore/filter) group members independently, find a way to group them visually
+    this.dataSource = new MatTableDataSource<string>(words);
+    // TODO: find a way to group related words visually
     const defaultFilterPredicate = this.dataSource.filterPredicate;
     this.dataSource.filterPredicate = (data, filter) => {
-      return defaultFilterPredicate(data, filter) && (this.showHidden || this.isAnyNotIgnored(data));
+      // TODO: make hidden take effect!!!
+      return defaultFilterPredicate(data, filter) && (this.showHidden || !this.isHidden(data));
     };
     // console.log('Default predicate');
     // console.log(this.dataSource.filterPredicate);
@@ -53,18 +54,9 @@ export class BookStatisticsComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  private isAnyNotIgnored(words: string[]): boolean {
-    return words.some(word => this.isNotIgnored(word));
-  }
-
-  private isNotIgnored(word: string): boolean {
-    return !this.userService.isIgnored(word);
-  }
-
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
     this.dataSource.paginator.firstPage();
-
   }
 
   toggleExpandedWords(words: string[]): void {
@@ -78,12 +70,16 @@ export class BookStatisticsComponent implements OnInit {
     });
   }
 
+  toggleVisibility(word: string): void {
+    this.userService.setHidden(word, !this.userService.isHidden(word));
+  }
+
   private getPageSizeOptions(length: number) {
     return Array.from(Array(Math.ceil(Math.log10(Math.max(length || 10)))).keys())
       .map(i => Math.pow(10, i + 1));
   }
 
-  private getSortedWords(): string[][] {
+  private getSortedWords(): string[] {
     const wordSortBuffer = {};
     for (const word in this.activeBook.occurrences) {
       const groupId = this.activeBook.groups[word][0];
@@ -103,8 +99,11 @@ export class BookStatisticsComponent implements OnInit {
       ));
     });
 
-    return groupSortBuffer.sort((a, b) => (a.value > b.value) ? -1 : ((a.value < b.value) ? 1 : 0))
-      .map(keyValue => keyValue.key);
+    const flatWords = [];
+    groupSortBuffer.sort((a, b) => (a.value > b.value) ? -1 : ((a.value < b.value) ? 1 : 0))
+      .map(keyValue => keyValue.key)
+      .forEach(words => flatWords.push(...words));
+    return flatWords;
   }
 
   sumOccurrence(words: string[]): number {
@@ -117,5 +116,13 @@ export class BookStatisticsComponent implements OnInit {
 
   getTranslation(word: string): string {
     return this.translationService.getTranslation(word);
+  }
+
+  getTranslations(word: string): string[] {
+    return this.translationService.getTranslations(word);
+  }
+
+  isHidden(word: string): boolean {
+    return this.userService.isHidden(word);
   }
 }

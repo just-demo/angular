@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 })
 export class UserService {
   private translations = {};
+  private hidden = {};
   // Array.from({length: 20}, (_, i) => 'test' + i + '.txt');
   private books: string[] = Array.from(Array(20).keys()).map(i => 'test' + i + '.txt');
 
@@ -59,6 +60,7 @@ export class UserService {
     return translations;
   }
 
+  // TODO: selected instead of translation?
   addTranslation(word: string, translation: string): void {
     this.putTranslation(word, translation, true);
   }
@@ -74,9 +76,12 @@ export class UserService {
     );
   }
 
-  isIgnored(word: string): boolean {
-    // TODO: implement
-    return false;
+  isHidden(word: string): boolean {
+    return !!this.hidden[word];
+  }
+
+  setHidden(word: string, hidden: boolean) {
+    return this.hidden[word] = hidden;
   }
 
   private putTranslation(word: string, translation: string, status: boolean): void {
