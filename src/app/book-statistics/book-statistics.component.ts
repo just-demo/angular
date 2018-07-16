@@ -25,7 +25,8 @@ export class BookStatisticsComponent implements OnInit {
   dataSource: MatTableDataSource<string[]>;
   pageSizeOptions: number[];
   expandedWords: string[];
-  showIgnored = true;
+  showHidden = true;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -44,7 +45,7 @@ export class BookStatisticsComponent implements OnInit {
     // TODO: treat (display/ignore/filter) group members independently, find a way to group them visually
     const defaultFilterPredicate = this.dataSource.filterPredicate;
     this.dataSource.filterPredicate = (data, filter) => {
-      return defaultFilterPredicate(data, filter) && (this.showIgnored || this.isAnyNotIgnored(data));
+      return defaultFilterPredicate(data, filter) && (this.showHidden || this.isAnyNotIgnored(data));
     };
     // console.log('Default predicate');
     // console.log(this.dataSource.filterPredicate);

@@ -2,9 +2,13 @@
 <!-- TODO: implement indicator of study (study selection will be managed on translation dialog because translation should be selected for study -->
 <!-- TODO: fix borders -->
 <!-- TODO: implement ingore feature, consider chackboxes or icons -->
-<mat-form-field>
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-</mat-form-field>
+<div>
+  <mat-form-field class="search">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+  </mat-form-field>
+  <span class="fill-remaining-space"></span>
+  <mat-slide-toggle [(ngModel)]="showHidden">Hidden</mat-slide-toggle>
+</div>
 <div>
   <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="main">
     <ng-container matColumnDef="words">
