@@ -1,10 +1,5 @@
 table {
   width: 100%;
-  /*padding-left: 10px;*/
-}
-
-tr:hover {
-  background-color: #eee;
 }
 
 table.main th {
@@ -19,11 +14,6 @@ td.wordDetails td {
   border: 0;
 }
 
-/*td.wordDetails tr {*/
-  /*background-color: #f0f0f0*/
-/*}*/
-
-
 .mat-form-field {
   font-size: 14px;
   width: 100%;
@@ -33,9 +23,9 @@ td, th {
   width: 25%;
 }
 
-
-tr:not(.mat-header-row):not(.word-details-row) {
+tr:not(.mat-header-row):not(.word-details-row):hover {
   cursor: pointer;
+  background-color: #eee;
 }
 
 tr.word-details-row {

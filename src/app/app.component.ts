@@ -70,6 +70,10 @@ export class AppComponent {
     this.authService.logout();
   }
 
+  openSettings(): void {
+    console.log('Settings will be implemented as routerLink...');
+  }
+
   uploadBook(file: File) {
     this.activeBook.clear();
     const reader = new FileReader();

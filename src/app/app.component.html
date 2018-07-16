@@ -1,4 +1,5 @@
 <mat-toolbar>
+  <button mat-button [routerLink]="['/']" class="mainMenuItem home"><mat-icon>home</mat-icon></button>
   <button mat-button [matMenuTriggerFor]="bookMenu" class="mainMenuItem">Book</button>
   <input type="file" hidden #bookUpload (change)="uploadBook($event.target.files.item(0)); bookUpload.value=''">
   <mat-menu #bookMenu="matMenu">
@@ -24,22 +25,20 @@
     </ng-template>
   </mat-menu>
   <button mat-button class="mainMenuItem" [routerLink]="['study']">Study</button>
-  <!-- Just an example -->
-  <!--
-  <mat-icon>face</mat-icon>
-  <i class="material-icons">face</i>
-  -->
+
   <span class="fill-remaining-space"></span>
 
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem" (click)="openLoginDialog()">Login</button>
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem">Register</button>
-  <!-- TODO: make authUser clickable and make logout a menu item of it.
-  Other menu items can be "Manage Data" and "Account Settings" -->
-  <div *ngIf="isAuthenticated()" class="authUser">
+  <button *ngIf="isAuthenticated()" mat-button class="mainMenuItem" [matMenuTriggerFor]="userMenu">
     <mat-icon>account_box</mat-icon>
     {{getAuthUser()}}
-  </div>
-  <button *ngIf="isAuthenticated()" mat-button class="mainMenuItem" (click)="logout()">Logout</button>
+  </button>
+  <!-- TODO: create Settings page with tabs: Account, Data -->
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item (click)="logout()">Logout</button>
+    <button mat-menu-item (click)="openSettings()">Settings...</button>
+  </mat-menu>
 </mat-toolbar>
 <!-- TODO: create default home page with a list of saved books /books
 book -> saved -> top ten sorted by recent activity and All... pointed to home page /books

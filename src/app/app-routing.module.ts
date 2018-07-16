@@ -6,8 +6,10 @@ import {StudyComponent} from './study/study.component';
 import {BookReaderComponent} from './book-reader/book-reader.component';
 import {BooksComponent} from './books/books.component';
 import {BookComponent} from './book/book.component';
+import {HomeComponent} from './home/home.component';
 
 const routes: Routes = [
+  {path: '', component: HomeComponent},
   {path: 'books', component: BooksComponent},
   {
     path: 'books/:bookId',

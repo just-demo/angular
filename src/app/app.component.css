@@ -1,10 +1,16 @@
 mat-toolbar {
   height: 50px;
+  padding: 0;
 }
 
 mat-toolbar .mainMenuItem {
-  margin: 5px;
-  /*background-color: #f0f0f0;*/
+  height: 100%;
+}
+
+mat-toolbar .mainMenuItem.home {
+  min-width: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 mat-toolbar .authUser {
@@ -15,7 +21,7 @@ mat-toolbar .authUser {
   font-weight: bold;
 }
 
-mat-toolbar mat-icon {
+mat-toolbar .authUser mat-icon {
   padding-right: 5px;
 }
 

@@ -27,6 +27,7 @@ import {IndexesPipe} from './pipes/indexes.pipe';
 import { BooksComponent } from './books/books.component';
 import { BookComponent } from './book/book.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     IndexesPipe,
     BooksComponent,
     BookComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    HomeComponent
   ],
   imports: [
     NgbModule.forRoot(),

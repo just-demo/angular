@@ -1,0 +1,6 @@
+<div class="message">
+  Read easily and learn effectively!
+</div>
+<mat-grid-list cols="5" rowHeight="3:4" gutterSize="10">
+  <mat-grid-tile *ngFor="let bookId of getSavedBookIds()" [routerLink]="['/books', bookId]">{{bookId}}</mat-grid-tile>
+</mat-grid-list>
