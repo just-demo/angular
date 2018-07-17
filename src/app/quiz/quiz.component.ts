@@ -5,11 +5,11 @@ import {UserService} from '../services/user.service';
 import {KeyValue} from './key-value';
 
 @Component({
-  selector: 'app-study',
-  templateUrl: './study.component.html',
-  styleUrls: ['./study.component.css']
+  selector: 'app-quiz',
+  templateUrl: './quiz.component.html',
+  styleUrls: ['./quiz.component.css']
 })
-export class StudyComponent implements OnInit {
+export class QuizComponent implements OnInit {
   @ViewChild('input') input: ElementRef;
   sequenceModes = {
     'uniform': 'Uniform',

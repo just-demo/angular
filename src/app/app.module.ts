@@ -22,7 +22,7 @@ import {MaterialAllModule} from './material-all/material-all.module';
 import {ActiveBook} from './active-book';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {WordDialogComponent} from './word-dialog/word-dialog.component';
-import {StudyComponent} from './study/study.component';
+import {QuizComponent} from './quiz/quiz.component';
 import {IndexesPipe} from './pipes/indexes.pipe';
 import { BooksComponent } from './books/books.component';
 import { BookComponent } from './book/book.component';
@@ -43,7 +43,7 @@ import { HomeComponent } from './home/home.component';
     BookReaderComponent,
     LoginDialogComponent,
     WordDialogComponent,
-    StudyComponent,
+    QuizComponent,
     IndexesPipe,
     BooksComponent,
     BookComponent,

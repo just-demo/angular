@@ -22,6 +22,14 @@ mat-icon {
   background-color: white;
 }
 
+mat-icon:hover {
+  background-color: #eee;
+}
+
+.bookMode:hover {
+  background-color: #aaa;
+}
+
 mat-sidenav-content {
   padding: 10px 0 0 10px;
 }

@@ -39,6 +39,11 @@ span.pageIndex.selected {
   border-color: #dedede;
 }
 
+.pageIndex:hover {
+  background-color: #eee;
+  border-color: #aaa;
+}
+
 ::ng-deep .mat-tooltip  {
   white-space: pre;
   font-family: monospace;

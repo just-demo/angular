@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {BookStatisticsComponent} from './book-statistics/book-statistics.component';
 import {ActiveBookGuard} from './active-book.guard';
-import {StudyComponent} from './study/study.component';
+import {QuizComponent} from './quiz/quiz.component';
 import {BookReaderComponent} from './book-reader/book-reader.component';
 import {BooksComponent} from './books/books.component';
 import {BookComponent} from './book/book.component';
@@ -21,7 +21,7 @@ const routes: Routes = [
       {path: 'statistics', component: BookStatisticsComponent},
     ]
   },
-  {path: 'study', component: StudyComponent}
+  {path: 'quiz', component: QuizComponent}
 ];
 
 @NgModule({

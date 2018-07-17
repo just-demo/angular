@@ -2,23 +2,15 @@
 import {ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {TranslationService} from '../services/translation.service';
 import {ActiveBook} from '../active-book';
-import {KeyValue} from '../study/key-value';
-import {MatDialog, MatPaginator, MatSort, MatTable, MatTableDataSource} from '@angular/material';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import {KeyValue} from '../quiz/key-value';
+import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {WordDialogComponent} from '../word-dialog/word-dialog.component';
 import {UserService} from '../services/user.service';
 
 @Component({
   selector: 'app-book-statistics',
   templateUrl: './book-statistics.component.html',
-  styleUrls: ['./book-statistics.component.css'],
-  animations: [
-    trigger('wordsExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
-      state('expanded', style({height: '*'})),
-      // transition('expanded <=> collapsed', animate('5s cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+  styleUrls: ['./book-statistics.component.css']
 })
 export class BookStatisticsComponent implements OnInit {
   // mainColumns: string[] = ['word', 'translation', 'occurrence'];
