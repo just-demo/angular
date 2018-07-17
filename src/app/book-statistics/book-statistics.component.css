@@ -35,17 +35,29 @@ tr:not(.mat-header-row):hover {
 td:last-child {
   padding-right: 7px !important;
   text-align: center;
-  background-color: #fff;
 }
-
 
 td:last-child:hover {
   cursor: pointer;
   background-color: #aaa;
 }
 
-mat-form-field.search {
+.searchInput {
   width: 300px;
+  padding-left: 5px;
+  float: left;
+}
+
+.visibilityInput {
+  float: right;
+}
+
+::ng-deep .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: #777;
+}
+
+::ng-deep .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb{
+  background-color: #333;
 }
 
 mat-slide-toggle {
@@ -54,4 +66,10 @@ mat-slide-toggle {
 
 mat-slide-toggle mat-icon {
   padding-top: 4px;
+}
+
+mat-icon.study {
+  height: auto;
+  width: auto;
+  font-size: 13px;
 }

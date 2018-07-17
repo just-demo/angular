@@ -82,6 +82,10 @@ export class BookStatisticsComponent implements OnInit {
     return this.userService.isHidden(word);
   }
 
+  isSelected(word: string, translation?: string): boolean {
+    return this.userService.hasTranslation(word, translation);
+  }
+
   refreshTable() {
     // TODO: find an better way to refresh table
     this.dataSource.filter += ' ';

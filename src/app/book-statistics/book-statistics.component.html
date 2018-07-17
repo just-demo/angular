@@ -1,12 +1,8 @@
-<!-- TODO: implement fixed column width, at least for occurrence and index -->
-<!-- TODO: implement indicator of study (study selection will be managed on translation dialog because translation should be selected for study -->
-<!-- TODO: fix borders -->
-<!-- TODO: implement ingore feature, consider chackboxes or icons -->
 <div>
-  <mat-form-field class="search">
+  <mat-form-field class="searchInput">
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
   </mat-form-field>
-  <mat-slide-toggle [(ngModel)]="showHidden" color="primary" (change)="refreshTable()">
+  <mat-slide-toggle [(ngModel)]="showHidden" color="primary" (change)="refreshTable()" class="visibilityInput">
     <mat-icon [class.disabled]="!showHidden">visibility_off</mat-icon>
   </mat-slide-toggle>
 </div>
@@ -18,7 +14,12 @@
     </ng-container>
     <ng-container matColumnDef="translation">
       <th mat-header-cell *matHeaderCellDef>Translation</th>
-      <td mat-cell *matCellDef="let word" (click)="openWordDialog(word)">{{getTranslations(word).join(', ')}}</td>
+      <td mat-cell *matCellDef="let word" (click)="openWordDialog(word)">
+        <ng-container *ngFor="let translation of getTranslations(word); let index = index">
+          <span *ngIf="index">, </span>{{translation}}<mat-icon *ngIf="isSelected(word, translation)" class="study">school</mat-icon>
+        </ng-container>
+        <!--{{getTranslations(word).join(', ')}}-->
+      </td>
     </ng-container>
     <ng-container matColumnDef="occurrence">
       <th mat-header-cell *matHeaderCellDef>Occurrence</th>
