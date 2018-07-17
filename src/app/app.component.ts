@@ -5,6 +5,7 @@ import {LoginDialogComponent} from './login-dialog/login-dialog.component';
 import {ActiveBook} from './active-book';
 import {Router} from '@angular/router';
 import {UserService} from './services/user.service';
+import {TitleService} from './services/title.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import {UserService} from './services/user.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  title: string = null;
   private recentBookCount = 5;
 
   constructor(
@@ -19,12 +21,15 @@ export class AppComponent {
     private userService: UserService,
     private dialog: MatDialog,
     private activeBook: ActiveBook,
-    private router: Router
+    private router: Router,
+    private titleService: TitleService
   ) {
     // TODO: remove
     this.activeBook.load('test.txt', Array.from(Array(100).keys())
       .map(i => 'line ' + ('' + i).padStart(4, '0'))
       .join('\n'));
+
+    titleService.subscribeTitle(title => this.title = title);
   }
 
   isAuthenticated(): boolean {

@@ -1,17 +1,18 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ComparatorService, MatchResult} from './comparator.service';
 import {RandomService} from './random.service';
 import {UserService} from '../services/user.service';
 import {KeyValue} from './key-value';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {MatDialog} from '@angular/material';
+import {TitleService} from '../services/title.service';
 
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
   styleUrls: ['./quiz.component.css']
 })
-export class QuizComponent implements OnInit {
+export class QuizComponent implements OnInit, OnDestroy {
   @ViewChild('input') input: ElementRef;
   sequenceModes = {
     'uniform': 'Uniform',
@@ -31,6 +32,7 @@ export class QuizComponent implements OnInit {
   hintVisible = false;
 
   constructor(
+    private titleService: TitleService,
     private dialog: MatDialog,
     private userService: UserService,
     private randomService: RandomService,
@@ -39,6 +41,7 @@ export class QuizComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.titleService.setTitle('Quiz');
     const translations = this.userService.getTranslations();
     Object.keys(translations).forEach(value => translations[value].forEach(key =>
       this.translations.push(new KeyValue(key, value))
@@ -46,6 +49,10 @@ export class QuizComponent implements OnInit {
     this.sequenceIndex = -1;
     this.history = [];
     this.next();
+  }
+
+  ngOnDestroy(): void {
+    this.titleService.clearTitle();
   }
 
   onKeyDown(event: KeyboardEvent): void {

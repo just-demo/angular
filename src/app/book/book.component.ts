@@ -1,23 +1,24 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BookParserService} from '../services/book-parser.service';
 import {ActiveBook} from '../active-book';
 import {BookReaderComponent} from '../book-reader/book-reader.component';
 import {BookStatisticsComponent} from '../book-statistics/book-statistics.component';
 import {MatDialog} from '@angular/material';
-import {LoginDialogComponent} from '../login-dialog/login-dialog.component';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {UserService} from '../services/user.service';
+import {TitleService} from '../services/title.service';
 
 @Component({
   selector: 'app-book',
   templateUrl: './book.component.html',
   styleUrls: ['./book.component.css']
 })
-export class BookComponent implements OnInit {
+export class BookComponent implements OnInit, OnDestroy {
   mode: string;
 
   constructor(
+    private titleService: TitleService,
     private dialog: MatDialog,
     private bookParserService: BookParserService,
     private userService: UserService,
@@ -30,7 +31,12 @@ export class BookComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.initBook(params['bookId']);
+      this.titleService.setTitle(this.activeBook.id);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.titleService.clearTitle();
   }
 
   deleteBook(): void {

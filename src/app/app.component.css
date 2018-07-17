@@ -35,5 +35,6 @@ mat-toolbar .authUser {
 }
 
 .fill-remaining-space {
+  text-align: center;
   flex: 1 1 auto;
 }
