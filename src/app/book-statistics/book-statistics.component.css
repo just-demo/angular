@@ -3,7 +3,7 @@ table {
 }
 
 td.mat-cell, th.mat-header-cell {
-  padding-left: 15px;
+  padding-left: 7px;
 }
 
 .mat-form-field {
@@ -15,26 +15,33 @@ mat-icon.disabled {
   color: #aaa;
 }
 
-/* TODO: check if column widths are configurable in Material Table*/
-td:nth-child(1), th:nth-child(1) {
+th:nth-child(1) {
   width: 10%;
 }
 
-td:nth-child(2), th:nth-child(2) {
+th:nth-child(2) {
   width: 80%;
 }
 
-td:nth-child(3), th:nth-child(3) {
-  width: 5%;
-}
-
-td:nth-child(4), th:nth-child(4) {
+th:nth-child(n+3) {
   width: 5%;
 }
 
 tr:not(.mat-header-row):hover {
   cursor: pointer;
   background-color: #eee;
+}
+
+td:last-child {
+  padding-right: 7px !important;
+  text-align: center;
+  background-color: #fff;
+}
+
+
+td:last-child:hover {
+  cursor: pointer;
+  background-color: #aaa;
 }
 
 mat-form-field.search {
