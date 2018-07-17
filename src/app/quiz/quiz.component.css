@@ -58,3 +58,23 @@ button:hover {
 span.counter {
   margin-left: 10pt;
 }
+
+mat-icon {
+  margin: 2px;
+  padding: 2px;
+  cursor: pointer;
+  background-color: white;
+}
+
+mat-icon:hover {
+  background-color: #eee;
+}
+
+::ng-deep .mat-drawer-container {
+  background-color: white;
+}
+
+.bottom {
+  position: fixed;
+  bottom: 20px;
+}

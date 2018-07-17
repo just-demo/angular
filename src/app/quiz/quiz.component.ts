@@ -3,6 +3,8 @@ import {ComparatorService, MatchResult} from './comparator.service';
 import {RandomService} from './random.service';
 import {UserService} from '../services/user.service';
 import {KeyValue} from './key-value';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-quiz',
@@ -29,6 +31,7 @@ export class QuizComponent implements OnInit {
   hintVisible = false;
 
   constructor(
+    private dialog: MatDialog,
     private userService: UserService,
     private randomService: RandomService,
     private comparatorService: ComparatorService
@@ -130,6 +133,20 @@ export class QuizComponent implements OnInit {
 
   focusInput(): void {
     this.input.nativeElement.focus();
+  }
+
+  delete(): void {
+    this.dialog.open(ConfirmationDialogComponent, {
+      autoFocus: false,
+      data: 'Are you sure you want to remove current word from quiz?'
+    }).afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        console.log(`Removing ${this.getTranslationKey()}: ${this.getTranslationValue()}`);
+        this.userService.removeTranslation(this.getTranslationKey(), this.getTranslationValue());
+        this.translations.splice(this.getCurrentIndex(), 1);
+        // TODO: fix randomIndexes as well!!!
+      }
+    });
   }
 
   private getCurrentIndex(): number {
