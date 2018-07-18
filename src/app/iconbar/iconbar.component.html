@@ -1,18 +1,14 @@
-<p>
-  iconbar works!
-</p>
-
-<ng-content select="mat-icon"></ng-content>
-<!--<ng-content></ng-content>-->
-
-<!--<ng-container *ngFor="let icon of icons">-->
-  <!--&lt;!&ndash;<ng-container *ngComponentOutlet="icon">&ndash;&gt;-->
-  <!--<ng-container [ngTemplateOutlet]="icon">-->
-  <!--</ng-container>-->
-<!--</ng-container>-->
-<!--<mat-tab-group>-->
-<!--<mat-tab *ngFor="let tab of icons">-->
-<!--<ng-container *ngComponentOutlet="tab.component">-->
-<!--</ng-container>-->
-<!--</mat-tab>-->
-<!--</mat-tab-group>-->
+<mat-sidenav-container autosize>
+  <!--<mat-sidenav (click)="onClick($event)" mode="side" opened disableClose [fixedInViewport]="true" [fixedTopGap]="65">-->
+  <mat-sidenav mode="side" opened disableClose [fixedInViewport]="true" [fixedTopGap]="65">
+    <div class="top">
+      <ng-content select="mat-icon:not(.bottom)"></ng-content>
+    </div>
+    <div class="bottom">
+      <ng-content select="mat-icon.bottom"></ng-content>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <ng-content select=":not(mat-icon)"></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -18,7 +18,8 @@ const routes: Routes = [
     component: BookComponent,
     canActivate: [ActiveBookGuard],
     children: [
-      {path: '', redirectTo: 'pages/1', pathMatch: 'full'},
+      {path: '', redirectTo: 'pages', pathMatch: 'full'},
+      {path: 'pages', redirectTo: 'pages/1', pathMatch: 'full'},
       {path: 'pages/:pageId', component: BookReaderComponent},
       {path: 'statistics', component: BookStatisticsComponent},
     ]

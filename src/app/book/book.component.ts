@@ -2,8 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BookParserService} from '../services/book-parser.service';
 import {ActiveBook} from '../active-book';
-import {BookReaderComponent} from '../book-reader/book-reader.component';
-import {BookStatisticsComponent} from '../book-statistics/book-statistics.component';
 import {MatDialog} from '@angular/material';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {UserService} from '../services/user.service';
@@ -15,8 +13,6 @@ import {TitleService} from '../services/title.service';
   styleUrls: ['./book.component.css']
 })
 export class BookComponent implements OnInit, OnDestroy {
-  mode: string;
-
   constructor(
     private titleService: TitleService,
     private dialog: MatDialog,
@@ -51,20 +47,6 @@ export class BookComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl('/');
       }
     });
-  }
-
-  setMode(event: Object): void {
-    if (event instanceof BookReaderComponent) {
-      this.mode = 'pages';
-    } else if (event instanceof BookStatisticsComponent) {
-      this.mode = 'statistics';
-    } else {
-      this.mode = null;
-    }
-  }
-
-  isMode(mode: string): boolean {
-    return this.mode === mode;
   }
 
   getBookId(): string {

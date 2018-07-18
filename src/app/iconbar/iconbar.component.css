@@ -1,0 +1,29 @@
+::ng-deep .mat-drawer-container {
+  background-color: white;
+}
+
+::ng-deep .mat-sidenav .mat-icon {
+  display: block;
+  padding: 13px;
+  margin: 0;
+  background-color: white;
+}
+
+::ng-deep .mat-sidenav .mat-icon:hover {
+  cursor: pointer;
+  background-color: #ccc;
+}
+
+::ng-deep .mat-sidenav .mat-icon.active:not(:hover) {
+  background-color: #eee;
+}
+
+.mat-sidenav-content {
+  padding: 10px 0 0 10px;
+}
+
+.bottom {
+  position: fixed;
+  bottom: 10px;
+}
+
