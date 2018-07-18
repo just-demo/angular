@@ -11,21 +11,21 @@
     <button mat-menu-item [matMenuTriggerFor]="bookSavedMenu" [disabled]="!isAuthenticated()">Saved</button>
     <!-- TODO: show active book item if present, consider naming it Draft with a submenu with single item -->
     <mat-divider *ngIf="hasActiveBook()"></mat-divider>
-    <button class="activeBook" mat-menu-item *ngIf="hasActiveBook()" [routerLink]="['books', getActiveBookId()]">
+    <button class="activeBook" mat-menu-item *ngIf="hasActiveBook()" [routerLink]="['/books', getActiveBookId()]">
       {{getActiveBookId()}}
     </button>
   </mat-menu>
   <mat-menu #bookSavedMenu="matMenu">
     <ng-template matMenuContent>
       <button mat-menu-item *ngIf="!hasSavedBooks()" disabled>(None)</button>
-      <button mat-menu-item *ngFor="let bookId of getRecentSavedBookIds()" [routerLink]="['books', bookId]">{{bookId}}
+      <button mat-menu-item *ngFor="let bookId of getRecentSavedBookIds()" [routerLink]="['/books', bookId]">{{bookId}}
       </button>
       <mat-divider *ngIf="hasNonRecentSavedBooks()"></mat-divider>
-      <button mat-menu-item *ngIf="hasNonRecentSavedBooks()" routerLink="data" [queryParams]="{tab: 0}">Show All...</button>
+      <button mat-menu-item *ngIf="hasNonRecentSavedBooks()" [routerLink]="['/data', 'words']">Show All...</button>
     </ng-template>
   </mat-menu>
 
-  <button mat-button class="mainMenuItem" routerLink="quiz">Quiz</button>
+  <button mat-button class="mainMenuItem" routerLink="/quiz">Quiz</button>
 
   <span class="fill-remaining-space">{{title}}</span>
 
@@ -39,8 +39,8 @@
   <!-- TODO: redirect to Data tabs (Books (read icon), Quiz (school icon), Hidden (eye icon) from different places -->
   <mat-menu #userMenu="matMenu">
     <button mat-menu-item (click)="logout()">Logout</button>
-    <button mat-menu-item routerLink="settings">Settings...</button>
-    <button mat-menu-item routerLink="data">Data...</button>
+    <button mat-menu-item routerLink="/settings">Settings...</button>
+    <button mat-menu-item routerLink="/data">Data...</button>
   </mat-menu>
 </mat-toolbar>
 <!-- TODO: create default home page with a list of saved books /books

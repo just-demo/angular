@@ -9,6 +9,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class UserDataComponent implements OnInit, OnDestroy {
   selectedIndex: number;
+  private tabs = ['words', 'selected', 'hidden'];
 
   constructor(
     private route: ActivatedRoute,
@@ -18,9 +19,7 @@ export class UserDataComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.titleService.setTitle('User Data');
-    this.route.queryParams.subscribe(params => {
-      this.selectedIndex = params['tab'];
-    });
+    this.selectedIndex = this.tabs.indexOf(this.route.snapshot.paramMap.get('tab'));
   }
 
   ngOnDestroy(): void {

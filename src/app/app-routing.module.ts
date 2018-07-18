@@ -24,9 +24,11 @@ const routes: Routes = [
       {path: 'statistics', component: BookStatisticsComponent},
     ]
   },
-  {path: 'quiz', component: QuizComponent},
+  {path: 'quiz', redirectTo: 'quiz/uniform', pathMatch: 'full'},
+  {path: 'quiz/:mode', component: QuizComponent},
   {path: 'settings', component: SettingsComponent},
-  {path: 'data', component: UserDataComponent}
+  {path: 'data', redirectTo: 'data/words', pathMatch: 'full'},
+  {path: 'data/:tab', component: UserDataComponent},
 ];
 
 @NgModule({

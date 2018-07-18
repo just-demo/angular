@@ -6,6 +6,7 @@ import {KeyValue} from './key-value';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {MatDialog} from '@angular/material';
 import {TitleService} from '../services/title.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-quiz',
@@ -14,11 +15,7 @@ import {TitleService} from '../services/title.service';
 })
 export class QuizComponent implements OnInit, OnDestroy {
   @ViewChild('input') input: ElementRef;
-  sequenceModes = {
-    'uniform': 'Uniform',
-    'ordered': 'Ordered',
-    'random': 'Random'
-  };
+  sequenceModes = ['uniform', 'ordered', 'random'];
 
   translations: KeyValue[] = [];
   sequenceIndex: number;
@@ -26,7 +23,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   randomIndexes: number[];
   history: number[];
   inputTranslation: string;
-  sequenceMode = 'uniform';
+  sequenceMode;
   resultType: string; // pass, check
   matchResult: MatchResult;
   hintVisible = false;
@@ -36,19 +33,21 @@ export class QuizComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private userService: UserService,
     private randomService: RandomService,
-    private comparatorService: ComparatorService
+    private comparatorService: ComparatorService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
   }
 
   ngOnInit() {
-    this.titleService.setTitle('Quiz');
-    const translations = this.userService.getTranslations();
-    Object.keys(translations).forEach(value => translations[value].forEach(key =>
-      this.translations.push(new KeyValue(key, value))
-    ));
-    this.sequenceIndex = -1;
-    this.history = [];
-    this.next();
+    this.route.params.subscribe(params => {
+      const mode = params['mode'];
+      if (this.sequenceModes.indexOf(mode) < 0) {
+        this.router.navigateByUrl('quiz');
+      } else {
+        this.startQuiz(mode);
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -77,18 +76,24 @@ export class QuizComponent implements OnInit, OnDestroy {
   next(): void {
     this.sequenceIndex = (this.sequenceIndex + 1) % this.translations.length;
     let currentIndex;
-    if (this.sequenceMode === 'random') {
-      currentIndex = this.randomService.randomInt(this.translations.length);
-    } else if (this.sequenceMode === 'ordered') {
-      currentIndex = this.sequenceIndex;
-    } else if (this.sequenceMode === 'uniform') {
-      if (this.sequenceIndex === 0 || !this.randomIndexes) {
-        this.randomIndexes = this.randomService.randomIntArray(this.translations.length);
-      }
-      currentIndex = this.randomIndexes[this.sequenceIndex];
+    console.log(this.sequenceMode);
+    switch (this.sequenceMode) {
+      case 'uniform':
+        // TODO: optimize
+        if (this.sequenceIndex === 0 || !this.randomIndexes) {
+          this.randomIndexes = this.randomService.randomIntArray(this.translations.length);
+        }
+        currentIndex = this.randomIndexes[this.sequenceIndex];
+        break;
+      case 'ordered':
+        currentIndex = this.sequenceIndex;
+        break;
+      case 'random':
+        currentIndex = this.randomService.randomInt(this.translations.length);
+        break;
     }
-
     this.history.push(currentIndex);
+    this.updateTitle();
     this.resetResult();
   }
 
@@ -96,6 +101,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     if (this.history.length > 1) {
       this.sequenceIndex = (this.sequenceIndex - 1 + this.translations.length) % this.translations.length;
       this.history.pop();
+      this.updateTitle();
       this.resetResult();
     }
   }
@@ -134,10 +140,6 @@ export class QuizComponent implements OnInit, OnDestroy {
     return this.hintVisible;
   }
 
-  getCounter(): number {
-    return this.history.length;
-  }
-
   focusInput(): void {
     this.input.nativeElement.focus();
   }
@@ -156,6 +158,17 @@ export class QuizComponent implements OnInit, OnDestroy {
     });
   }
 
+  private startQuiz(mode: string): void {
+    this.sequenceMode = mode;
+    const translations = this.userService.getTranslations();
+    Object.keys(translations).forEach(value => translations[value].forEach(key =>
+      this.translations.push(new KeyValue(key, value))
+    ));
+    this.sequenceIndex = -1;
+    this.history = [];
+    this.next();
+  }
+
   private getCurrentIndex(): number {
     return this.history[this.history.length - 1];
   }
@@ -165,5 +178,9 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.matchResult = null;
     this.inputTranslation = null;
     this.focusInput();
+  }
+
+  private updateTitle(): void {
+    this.titleService.setTitle('Quiz: ' + this.history.length);
   }
 }
