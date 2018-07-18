@@ -1,10 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
-import {SelectionModel} from '@angular/cdk/collections';
+import {MatDialog} from '@angular/material';
 import {UserService} from '../services/user.service';
-import {PaginationHelperService} from '../services/pagination-helper.service';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {WordHiddenEnterDialogComponent} from '../word-hidden-enter-dialog/word-hidden-enter-dialog.component';
+import {DataTableComponent} from '../data-table/data-table.component';
 
 @Component({
   selector: 'app-words-hidden',
@@ -12,15 +11,11 @@ import {WordHiddenEnterDialogComponent} from '../word-hidden-enter-dialog/word-h
   styleUrls: ['./words-hidden.component.css']
 })
 export class WordsHiddenComponent implements OnInit {
-  displayedColumns: string[] = ['icon', 'word', 'select'];
-  pageSizeOptions: number[];
-  dataSource: MatTableDataSource<string>;
-  selection = new SelectionModel<string>(true, []);
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  words = [];
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
   constructor(
     private userService: UserService,
-    private paginationHelperService: PaginationHelperService,
     private dialog: MatDialog
   ) {
   }
@@ -29,23 +24,8 @@ export class WordsHiddenComponent implements OnInit {
     this.refreshTable();
   }
 
-  applyFilter(filterValue: string): void {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    this.dataSource.paginator.firstPage();
-  }
-
-  isAllSelected(): boolean {
-    return this.selection.selected.length === this.dataSource.data.length;
-  }
-
   isAnySelected(): boolean {
-    return !!this.selection.selected.length;
-  }
-
-  masterToggle(): void {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+    return !!this.dataTable.getSelected().length;
   }
 
   removeFromHidden(): void {
@@ -54,8 +34,8 @@ export class WordsHiddenComponent implements OnInit {
       data: 'Are you sure you want to delete the words selected?'
     }).afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        console.log(`Deleting ${this.selection.selected.length} words...`);
-        this.selection.selected.forEach(word => this.userService.setHidden(word, false));
+        console.log(`Deleting ${this.dataTable.getSelected().length} words...`);
+        this.dataTable.getSelected().forEach(word => this.userService.setHidden(word, false));
         this.refreshTable();
       }
     });
@@ -71,9 +51,6 @@ export class WordsHiddenComponent implements OnInit {
   }
 
   private refreshTable(): void {
-    const words = this.userService.getHidden();
-    this.pageSizeOptions = this.paginationHelperService.getPageSizeOptions(words.length);
-    this.dataSource = new MatTableDataSource(words);
-    this.dataSource.paginator = this.paginator;
+    this.words = this.userService.getHidden();
   }
 }
