@@ -12,7 +12,7 @@ import {WordHiddenEnterDialogComponent} from '../word-hidden-enter-dialog/word-h
   styleUrls: ['./words-hidden.component.css']
 })
 export class WordsHiddenComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'word'];
+  displayedColumns: string[] = ['icon', 'word', 'select'];
   pageSizeOptions: number[];
   dataSource: MatTableDataSource<string>;
   selection = new SelectionModel<string>(true, []);
@@ -76,5 +76,4 @@ export class WordsHiddenComponent implements OnInit {
     this.dataSource = new MatTableDataSource(words);
     this.dataSource.paginator = this.paginator;
   }
-
 }

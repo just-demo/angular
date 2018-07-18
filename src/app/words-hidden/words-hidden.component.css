@@ -2,10 +2,19 @@ table {
   width: 100%;
 }
 
-th:first-child {
-  width: 50px;
+.mat-elevation-z8 {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+th:first-child, th:last-child {
+  width: 40px;
 }
 
 .mat-form-field.search {
   width: 350px;
+}
+
+td:hover {
+  cursor: pointer;
 }
