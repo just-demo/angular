@@ -34,6 +34,7 @@ import {UserDataComponent} from './user-data/user-data.component';
 import {WordsHiddenComponent} from './words-hidden/words-hidden.component';
 import {WordsSelectedComponent} from './words-selected/words-selected.component';
 import {WordHiddenEnterDialogComponent} from './word-hidden-enter-dialog/word-hidden-enter-dialog.component';
+import { IconbarComponent } from './iconbar/iconbar.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import {WordHiddenEnterDialogComponent} from './word-hidden-enter-dialog/word-hi
     WordsSelectedComponent,
     WordsHiddenComponent,
     UserDataComponent,
-    WordHiddenEnterDialogComponent
+    WordHiddenEnterDialogComponent,
+    IconbarComponent
   ],
   imports: [
     NgbModule.forRoot(),

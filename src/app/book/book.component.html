@@ -1,18 +1,27 @@
-<mat-sidenav-container autosize>
-  <mat-sidenav mode="side" opened disableClose class="book-options" [fixedInViewport]="true"
-               [fixedTopGap]="65">
-    <div [ngClass]="{'bookMode': true, 'selected': isMode('pages')}" [routerLink]="['/books', getBookId()]">
-      <mat-icon>local_library</mat-icon>
-    </div>
-    <div [ngClass]="{'bookMode': true, 'selected': isMode('statistics')}"
-         [routerLink]="['/books', getBookId(), 'statistics']">
-      <mat-icon>poll</mat-icon>
-    </div>
-    <div class="bottom">
-      <mat-icon (click)="deleteBook()">delete</mat-icon>
-    </div>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <router-outlet (activate)="setMode($event)"></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<!--<mat-sidenav-container autosize>-->
+  <!--<mat-sidenav mode="side" opened disableClose class="book-options" [fixedInViewport]="true"-->
+               <!--[fixedTopGap]="65">-->
+    <!--<div [ngClass]="{'bookMode': true, 'selected': isMode('pages')}" [routerLink]="['/books', getBookId()]">-->
+      <!--<mat-icon>local_library</mat-icon>-->
+    <!--</div>-->
+    <!--<div [ngClass]="{'bookMode': true, 'selected': isMode('statistics')}"-->
+         <!--[routerLink]="['/books', getBookId(), 'statistics']">-->
+      <!--<mat-icon>poll</mat-icon>-->
+    <!--</div>-->
+    <!--<div class="bottom">-->
+      <!--<mat-icon (click)="deleteBook()">delete</mat-icon>-->
+    <!--</div>-->
+  <!--</mat-sidenav>-->
+  <!--<mat-sidenav-content>-->
+    <!--<router-outlet (activate)="setMode($event)"></router-outlet>-->
+  <!--</mat-sidenav-content>-->
+<!--</mat-sidenav-container>-->
+
+<app-iconbar>
+  <mat-icon [routerLink]="['/books', getBookId()]">local_library</mat-icon>
+  <mat-icon [routerLink]="['/books', getBookId(), 'statistics']">poll</mat-icon>
+  <mat-icon (click)="deleteBook()">delete</mat-icon>
+  <div>
+    <!--TODO: continue here!!!-->
+  </div>
+</app-iconbar>
