@@ -1,6 +1,4 @@
 import {Injectable} from '@angular/core';
-import {WORDS} from '../stub-words';
-import {GROUPS} from '../stub-groups';
 import {GroupService} from './group.service';
 
 @Injectable({
@@ -9,13 +7,9 @@ import {GroupService} from './group.service';
 export class BookParserService {
   private knownTokens = {};
 
-  // private wordGroups = {};
-
   constructor(private groupService: GroupService) {
     // Building a map for better performance
-    WORDS.forEach(word => this.knownTokens[word] = word);
-    /////// GROUPS
-    // groupService.getGroups().forEach(group => group.forEach(word => this.wordGroups[word] = group));
+    this.groupService.getWords().forEach(word => this.knownTokens[word] = word);
   }
 
   parse(text: string): {

@@ -1,8 +1,8 @@
 <div>
   <!-- TODO: bind delete and add handlers -->
-  <mat-icon class="right" [class.disabled]="!isAnySelected()">delete_forever</mat-icon>
+  <mat-icon class="right" [class.disabled]="!isAnySelected()" (click)="isAnySelected() && removeFromHidden()">delete_forever</mat-icon>
   <!-- TODO: for create popup add an autocomplete feature based on known words. Also consider multiple items to be added at once -->
-  <mat-icon class="right">create</mat-icon>
+  <mat-icon class="right" (click)="openWordHiddenEnterDialog()">create</mat-icon>
   <mat-form-field class="left">
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
     <mat-icon matSuffix>search</mat-icon>

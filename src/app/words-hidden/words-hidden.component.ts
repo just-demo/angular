@@ -1,8 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
 import {UserService} from '../services/user.service';
 import {PaginationHelperService} from '../services/pagination-helper.service';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+import {WordHiddenEnterDialogComponent} from '../word-hidden-enter-dialog/word-hidden-enter-dialog.component';
 
 @Component({
   selector: 'app-words-hidden',
@@ -18,15 +20,13 @@ export class WordsHiddenComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private paginationHelperService: PaginationHelperService
+    private paginationHelperService: PaginationHelperService,
+    private dialog: MatDialog
   ) {
   }
 
   ngOnInit() {
-    const words = this.userService.getHidden();
-    this.pageSizeOptions = this.paginationHelperService.getPageSizeOptions(words.length);
-    this.dataSource = new MatTableDataSource(words);
-    this.dataSource.paginator = this.paginator;
+    this.refreshTable();
   }
 
   applyFilter(filterValue: string): void {
@@ -47,4 +47,32 @@ export class WordsHiddenComponent implements OnInit {
       this.selection.clear() :
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
+
+  removeFromHidden(): void {
+    this.dialog.open(ConfirmationDialogComponent, {
+      autoFocus: false,
+      data: 'Are you sure you want to delete the words selected?'
+    }).afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        console.log(`Deleting ${this.selection.selected.length} words...`);
+        this.selection.selected.forEach(word => this.userService.setHidden(word, false));
+        this.refreshTable();
+      }
+    });
+  }
+
+  openWordHiddenEnterDialog(): void {
+    this.dialog.open(WordHiddenEnterDialogComponent).afterClosed().subscribe(word => {
+      this.userService.setHidden(word, true);
+      this.refreshTable();
+    });
+  }
+
+  private refreshTable(): void {
+    const words = this.userService.getHidden();
+    this.pageSizeOptions = this.paginationHelperService.getPageSizeOptions(words.length);
+    this.dataSource = new MatTableDataSource(words);
+    this.dataSource.paginator = this.paginator;
+  }
+
 }

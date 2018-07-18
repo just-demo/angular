@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms'; // <-- NgModel lives here
+import {FormsModule, ReactiveFormsModule} from '@angular/forms'; // <-- NgModel lives here
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {AppComponent} from './app.component';
@@ -33,6 +33,7 @@ import {ChangePasswordDialogComponent} from './change-password-dialog/change-pas
 import {UserDataComponent} from './user-data/user-data.component';
 import {WordsHiddenComponent} from './words-hidden/words-hidden.component';
 import {WordsSelectedComponent} from './words-selected/words-selected.component';
+import {WordHiddenEnterDialogComponent} from './word-hidden-enter-dialog/word-hidden-enter-dialog.component';
 
 @NgModule({
   declarations: [
@@ -58,12 +59,14 @@ import {WordsSelectedComponent} from './words-selected/words-selected.component'
     ChangePasswordDialogComponent,
     WordsSelectedComponent,
     WordsHiddenComponent,
-    UserDataComponent
+    UserDataComponent,
+    WordHiddenEnterDialogComponent
   ],
   imports: [
     NgbModule.forRoot(),
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -85,7 +88,8 @@ import {WordsSelectedComponent} from './words-selected/words-selected.component'
     LoginDialogComponent,
     WordDialogComponent,
     ConfirmationDialogComponent,
-    ChangePasswordDialogComponent
+    ChangePasswordDialogComponent,
+    WordHiddenEnterDialogComponent
   ],
   bootstrap: [AppComponent]
 })

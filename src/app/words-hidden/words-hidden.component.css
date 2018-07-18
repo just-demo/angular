@@ -30,3 +30,7 @@ mat-icon:not(.disabled):hover {
 mat-icon.disabled {
   color: #aaa;
 }
+
+th:first-child {
+  width: 50px;
+}

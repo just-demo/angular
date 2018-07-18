@@ -29,4 +29,9 @@ export class GroupService {
     // console.log(JSON.stringify(this.groups[word]));
     return this.groups[word] || [word];
   }
+
+  // TODO: move words to single group member and remove /words endpoint at all
+  getWords(): string[] {
+    return Object.keys(this.groups);
+  }
 }
