@@ -63,8 +63,10 @@ export class WordsHiddenComponent implements OnInit {
 
   openWordHiddenEnterDialog(): void {
     this.dialog.open(WordHiddenEnterDialogComponent).afterClosed().subscribe(word => {
-      this.userService.setHidden(word, true);
-      this.refreshTable();
+      if (word) {
+        this.userService.setHidden(word, true);
+        this.refreshTable();
+      }
     });
   }
 

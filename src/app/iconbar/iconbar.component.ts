@@ -3,7 +3,7 @@ import {
   AfterContentInit,
   Component,
   ContentChildren,
-  ElementRef,
+  ElementRef, Input,
   OnInit,
   QueryList, Renderer, Renderer2,
   ViewChildren
@@ -16,6 +16,7 @@ import {MatIcon} from '@angular/material';
   styleUrls: ['./iconbar.component.css']
 })
 export class IconbarComponent implements OnInit, AfterContentInit {
+  @Input() top = 65;
   @ContentChildren(MatIcon, {read: ElementRef}) icons: QueryList<ElementRef>;
 
   // @ViewChildren(MatIcon) icons: QueryList<CustomComponent>;
