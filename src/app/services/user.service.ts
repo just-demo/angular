@@ -76,6 +76,10 @@ export class UserService {
     );
   }
 
+  getHidden(): string[] {
+    return Object.keys(this.hidden).filter(word => this.isHidden(word));
+  }
+
   isHidden(word: string): boolean {
     return !!this.hidden[word];
   }

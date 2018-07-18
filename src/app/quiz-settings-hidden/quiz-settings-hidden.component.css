@@ -1,0 +1,32 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  padding-top: 5px;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+mat-icon {
+  padding: 10px;
+  margin: 10px 0;
+}
+
+mat-icon:hover {
+  cursor: pointer;
+}
+
+mat-icon:not(.disabled):hover {
+  background-color: #eee;
+}
+
+mat-icon.disabled {
+  color: #aaa;
+}

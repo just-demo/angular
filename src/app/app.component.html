@@ -21,10 +21,15 @@
       <button mat-menu-item *ngFor="let bookId of getRecentSavedBookIds()" [routerLink]="['books', bookId]">{{bookId}}
       </button>
       <mat-divider *ngIf="hasNonRecentSavedBooks()"></mat-divider>
-      <button mat-menu-item *ngIf="hasNonRecentSavedBooks()" [routerLink]="['books']">Show All...</button>
+      <button mat-menu-item *ngIf="hasNonRecentSavedBooks()" routerLink="books">Show All...</button>
     </ng-template>
   </mat-menu>
-  <button mat-button class="mainMenuItem" [routerLink]="['quiz']">Quiz</button>
+
+  <button mat-button class="mainMenuItem" [matMenuTriggerFor]="quizMenu">Quiz</button>
+  <mat-menu #quizMenu="matMenu">
+    <button mat-menu-item routerLink="quiz">Start</button>
+    <button mat-menu-item routerLink="quiz/settings">Settings...</button>
+  </mat-menu>
 
   <span class="fill-remaining-space">{{title}}</span>
 
@@ -35,9 +40,10 @@
     {{getAuthUser()}}
   </button>
   <!-- TODO: create Settings page with tabs: Account, Data -->
+  <!-- TODO: redirect to Data tabs (Books (read icon), Quiz (school icon), Hidden (eye icon) from different places -->
   <mat-menu #userMenu="matMenu">
     <button mat-menu-item (click)="logout()">Logout</button>
-    <button mat-menu-item (click)="openSettings()">Settings...</button>
+    <button mat-menu-item routerLink="/settings">Settings...</button>
   </mat-menu>
 </mat-toolbar>
 <!-- TODO: create default home page with a list of saved books /books

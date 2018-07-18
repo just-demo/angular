@@ -6,7 +6,7 @@
     </div>
     <div [ngClass]="{'bookMode': true, 'selected': isMode('statistics')}"
          [routerLink]="['/books', getBookId(), 'statistics']">
-      <mat-icon>list</mat-icon>
+      <mat-icon>poll</mat-icon>
     </div>
     <div class="bottom">
       <mat-icon (click)="deleteBook()">delete</mat-icon>

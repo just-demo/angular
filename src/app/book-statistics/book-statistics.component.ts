@@ -6,6 +6,7 @@ import {KeyValue} from '../quiz/key-value';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {WordDialogComponent} from '../word-dialog/word-dialog.component';
 import {UserService} from '../services/user.service';
+import {PaginationHelperService} from '../services/pagination-helper.service';
 
 @Component({
   selector: 'app-book-statistics',
@@ -19,19 +20,20 @@ export class BookStatisticsComponent implements OnInit {
   showHidden = true;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort; // TODO: still needed?
 
   constructor(
     private translationService: TranslationService,
     private userService: UserService,
     private activeBook: ActiveBook,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private paginationHelperService: PaginationHelperService
   ) {
   }
 
   ngOnInit() {
     const words = this.getSortedWords();
-    this.pageSizeOptions = this.getPageSizeOptions(words.length);
+    this.pageSizeOptions = this.paginationHelperService.getPageSizeOptions(words.length);
     this.dataSource = new MatTableDataSource<string>(words);
     // TODO: find a way to group related words visually
     const defaultFilterPredicate = this.dataSource.filterPredicate;
@@ -81,11 +83,6 @@ export class BookStatisticsComponent implements OnInit {
   refreshTable() {
     // TODO: find an better way to refresh table
     this.dataSource.filter += ' ';
-  }
-
-  private getPageSizeOptions(length: number) {
-    return Array.from(Array(Math.ceil(Math.log10(Math.max(length || 10)))).keys())
-      .map(i => Math.pow(10, i + 1));
   }
 
   private getSortedWords(): string[] {

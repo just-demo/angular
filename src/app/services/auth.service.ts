@@ -27,8 +27,24 @@ export class AuthService {
     return response;
   }
 
-  register(credentials: Credentials) {
-    this.http.put('/auth', credentials).subscribe();
+  register(credentials: Credentials): Observable<Object> {
+    const response = this.http.put('/auth', credentials);
+    response.subscribe(authHeaders => {
+      this.authUser = credentials.username;
+      this.authHeaders = authHeaders;
+    });
+    return response;
+  }
+
+  changePassword(oldPassword: string, newPassword: string): Observable<Object> {
+    const response = this.http.post('/auth/password', {
+      oldPassword: oldPassword,
+      newPassword: newPassword
+    });
+    response.subscribe(authHeaders => {
+      this.authHeaders = authHeaders;
+    });
+    return response;
   }
 
   logout(): void {

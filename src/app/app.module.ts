@@ -24,10 +24,16 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {WordDialogComponent} from './word-dialog/word-dialog.component';
 import {QuizComponent} from './quiz/quiz.component';
 import {IndexesPipe} from './pipes/indexes.pipe';
-import { BooksComponent } from './books/books.component';
-import { BookComponent } from './book/book.component';
-import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
-import { HomeComponent } from './home/home.component';
+import {BooksComponent} from './books/books.component';
+import {BookComponent} from './book/book.component';
+import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
+import {HomeComponent} from './home/home.component';
+import {SettingsComponent} from './settings/settings.component';
+import {ChangePasswordDialogComponent} from './change-password-dialog/change-password-dialog.component';
+import {SettingsAccountComponent} from './settings-account/settings-account.component';
+import { QuizSettingsComponent } from './quiz-settings/quiz-settings.component';
+import { QuizSettingsSelectedComponent } from './quiz-settings-selected/quiz-settings-selected.component';
+import { QuizSettingsHiddenComponent } from './quiz-settings-hidden/quiz-settings-hidden.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +54,13 @@ import { HomeComponent } from './home/home.component';
     BooksComponent,
     BookComponent,
     ConfirmationDialogComponent,
-    HomeComponent
+    HomeComponent,
+    SettingsComponent,
+    ChangePasswordDialogComponent,
+    SettingsAccountComponent,
+    QuizSettingsComponent,
+    QuizSettingsSelectedComponent,
+    QuizSettingsHiddenComponent
   ],
   imports: [
     NgbModule.forRoot(),
@@ -71,7 +83,12 @@ import { HomeComponent } from './home/home.component';
     {provide: HTTP_INTERCEPTORS, useClass: BackendRequestInterceptor, multi: true},
     ActiveBook
   ],
-  entryComponents: [LoginDialogComponent, WordDialogComponent, ConfirmationDialogComponent],
+  entryComponents: [
+    LoginDialogComponent,
+    WordDialogComponent,
+    ConfirmationDialogComponent,
+    ChangePasswordDialogComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
