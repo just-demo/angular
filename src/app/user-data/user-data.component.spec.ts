@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QuizSettingsHiddenComponent } from './quiz-settings-hidden.component';
+import { UserDataComponent } from './user-data.component';
 
-describe('QuizSettingsHiddenComponent', () => {
-  let component: QuizSettingsHiddenComponent;
-  let fixture: ComponentFixture<QuizSettingsHiddenComponent>;
+describe('UserDataComponent', () => {
+  let component: UserDataComponent;
+  let fixture: ComponentFixture<UserDataComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QuizSettingsHiddenComponent ]
+      declarations: [ UserDataComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuizSettingsHiddenComponent);
+    fixture = TestBed.createComponent(UserDataComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

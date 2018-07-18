@@ -5,11 +5,11 @@ import {UserService} from '../services/user.service';
 import {PaginationHelperService} from '../services/pagination-helper.service';
 
 @Component({
-  selector: 'app-quiz-settings-hidden',
-  templateUrl: './quiz-settings-hidden.component.html',
-  styleUrls: ['./quiz-settings-hidden.component.css']
+  selector: 'app-words-hidden',
+  templateUrl: './words-hidden.component.html',
+  styleUrls: ['./words-hidden.component.css']
 })
-export class QuizSettingsHiddenComponent implements OnInit {
+export class WordsHiddenComponent implements OnInit {
   displayedColumns: string[] = ['select', 'word'];
   pageSizeOptions: number[];
   dataSource: MatTableDataSource<string>;

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SettingsAccountComponent } from './settings-account.component';
+import { WordsHiddenComponent } from './words-hidden.component';
 
-describe('SettingsAccountComponent', () => {
-  let component: SettingsAccountComponent;
-  let fixture: ComponentFixture<SettingsAccountComponent>;
+describe('WordsHiddenComponent', () => {
+  let component: WordsHiddenComponent;
+  let fixture: ComponentFixture<WordsHiddenComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SettingsAccountComponent ]
+      declarations: [ WordsHiddenComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SettingsAccountComponent);
+    fixture = TestBed.createComponent(WordsHiddenComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

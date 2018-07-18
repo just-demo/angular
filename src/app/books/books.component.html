@@ -1,5 +1,4 @@
 <mat-list>
-  <h3 mat-subheader>Saved Books</h3>
   <mat-list-item *ngFor="let bookId of getSavedBookIds()">
     <mat-icon mat-list-icon>note</mat-icon>
     <h4 mat-line [routerLink]="['/books', bookId]">{{bookId}}</h4>

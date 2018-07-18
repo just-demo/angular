@@ -30,10 +30,9 @@ import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-di
 import {HomeComponent} from './home/home.component';
 import {SettingsComponent} from './settings/settings.component';
 import {ChangePasswordDialogComponent} from './change-password-dialog/change-password-dialog.component';
-import {SettingsAccountComponent} from './settings-account/settings-account.component';
-import { QuizSettingsComponent } from './quiz-settings/quiz-settings.component';
-import { QuizSettingsSelectedComponent } from './quiz-settings-selected/quiz-settings-selected.component';
-import { QuizSettingsHiddenComponent } from './quiz-settings-hidden/quiz-settings-hidden.component';
+import {UserDataComponent} from './user-data/user-data.component';
+import {WordsHiddenComponent} from './words-hidden/words-hidden.component';
+import {WordsSelectedComponent} from './words-selected/words-selected.component';
 
 @NgModule({
   declarations: [
@@ -57,10 +56,9 @@ import { QuizSettingsHiddenComponent } from './quiz-settings-hidden/quiz-setting
     HomeComponent,
     SettingsComponent,
     ChangePasswordDialogComponent,
-    SettingsAccountComponent,
-    QuizSettingsComponent,
-    QuizSettingsSelectedComponent,
-    QuizSettingsHiddenComponent
+    WordsSelectedComponent,
+    WordsHiddenComponent,
+    UserDataComponent
   ],
   imports: [
     NgbModule.forRoot(),

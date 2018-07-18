@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserService} from '../services/user.service';
 
 @Component({
@@ -8,7 +8,8 @@ import {UserService} from '../services/user.service';
 })
 export class BooksComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {
+  }
 
   ngOnInit() {
   }

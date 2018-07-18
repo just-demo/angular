@@ -1,5 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TitleService} from '../services/title.service';
+import {AuthService} from '../services/auth.service';
+import {MatDialog} from '@angular/material';
+import {ChangePasswordDialogComponent} from '../change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'app-settings',
@@ -7,15 +10,31 @@ import {TitleService} from '../services/title.service';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit, OnDestroy {
+  username: String;
 
-  constructor(private titleService: TitleService) {
+  constructor(
+    private titleService: TitleService,
+    private dialog: MatDialog,
+    private authService: AuthService
+  ) {
   }
 
   ngOnInit() {
-    this.titleService.setTitle('Settings');
+    this.username = this.authService.getAuthUser();
+    this.titleService.setTitle('Account Settings');
   }
 
   ngOnDestroy(): void {
     this.titleService.clearTitle();
+  }
+
+  openChangePasswordDialog(): void {
+    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, {
+      width: '235px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('dialog output: ' + result);
+    });
   }
 }

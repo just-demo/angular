@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from '../services/user.service';
-import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -9,20 +7,9 @@ import {AuthService} from '../services/auth.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(
-    private authService: AuthService,
-    private userService: UserService
-  ) {
+  constructor() {
   }
 
   ngOnInit() {
-  }
-
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
-  }
-
-  getSavedBookIds(): string[] {
-    return this.userService.getBooks();
   }
 }

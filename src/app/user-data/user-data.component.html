@@ -1,0 +1,29 @@
+<mat-tab-group [selectedIndex]="selectedIndex">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon>local_library</mat-icon>
+      Books
+    </ng-template>
+    <ng-template matTabContent>
+      <app-books></app-books>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon>school</mat-icon>
+      Selected Words
+    </ng-template>
+    <ng-template matTabContent>
+      <app-words-selected></app-words-selected>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon>visibility_off</mat-icon>
+      Hidden Words
+    </ng-template>
+    <ng-template matTabContent>
+      <app-words-hidden></app-words-hidden>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

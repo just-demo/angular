@@ -8,7 +8,7 @@ import {BooksComponent} from './books/books.component';
 import {BookComponent} from './book/book.component';
 import {HomeComponent} from './home/home.component';
 import {SettingsComponent} from './settings/settings.component';
-import {QuizSettingsComponent} from './quiz-settings/quiz-settings.component';
+import {UserDataComponent} from './user-data/user-data.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -24,8 +24,8 @@ const routes: Routes = [
     ]
   },
   {path: 'quiz', component: QuizComponent},
-  {path: 'quiz/settings', component: QuizSettingsComponent},
-  {path: 'settings', component: SettingsComponent}
+  {path: 'settings', component: SettingsComponent},
+  {path: 'data', component: UserDataComponent}
 ];
 
 @NgModule({
