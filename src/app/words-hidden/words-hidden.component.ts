@@ -28,7 +28,7 @@ export class WordsHiddenComponent implements OnInit {
     return !!this.dataTable.getSelected().length;
   }
 
-  removeFromHidden(): void {
+  delete(): void {
     this.dialog.open(ConfirmationDialogComponent, {
       autoFocus: false,
       data: 'Are you sure you want to delete the words selected?'

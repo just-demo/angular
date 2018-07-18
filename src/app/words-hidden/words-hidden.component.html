@@ -1,7 +1,7 @@
 <app-iconbar [top]="115">
   <mat-icon (click)="openWordHiddenEnterDialog()">create</mat-icon>
-  <mat-icon [class.disabled]="!isAnySelected()" class="bottom" (click)="isAnySelected() && removeFromHidden()">delete
+  <mat-icon [class.disabled]="!isAnySelected()" class="bottom" (click)="isAnySelected() && delete()">delete
   </mat-icon>
-  <!-- TODO: for create popup add an autocomplete feature based on known words. Also consider multiple items to be added at once -->
+  <!-- TODO: consider multiple items to be added at once -->
   <app-data-table iconType="visibility_off" valueType="Word" [values]="words"></app-data-table>
 </app-iconbar>

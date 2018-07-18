@@ -1,6 +1,6 @@
-<mat-list>
-  <mat-list-item *ngFor="let bookId of getSavedBookIds()">
-    <mat-icon mat-list-icon>note</mat-icon>
-    <h4 mat-line [routerLink]="['/books', bookId]">{{bookId}}</h4>
-  </mat-list-item>
-</mat-list>
+<!-- TODO: allow passing buttons to app-data-table!!!!!!!!! -->
+<app-iconbar [top]="115">
+  <mat-icon [class.disabled]="!isAnySelected()" class="bottom" (click)="isAnySelected() && delete()">delete
+  </mat-icon>
+  <app-data-table iconType="local_library" valueType="Book" [values]="books"></app-data-table>
+</app-iconbar>
