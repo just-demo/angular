@@ -37,6 +37,7 @@ import {WordHiddenEnterDialogComponent} from './word-hidden-enter-dialog/word-hi
 import {IconbarComponent} from './iconbar/iconbar.component';
 import {DataTableComponent} from './data-table/data-table.component';
 import { WordTranslationEnterDialogComponent } from './word-translation-enter-dialog/word-translation-enter-dialog.component';
+import { RegistrationDialogComponent } from './registration-dialog/registration-dialog.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { WordTranslationEnterDialogComponent } from './word-translation-enter-di
     WordHiddenEnterDialogComponent,
     IconbarComponent,
     DataTableComponent,
-    WordTranslationEnterDialogComponent
+    WordTranslationEnterDialogComponent,
+    RegistrationDialogComponent
   ],
   imports: [
     NgbModule.forRoot(),
@@ -96,7 +98,8 @@ import { WordTranslationEnterDialogComponent } from './word-translation-enter-di
     ConfirmationDialogComponent,
     ChangePasswordDialogComponent,
     WordHiddenEnterDialogComponent,
-    WordTranslationEnterDialogComponent
+    WordTranslationEnterDialogComponent,
+    RegistrationDialogComponent
   ],
   bootstrap: [AppComponent]
 })

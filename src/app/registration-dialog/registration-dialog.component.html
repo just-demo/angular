@@ -1,10 +1,13 @@
-<h1 mat-dialog-title>Login</h1>
+<h1 mat-dialog-title>Register</h1>
 <div mat-dialog-content>
   <form>
     <mat-form-field>
       <input matInput [formControl]="username" placeholder="Username" required>
       <mat-error *ngIf="username.hasError('required')">
         The input is required
+      </mat-error>
+      <mat-error *ngIf="username.hasError('conflict')">
+        Such user already exists
       </mat-error>
     </mat-form-field>
     <br/>
@@ -13,13 +16,10 @@
       <mat-error *ngIf="password.hasError('required')">
         The input is required
       </mat-error>
-      <mat-error *ngIf="password.hasError('rejected')">
-        Login failed
-      </mat-error>
     </mat-form-field>
   </form>
 </div>
 <div mat-dialog-actions align="center">
   <button mat-button [mat-dialog-close]>Cancel</button>
-  <button mat-button (click)="login()" [disabled]="!username.value || !password.value">Login</button>
+  <button mat-button (click)="register()" [disabled]="!username.value || !password.value">Register</button>
 </div>

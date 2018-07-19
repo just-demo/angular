@@ -30,7 +30,7 @@
   <span class="fill-remaining-space">{{title}}</span>
 
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem" (click)="openLoginDialog()">Login</button>
-  <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem">Register</button>
+  <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem" (click)="openRegistrationDialog()">Register</button>
   <button *ngIf="isAuthenticated()" mat-button class="mainMenuItem" [matMenuTriggerFor]="userMenu">
     <mat-icon>account_box</mat-icon>
     {{getAuthUser()}}

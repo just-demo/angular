@@ -1,15 +1,15 @@
-import {Component} from '@angular/core';
-import {MatDialogRef} from '@angular/material';
-import {AppComponent} from '../app.component';
+import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {FormControl, Validators} from '@angular/forms';
+import {MatDialogRef} from '@angular/material';
+import {AppComponent} from '../app.component';
 
 @Component({
-  selector: 'app-login-dialog',
-  templateUrl: './login-dialog.component.html',
-  styleUrls: ['./login-dialog.component.css']
+  selector: 'app-registration-dialog',
+  templateUrl: './registration-dialog.component.html',
+  styleUrls: ['./registration-dialog.component.css']
 })
-export class LoginDialogComponent {
+export class RegistrationDialogComponent {
   username = new FormControl('', [Validators.required]);
   password = new FormControl('', [Validators.required]);
 
@@ -19,8 +19,8 @@ export class LoginDialogComponent {
   ) {
   }
 
-  login() {
-    this.authService.login({
+  register() {
+    this.authService.register({
       username: this.username.value,
       password: this.password.value
     }).subscribe(
@@ -29,6 +29,8 @@ export class LoginDialogComponent {
       },
       error => {
         console.error('Login error: ' + error);
+        console.error(error);
+        console.error(error.status);
         this.username.setErrors({'rejected': true});
         this.password.setErrors({'rejected': true});
       }

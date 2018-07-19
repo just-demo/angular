@@ -6,6 +6,7 @@ import {ActiveBook} from './active-book';
 import {Router} from '@angular/router';
 import {UserService} from './services/user.service';
 import {TitleService} from './services/title.service';
+import {RegistrationDialogComponent} from './registration-dialog/registration-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -62,6 +63,10 @@ export class AppComponent {
 
   openLoginDialog(): void {
     this.dialog.open(LoginDialogComponent);
+  }
+
+  openRegistrationDialog(): void {
+    this.dialog.open(RegistrationDialogComponent);
   }
 
   logout(): void {
