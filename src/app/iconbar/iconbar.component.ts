@@ -15,7 +15,7 @@ import {MatIcon} from '@angular/material';
   templateUrl: './iconbar.component.html',
   styleUrls: ['./iconbar.component.css']
 })
-export class IconbarComponent implements OnInit, AfterContentInit {
+export class IconbarComponent implements OnInit {
   @Input() top = 65;
   @ContentChildren(MatIcon, {read: ElementRef}) icons: QueryList<ElementRef>;
 
@@ -38,14 +38,13 @@ export class IconbarComponent implements OnInit, AfterContentInit {
     // console.log(this.icons);
   }
 
-  ngAfterContentInit() {
-    this.icons.forEach(elementRef => {
-      elementRef.se
-      this.renderer.listen(elementRef.nativeElement, 'click', (event) => {
-        console.log(event);
-      });
-    });
-  }
+  // ngAfterContentInit() {
+  //   this.icons.forEach(elementRef => {
+  //     this.renderer.listen(elementRef.nativeElement, 'click', (event) => {
+  //       console.log(event);
+  //     });
+  //   });
+  // }
 
   // markSelected(icon: ElementRef): void {
   //   if(patientDDL.nativeElement.classList.contains('open')) {

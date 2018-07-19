@@ -1,9 +1,10 @@
-<div>
-  <mat-form-field class="search">
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
+<div class="buttons">
+  <ng-content select="mat-icon"></ng-content>
 </div>
+<mat-form-field class="search">
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="icon">

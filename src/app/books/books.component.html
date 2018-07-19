@@ -1,6 +1,3 @@
-<!-- TODO: allow passing buttons to app-data-table!!!!!!!!! -->
-<app-iconbar [top]="115">
-  <mat-icon [class.disabled]="!isAnySelected()" class="bottom" (click)="isAnySelected() && delete()">delete
-  </mat-icon>
-  <app-data-table iconType="local_library" valueType="Book" [values]="books"></app-data-table>
-</app-iconbar>
+<app-data-table iconType="local_library" valueType="Book" [values]="books">
+  <mat-icon [class.disabled]="!isAnySelected()" (click)="isAnySelected() && delete()">delete</mat-icon>
+</app-data-table>

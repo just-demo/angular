@@ -27,6 +27,7 @@ export class BooksComponent implements OnInit {
     return !!this.dataTable.getSelected().length;
   }
 
+  // TODO: why table is not refreshed after deletion unlike words-hidden component??????????????????
   delete(): void {
     this.dialog.open(ConfirmationDialogComponent, {
       autoFocus: false,

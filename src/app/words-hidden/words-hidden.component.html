@@ -1,7 +1,4 @@
-<app-iconbar [top]="115">
+<app-data-table iconType="visibility_off" valueType="Word" [values]="words">
   <mat-icon (click)="openWordHiddenEnterDialog()">create</mat-icon>
-  <mat-icon [class.disabled]="!isAnySelected()" class="bottom" (click)="isAnySelected() && delete()">delete
-  </mat-icon>
-  <!-- TODO: consider multiple items to be added at once -->
-  <app-data-table iconType="visibility_off" valueType="Word" [values]="words"></app-data-table>
-</app-iconbar>
+  <mat-icon [class.disabled]="!isAnySelected()" (click)="isAnySelected() && delete()">delete</mat-icon>
+</app-data-table>
