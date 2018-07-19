@@ -1,14 +1,25 @@
-<h1 mat-dialog-title>Login with existing account</h1>
+<h1 mat-dialog-title>Login</h1>
 <div mat-dialog-content>
-  <div class="error">{{error}}</div>
-  <mat-form-field>
-    <input matInput [(ngModel)]="credentials.username" placeholder="Enter your username">
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput [(ngModel)]="credentials.password" placeholder="Enter your password">
-  </mat-form-field>
+  <form>
+    <mat-form-field>
+      <input matInput [formControl]="username" placeholder="Username" required>
+      <mat-error *ngIf="username.hasError('required')">
+        The input is required
+      </mat-error>
+    </mat-form-field>
+    <br/>
+    <mat-form-field>
+      <input matInput [formControl]="password" placeholder="Password" required>
+      <mat-error *ngIf="password.hasError('required')">
+        The input is required
+      </mat-error>
+      <mat-error *ngIf="password.hasError('rejected')">
+        Login failed
+      </mat-error>
+    </mat-form-field>
+  </form>
 </div>
 <div mat-dialog-actions align="center">
   <button mat-button [mat-dialog-close]>Cancel</button>
-  <button mat-button (click)="login()">Login</button>
+  <button mat-button (click)="login()" [disabled]="username.invalid || password.invalid">Login</button>
 </div>

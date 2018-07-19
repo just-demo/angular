@@ -61,22 +61,11 @@ export class AppComponent {
   }
 
   openLoginDialog(): void {
-    const dialogRef = this.dialog.open(LoginDialogComponent, {
-      width: '235px',
-      data: {username: '', password: ''}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('dialog output: ' + result);
-    });
+    this.dialog.open(LoginDialogComponent);
   }
 
   logout(): void {
     this.authService.logout();
-  }
-
-  openSettings(): void {
-    console.log('Settings will be implemented as routerLink...');
   }
 
   uploadBook(file: File) {

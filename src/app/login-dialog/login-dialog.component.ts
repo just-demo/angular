@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {AppComponent} from '../app.component';
 import {Credentials} from '../credentials';
 import {AuthService} from '../services/auth.service';
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-login-dialog',
@@ -10,29 +11,28 @@ import {AuthService} from '../services/auth.service';
   styleUrls: ['./login-dialog.component.css']
 })
 export class LoginDialogComponent {
-  error: string;
+  username = new FormControl('', [Validators.required]);
+  password = new FormControl('', [Validators.required]);
 
   constructor(
     private authService: AuthService,
-    private dialogRef: MatDialogRef<AppComponent>,
-    @Inject(MAT_DIALOG_DATA) public credentials: Credentials
+    private dialogRef: MatDialogRef<AppComponent>
   ) {
-    // credentials = credentials || {
-    //   username: '',
-    //   password: ''
-    // };
   }
 
   login() {
-    this.authService.login(this.credentials)
-      .subscribe(
-        () => {
-          this.dialogRef.close();
-        },
-        error => {
-          console.error('Error: ' + error);
-          this.error = 'Login failed';
-        }
-      );
+    this.authService.login({
+      username: this.username.value,
+      password: this.password.value
+    }).subscribe(
+      () => {
+        this.dialogRef.close();
+      },
+      error => {
+        console.error('Login error: ' + error);
+        this.username.setErrors({'rejected': true});
+        this.password.setErrors({'rejected': true});
+      }
+    );
   }
 }
