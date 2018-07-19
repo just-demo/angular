@@ -20,24 +20,35 @@ span.word:hover {
   cursor: pointer;
 }
 
-span.pageIndex {
-  cursor: pointer;
-  padding: 5px 10px;
-  margin: 5px;
-  display: inline-block;
-  background-color: #ddd;
-  border: #eee solid 2px;
-  border-radius: 4px;
+.pageIndex {
+  background-color: #eee;
 }
 
-span.pageIndex.selected {
-  background-color: #eee;
-  border-color: #dedede;
+.pageIndex, .pageIndexDelimiter {
+  height: 30px;
+  min-width: 40px;
+  text-align: center;
+  padding-top: 10px;
+  margin: 0 1px 5px 2px;
+  display: inline-block;
 }
+
+.pageIndexDelimiter {
+  font-size: 20px;
+}
+
+.pageIndex.selected {
+  font-weight: bold;
+}
+
+.pageIndex.selected:not(:hover) {
+  background-color: #ddd;
+}
+
 
 .pageIndex:hover {
-  background-color: #eee;
-  border-color: #aaa;
+  cursor: pointer;
+  background-color: #bbb;
 }
 
 ::ng-deep .mat-tooltip  {

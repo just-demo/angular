@@ -1,10 +1,10 @@
 <div class="reader">
   <div>
     <ng-container *ngFor="let indexes of getPageNavigation(); let first = first">
-      <span *ngIf="!first">...</span>
-      <span *ngFor="let index of indexes"
+      <div class="pageIndexDelimiter" *ngIf="!first">...</div>
+      <div *ngFor="let index of indexes"
             class="pageIndex" [class.selected]="isPageIndexSelected(index)"
-            [routerLink]="['../../pages', index + 1]">{{index + 1}}</span>
+            [routerLink]="['../../pages', index + 1]">{{index + 1}}</div>
     </ng-container>
   </div>
   <div class="page" (wheel)="scrollPage($event)">
