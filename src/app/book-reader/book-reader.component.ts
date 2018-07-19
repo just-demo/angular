@@ -28,6 +28,7 @@ export class BookReaderComponent implements OnInit {
   ngOnInit() {
     this.lines = this.bookParserService.splitIntoLines(this.activeBook.tokens, this.charsPerLine);
     this.route.params.subscribe(params => {
+      console.log('BBBBBBBBBBBBBBBB-RRRRRRRRRRRRRRRRR'); // ================
       this.setPageIndexSelected(parseInt(params['pageId'], 10) - 1 || 0);
     });
   }

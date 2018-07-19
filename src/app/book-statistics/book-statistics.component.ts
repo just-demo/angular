@@ -6,6 +6,7 @@ import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/mat
 import {UserService} from '../services/user.service';
 import {PaginationHelperService} from '../services/pagination-helper.service';
 import {WordTranslationViewDialogComponent} from '../dialogs/word-translation-view-dialog.component';
+import {WordService} from '../services/word.service';
 
 @Component({
   selector: 'app-book-statistics',
@@ -24,6 +25,7 @@ export class BookStatisticsComponent implements OnInit {
   constructor(
     private translationService: TranslationService,
     private userService: UserService,
+    private wordService: WordService,
     private activeBook: ActiveBook,
     private dialog: MatDialog,
     private paginationHelperService: PaginationHelperService
@@ -84,13 +86,13 @@ export class BookStatisticsComponent implements OnInit {
 
   private getSortedWords(): string[] {
     const wordSortBuffer = {};
-    for (const word in this.activeBook.occurrences) {
-      const groupId = this.activeBook.groups[word][0];
+    Object.keys(this.activeBook.occurrences).forEach(word => {
+      const groupId = this.wordService.getRelated(word)[0];
       if (!wordSortBuffer[groupId]) {
         wordSortBuffer[groupId] = [];
       }
       wordSortBuffer[groupId].push(new KeyValue(word, this.activeBook.occurrences[word]));
-    }
+    });
 
     const groupSortBuffer = [];
     Object.values(wordSortBuffer).forEach((group: KeyValue[]) => {

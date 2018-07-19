@@ -26,8 +26,9 @@ export class BookComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.initBook(params['bookId']);
-      this.titleService.setTitle(this.activeBook.id);
+      const bookId = params['bookId'];
+      // this.initBook(bookId);
+      this.titleService.setTitle(bookId);
     });
   }
 
@@ -53,9 +54,12 @@ export class BookComponent implements OnInit, OnDestroy {
   }
 
   private initBook(bookId: string): void {
+    console.log('BBBBBBBBBBBBB'); // =================
+    console.log(bookId); // =================
+    console.log(this.activeBook.id); // =================
     if (this.activeBook.id !== bookId) {
       // TODO: retrieve from database;
-      this.router.navigateByUrl('/');
+      // this.router.navigateByUrl('/');
     }
   }
 }

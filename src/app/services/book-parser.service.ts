@@ -15,7 +15,6 @@ export class BookParserService {
   parse(text: string): {
     tokens: string[],
     words: any,
-    groups: any,
     occurrences: any
   } {
     const tokens: string[] = [];
@@ -41,12 +40,9 @@ export class BookParserService {
     }
 
     const occurrences = this.gatherWordOccurrences(tokens, words);
-    const wordsSet: Set<string> = new Set(Object.values(words));
-    const groups = this.group(Array.from(wordsSet));
     return {
       tokens: tokens,
       words: words,
-      groups: groups,
       occurrences: occurrences
     };
   }
@@ -78,20 +74,6 @@ export class BookParserService {
 
   private sumLength(...tokens: string[]): number {
     return tokens.reduce((length, token) => length + token.length, 0);
-  }
-
-  private group(words: string[]): any {
-    const groupBuffer = new Map<string, string[]>();
-    const groups = {};
-    words.forEach(word => {
-      const groupId = this.wordService.getRelated(word)[0] || word;
-      if (!groupBuffer.has(groupId)) {
-        groupBuffer.set(groupId, []);
-      }
-      groupBuffer.get(groupId).push(word);
-    });
-    groupBuffer.forEach(group => group.forEach(word => groups[word] = group));
-    return groups;
   }
 
   private gatherWordOccurrences(tokens: string[], words: any): any {

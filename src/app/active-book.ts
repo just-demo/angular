@@ -10,6 +10,7 @@ export class ActiveBook {
   occurrences: any;
 
   constructor(private bookParserService: BookParserService) {
+    this.clear();
   }
 
   clear(): void {
@@ -28,9 +29,8 @@ export class ActiveBook {
   }
 
   private copyState(data: any): void {
-    this.tokens = data.tokens;
-    this.words = data.words;
-    this.groups = data.groups;
-    this.occurrences = data.occurrences;
+    this.words = data.words || {};
+    this.occurrences = data.occurrences || {};
+    this.tokens = data.tokens || [];
   }
 }

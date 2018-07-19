@@ -12,13 +12,13 @@ import {UserDataComponent} from './user-data/user-data.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'books', component: BooksComponent},
   {
     path: 'books/:bookId',
     component: BookComponent,
     canActivate: [ActiveBookGuard], // TODO: change it because a book can be loaded from server on demand
     children: [
-      {path: '', redirectTo: 'pages', pathMatch: 'full'},
+      // TODO: why does't redirection via 'pages' work here?
+      {path: '', redirectTo: 'pages/1', pathMatch: 'full'},
       {path: 'pages', redirectTo: 'pages/1', pathMatch: 'full'},
       {path: 'pages/:pageId', component: BookReaderComponent},
       {path: 'statistics', component: BookStatisticsComponent},

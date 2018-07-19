@@ -58,7 +58,6 @@ export class WordTranslationViewDialogComponent implements OnInit {
     const group: string[] = this.wordService.getRelated(word);
     const groupOccurrences = {};
     group
-    // no need to filter because group members are built based on real book tokens, so their appearance in the book is guaranteed
       .filter(groupWord => this.activeBook.occurrences[groupWord])
       .forEach(groupWord => groupOccurrences[groupWord] = this.activeBook.occurrences[groupWord]);
     return groupOccurrences;

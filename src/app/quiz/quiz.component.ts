@@ -43,7 +43,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(params => {
       const mode = params['mode'];
       if (this.sequenceModes.indexOf(mode) < 0) {
-        this.router.navigateByUrl('quiz');
+        this.router.navigateByUrl('/quiz');
       } else {
         this.startQuiz(mode);
       }

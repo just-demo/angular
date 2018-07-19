@@ -22,7 +22,7 @@ export class BooksDialogComponent implements OnInit {
   }
 
   redirectTo(bookId: string): void {
-    this.router.navigate(['books', bookId]);
+    this.router.navigate(['/books', bookId]);
     this.dialogRef.close();
   }
 
