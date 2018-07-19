@@ -1,19 +1,23 @@
 <mat-toolbar>
-  <button mat-button [routerLink]="['/']" class="mainMenuItem home"><mat-icon>home</mat-icon></button>
+  <button mat-button [routerLink]="['/']" class="mainMenuItem home">
+    <mat-icon>home</mat-icon>
+  </button>
   <button mat-button [matMenuTriggerFor]="bookMenu" class="mainMenuItem">Book</button>
   <input type="file" hidden #bookUpload (change)="uploadBook($event.target.files.item(0)); bookUpload.value=''">
   <mat-menu #bookMenu="matMenu">
-    <button mat-menu-item (click)="bookUpload.click()">Open...</button>
-    <!-- TODO: do not create option to copy paste a new book because it is not a likely scenario and there will be more
-    difficult to specify book name to show it as active book for example... -->
-    <!-- TODO: 1) disable saved if not logged in 2) create a sublist or popup dialog with saved books selection -->
-    <mat-divider></mat-divider>
-    <button mat-menu-item [matMenuTriggerFor]="bookSavedMenu" [disabled]="!isAuthenticated()">Saved</button>
-    <!-- TODO: show active book item if present, consider naming it Draft with a submenu with single item -->
-    <mat-divider *ngIf="hasActiveBook()"></mat-divider>
-    <button class="activeBook" mat-menu-item *ngIf="hasActiveBook()" [routerLink]="['/books', getActiveBookId()]">
-      {{getActiveBookId()}}
-    </button>
+    <ng-template matMenuContent>
+      <button mat-menu-item (click)="bookUpload.click()">Open...</button>
+      <!-- TODO: do not create option to copy paste a new book because it is not a likely scenario and there will be more
+      difficult to specify book name to show it as active book for example... -->
+      <!-- TODO: 1) disable saved if not logged in 2) create a sublist or popup dialog with saved books selection -->
+      <mat-divider></mat-divider>
+      <button mat-menu-item [matMenuTriggerFor]="bookSavedMenu" [disabled]="!isAuthenticated()">Saved</button>
+      <!-- TODO: show active book item if present, consider naming it Draft with a submenu with single item -->
+      <mat-divider *ngIf="hasActiveBook()"></mat-divider>
+      <button class="activeBook" mat-menu-item *ngIf="hasActiveBook()" [routerLink]="['/books', getActiveBookId()]">
+        {{getActiveBookId()}}
+      </button>
+    </ng-template>
   </mat-menu>
   <mat-menu #bookSavedMenu="matMenu">
     <ng-template matMenuContent>
@@ -21,7 +25,7 @@
       <button mat-menu-item *ngFor="let bookId of getRecentSavedBookIds()" [routerLink]="['/books', bookId]">{{bookId}}
       </button>
       <mat-divider *ngIf="hasNonRecentSavedBooks()"></mat-divider>
-      <button mat-menu-item *ngIf="hasNonRecentSavedBooks()" [routerLink]="['/data', 'words']">Show All...</button>
+      <button mat-menu-item *ngIf="hasNonRecentSavedBooks()" (click)="openBooksDialog()">Show All...</button>
     </ng-template>
   </mat-menu>
 
@@ -30,7 +34,8 @@
   <span class="fill-remaining-space">{{title}}</span>
 
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem" (click)="openLoginDialog()">Login</button>
-  <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem" (click)="openRegistrationDialog()">Register</button>
+  <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem" (click)="openRegistrationDialog()">Register
+  </button>
   <button *ngIf="isAuthenticated()" mat-button class="mainMenuItem" [matMenuTriggerFor]="userMenu">
     <mat-icon>account_box</mat-icon>
     {{getAuthUser()}}

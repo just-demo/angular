@@ -1,0 +1,26 @@
+::ng-deep .mat-tab-label {
+  min-width: 0 !important;
+  height: 30px !important;
+}
+
+::ng-deep .mat-dialog-title {
+  margin-bottom: 5px !important;
+}
+
+::ng-deep .mat-divider {
+  margin: 5px 0 !important;
+}
+
+.book {
+  line-height: 1.5;
+  padding-left: 10px;
+}
+
+.book:hover {
+  cursor: pointer;
+  background-color: #aaa;
+}
+
+.search {
+  width: 250px;
+}

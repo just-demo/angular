@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {UserService} from './services/user.service';
 import {TitleService} from './services/title.service';
 import {RegistrationDialogComponent} from './dialogs/registration-dialog.component';
+import {BooksDialogComponent} from './dialogs/books-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -55,6 +56,12 @@ export class AppComponent {
 
   hasNonRecentSavedBooks(): boolean {
     return this.userService.getBooks().length > this.recentBookCount;
+  }
+
+  openBooksDialog(): void {
+    this.dialog.open(BooksDialogComponent, {
+      width: '300px'
+    });
   }
 
   getAuthUser(): string {

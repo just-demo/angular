@@ -32,6 +32,7 @@ import {DataTableComponent} from './data-table/data-table.component';
 import {WordTranslationEnterDialogComponent} from './dialogs/word-translation-enter-dialog.component';
 import {RegistrationDialogComponent} from './dialogs/registration-dialog.component';
 import {WordTranslationViewDialogComponent} from './dialogs/word-translation-view-dialog.component';
+import { BooksDialogComponent } from './dialogs/books-dialog.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import {WordTranslationViewDialogComponent} from './dialogs/word-translation-vie
     IconbarComponent,
     DataTableComponent,
     WordTranslationEnterDialogComponent,
-    RegistrationDialogComponent
+    RegistrationDialogComponent,
+    BooksDialogComponent
   ],
   imports: [
     NgbModule.forRoot(),
@@ -81,7 +83,8 @@ import {WordTranslationViewDialogComponent} from './dialogs/word-translation-vie
     ChangePasswordDialogComponent,
     WordHiddenEnterDialogComponent,
     WordTranslationEnterDialogComponent,
-    RegistrationDialogComponent
+    RegistrationDialogComponent,
+    BooksDialogComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Saved Books</h1>
+<mat-divider></mat-divider>
+<mat-form-field class="search">
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
+<div mat-dialog-content>
+  <div *ngFor="let bookId of filteredBookIds" class="book" (click)="redirectTo(bookId)">
+    {{bookId}}
+  </div>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="center">
+  <button mat-button [mat-dialog-close]>Cancel</button>
+</div>

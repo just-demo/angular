@@ -9,7 +9,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class UserDataComponent implements OnInit, OnDestroy {
   selectedIndex: number;
-  private tabs = ['words', 'selected', 'hidden'];
+  private tabs = ['books', 'selected', 'hidden'];
 
   constructor(
     private route: ActivatedRoute,
