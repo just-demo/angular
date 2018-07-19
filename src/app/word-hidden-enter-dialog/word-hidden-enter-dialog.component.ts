@@ -11,8 +11,8 @@ import {GroupService} from '../services/group.service';
 })
 export class WordHiddenEnterDialogComponent implements OnInit {
   word = new FormControl('', [Validators.required]);
-  filteredOptions: Observable<string[]>;
   options: string[];
+  filteredOptions: Observable<string[]>;
 
   constructor(private groupService: GroupService) {
   }
@@ -27,6 +27,6 @@ export class WordHiddenEnterDialogComponent implements OnInit {
 
   private filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0).slice(0, 5);
+    return this.options.filter(option => option.toLowerCase().startsWith(filterValue)).slice(0, 5);
   }
 }

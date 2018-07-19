@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>Mark hidden</h1>
+<div mat-dialog-content>
+  <form>
+    <mat-form-field>
+      <input type="text" placeholder="Word" matInput [formControl]="word" required [matAutocomplete]="wordAuto">
+      <mat-error *ngIf="word.hasError('required')">
+        The input is required
+      </mat-error>
+      <mat-autocomplete autoActiveFirstOption #wordAuto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredWordOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <br/>
+    <mat-form-field>
+      <input type="text" placeholder="Translation" matInput [formControl]="translation" required
+             [matAutocomplete]="translationAuto" (focus)="initTranslationOptions()">
+      <mat-error *ngIf="translation.hasError('required')">
+        The input is required
+      </mat-error>
+      <mat-autocomplete autoActiveFirstOption #translationAuto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredTranslationOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions align="center">
+  <button mat-button [mat-dialog-close]>Cancel</button>
+  <button mat-button [mat-dialog-close]="{word: word.value, translation: translation.value}"
+          [disabled]="word.invalid || translation.invalid">OK
+  </button>
+</div>

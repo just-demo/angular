@@ -10,7 +10,7 @@
     <ng-container matColumnDef="icon">
       <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
       <td mat-cell *matCellDef="let row">
-        <mat-icon>{{iconType}}</mat-icon>
+        <mat-icon>{{icon}}</mat-icon>
       </td>
     </ng-container>
     <ng-container *ngFor="let column of columns | keys" matColumnDef="{{column || identityColumn}}">

@@ -1,4 +1,4 @@
-<app-data-table iconType="school" [columns]="{word: 'Word', translation: 'Translation'}" [values]="words">
+<app-data-table icon="school" [columns]="{word: 'Word', translation: 'Translation'}" [values]="words">
   <mat-icon (click)="openWordEnterDialog()">create</mat-icon>
   <mat-icon [class.disabled]="!isAnySelected()" (click)="isAnySelected() && delete()">delete</mat-icon>
 </app-data-table>

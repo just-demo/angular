@@ -10,10 +10,8 @@ import {SelectionModel} from '@angular/cdk/collections';
   styleUrls: ['./data-table.component.css']
 })
 export class DataTableComponent implements OnInit {
-  @Input() iconType: string;
-  // @Input() column: string;
+  @Input() icon: string;
   @Input() columns: any;
-  // @Input() valueType: string;
   customColumns: any;
   identityColumn: string;
   displayedColumns: string[];

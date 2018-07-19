@@ -3,7 +3,7 @@ import {UserService} from '../services/user.service';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {MatDialog} from '@angular/material';
 import {DataTableComponent} from '../data-table/data-table.component';
-import {WordHiddenEnterDialogComponent} from '../word-hidden-enter-dialog/word-hidden-enter-dialog.component';
+import {WordTranslationEnterDialogComponent} from '../word-translation-enter-dialog/word-translation-enter-dialog.component';
 
 @Component({
   selector: 'app-words-selected',
@@ -42,10 +42,9 @@ export class WordsSelectedComponent implements OnInit {
   }
 
   openWordEnterDialog(): void {
-    this.dialog.open(WordHiddenEnterDialogComponent).afterClosed().subscribe(word => {
-      if (word) {
-        // TODO: implement
-        this.userService.addTranslation(word, word);
+    this.dialog.open(WordTranslationEnterDialogComponent).afterClosed().subscribe(data => {
+      if (data && data.word && data.translation) {
+        this.userService.addTranslation(data.word, data.translation);
         this.refreshTable();
       }
     });

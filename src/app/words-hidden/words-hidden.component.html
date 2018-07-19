@@ -1,4 +1,4 @@
-<app-data-table iconType="visibility_off" [columns]="{'': 'Word'}" [values]="words">
+<app-data-table icon="visibility_off" [columns]="{'': 'Word'}" [values]="words">
   <mat-icon (click)="openWordEnterDialog()">create</mat-icon>
   <mat-icon [class.disabled]="!isAnySelected()" (click)="isAnySelected() && delete()">delete</mat-icon>
 </app-data-table>
