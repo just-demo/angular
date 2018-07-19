@@ -3,6 +3,7 @@ import {MatDialogRef} from '@angular/material';
 import {AppComponent} from '../app.component';
 import {AuthService} from '../services/auth.service';
 import {FormControl, Validators} from '@angular/forms';
+import {UserService} from '../services/user.service';
 
 @Component({
   selector: 'app-login-dialog',
@@ -14,6 +15,7 @@ export class LoginDialogComponent {
 
   constructor(
     private authService: AuthService,
+    private userService: UserService,
     private dialogRef: MatDialogRef<AppComponent>
   ) {
   }
@@ -21,6 +23,7 @@ export class LoginDialogComponent {
   login() {
     this.authService.login(this.username.value, this.password.value).subscribe(
       () => {
+        this.userService.syncUserData();
         this.dialogRef.close();
       },
       error => {

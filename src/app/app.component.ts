@@ -26,11 +26,6 @@ export class AppComponent {
     private router: Router,
     private titleService: TitleService
   ) {
-    // TODO: remove
-    this.activeBook.load('test.txt', Array.from(Array(100).keys())
-      .map(i => 'line ' + ('' + i).padStart(4, '0'))
-      .join('\n'));
-
     titleService.subscribeTitle(title => this.title = title);
   }
 
@@ -77,6 +72,7 @@ export class AppComponent {
   }
 
   logout(): void {
+    this.userService.clearUserData();
     this.authService.logout();
   }
 
@@ -86,9 +82,8 @@ export class AppComponent {
     reader.onload = () => {
       this.userService.addBook(file.name, reader.result);
       this.activeBook.load(file.name, reader.result);
-      this.router.navigate(['books', this.activeBook.id, 'pages', 1]);
-      // this.router.navigateByUrl('book');
-      // this.router.navigate(['statistics', {foo: 'foo'}], {relativeTo: this.route.parent})
+      // TODO: why isn't it redirected without 'pages'?
+      this.router.navigate(['books', this.activeBook.id, 'pages']);
     };
     reader.readAsText(file);
   }

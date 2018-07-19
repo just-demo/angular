@@ -21,7 +21,7 @@ export class ChangePasswordDialogComponent {
   changePassword() {
     this.authService.changePassword(this.oldPassword.value, this.newPassword.value).subscribe(
       () => {
-        this.dialogRef.close();
+        this.dialogRef.close(true);
       },
       error => {
         console.error('Change password error: ' + error);

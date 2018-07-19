@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {GroupService} from '../services/group.service';
+import {WordService} from '../services/word.service';
 
 @Component({
   selector: 'app-word-hidden-enter-dialog',
@@ -13,11 +13,11 @@ export class WordHiddenEnterDialogComponent implements OnInit {
   options: string[];
   filteredOptions: Observable<string[]>;
 
-  constructor(private groupService: GroupService) {
+  constructor(private wordService: WordService) {
   }
 
   ngOnInit() {
-    this.options = this.groupService.getWords().sort();
+    this.options = this.wordService.getWords().sort();
     this.filteredOptions = this.word.valueChanges.pipe(
       // startWith(''),
       map(value => this.filter(value))

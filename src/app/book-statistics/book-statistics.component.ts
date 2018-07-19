@@ -40,8 +40,6 @@ export class BookStatisticsComponent implements OnInit {
       // Trimming filter is needed here because refreshTable appends a dummy space to trigger refreshing the table
       return defaultFilterPredicate(data, filter.trim()) && (this.showHidden || !this.isHidden(data));
     };
-    // console.log('Default predicate');
-    // console.log(this.dataSource.filterPredicate);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }

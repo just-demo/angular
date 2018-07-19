@@ -41,7 +41,6 @@ export class BookComponent implements OnInit, OnDestroy {
       data: 'Are you sure you want to delete the book?'
     }).afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        console.log(`Deleting ${this.activeBook.id}...`);
         this.userService.deleteBook(this.activeBook.id);
         this.activeBook.clear();
         this.router.navigateByUrl('/');
@@ -56,7 +55,7 @@ export class BookComponent implements OnInit, OnDestroy {
   private initBook(bookId: string): void {
     if (this.activeBook.id !== bookId) {
       // TODO: retrieve from database;
-      this.activeBook.load(bookId, 'This is a test book. Book, book, books...');
+      this.router.navigateByUrl('/');
     }
   }
 }

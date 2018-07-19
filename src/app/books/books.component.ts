@@ -34,7 +34,6 @@ export class BooksComponent implements OnInit {
       data: 'Are you sure you want to delete the books selected?'
     }).afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        console.log(`Deleting ${this.dataTable.getSelected().length} books...`);
         this.dataTable.getSelected().forEach(bookId => this.userService.deleteBook(bookId));
         this.refreshTable();
       }

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {merge, Observable, Subject} from 'rxjs';
 import {FormControl, Validators} from '@angular/forms';
 import {map, startWith} from 'rxjs/operators';
-import {GroupService} from '../services/group.service';
+import {WordService} from '../services/word.service';
 import {TranslationService} from '../services/translation.service';
 
 @Component({
@@ -18,13 +18,13 @@ export class WordTranslationEnterDialogComponent implements OnInit {
   translationOptionsTrigger = new Subject<string>();
 
   constructor(
-    private groupService: GroupService,
+    private wordService: WordService,
     private translationService: TranslationService
   ) {
   }
 
   ngOnInit() {
-    this.wordOptions = this.groupService.getWords().sort();
+    this.wordOptions = this.wordService.getWords().sort();
     this.filteredWordOptions = this.word.valueChanges.pipe(
       startWith(''),
       map(value => this.filter(this.wordOptions, value))

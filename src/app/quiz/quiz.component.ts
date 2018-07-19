@@ -74,27 +74,30 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
-    this.sequenceIndex = (this.sequenceIndex + 1) % this.translations.length;
-    let currentIndex;
-    console.log(this.sequenceMode);
-    switch (this.sequenceMode) {
-      case 'uniform':
-        // TODO: optimize
-        if (this.sequenceIndex === 0 || !this.randomIndexes) {
-          this.randomIndexes = this.randomService.randomIntArray(this.translations.length);
-        }
-        currentIndex = this.randomIndexes[this.sequenceIndex];
-        break;
-      case 'ordered':
-        currentIndex = this.sequenceIndex;
-        break;
-      case 'random':
-        currentIndex = this.randomService.randomInt(this.translations.length);
-        break;
+    if (this.translations.length > 0) {
+      this.sequenceIndex = (this.sequenceIndex + 1) % this.translations.length;
+      let currentIndex;
+      switch (this.sequenceMode) {
+        case 'uniform':
+          // TODO: optimize with slice???
+          if (this.sequenceIndex === 0 || !this.randomIndexes) {
+            this.randomIndexes = this.randomService.randomIntArray(this.translations.length);
+          }
+          currentIndex = this.randomIndexes[this.sequenceIndex];
+          break;
+        case 'ordered':
+          currentIndex = this.sequenceIndex;
+          break;
+        case 'random':
+          currentIndex = this.randomService.randomInt(this.translations.length);
+          break;
+      }
+      this.history.push(currentIndex);
+      this.updateTitle();
+      this.resetResult();
+    } else {
+      this.titleService.setTitle('Quiz');
     }
-    this.history.push(currentIndex);
-    this.updateTitle();
-    this.resetResult();
   }
 
   back(): void {
@@ -144,16 +147,20 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.input.nativeElement.focus();
   }
 
+  isQuizEmpty(): boolean {
+    return !this.translations.length;
+  }
+
   delete(): void {
     this.dialog.open(ConfirmationDialogComponent, {
       autoFocus: false,
       data: 'Are you sure you want to remove current word from quiz?'
     }).afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        console.log(`Removing ${this.getTranslationKey()}: ${this.getTranslationValue()}`);
         this.userService.removeTranslation(this.getTranslationKey(), this.getTranslationValue());
         this.translations.splice(this.getCurrentIndex(), 1);
-        // TODO: fix randomIndexes as well!!!
+        this.randomIndexes.splice(this.sequenceIndex, 1);
+        this.randomIndexes = this.randomIndexes.map(index => index > this.getCurrentIndex() ? index - 1 : index);
       }
     });
   }

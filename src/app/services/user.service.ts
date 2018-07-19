@@ -8,14 +8,22 @@ import {Observable} from 'rxjs';
 export class UserService {
   private translations = {};
   private hidden = {};
-  // Array.from({length: 20}, (_, i) => 'test' + i + '.txt');
-  private books: string[] = Array.from(Array(50).keys()).map(i => 'test' + i + '.txt');
+  private books: string[] = [];
 
   constructor(private http: HttpClient) {
   }
 
-  getUser(username: string): Observable<Object> {
-    return this.http.get('/user/' + username);
+  syncUserData(): void {
+    // TODO: load user from server
+    // return this.http.get('/user/' + username);
+    // TODO: flush unsaved data to server, for hidden and selected build a map with true/false values in the end
+    // so that it will be clear if user wants to delete something already persisted on server
+  }
+
+  clearUserData(): void {
+    this.translations = {};
+    this.hidden = {};
+    this.books = [];
   }
 
   getBooks(): string[] {
@@ -49,13 +57,6 @@ export class UserService {
         }
       });
     });
-
-    // TODO: remove hard-coded values
-    if (!Object.keys(translations).length) {
-      translations['one'] = ['один', 'адын'];
-      translations['two'] = ['два'];
-      translations['three'] = ['три'];
-    }
 
     return translations;
   }

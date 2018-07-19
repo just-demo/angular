@@ -34,7 +34,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('dialog output: ' + result);
+      if (result) {
+        // TODO: show a message somewhere that password change successfully
+      }
     });
   }
 }

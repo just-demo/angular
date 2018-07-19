@@ -2,7 +2,7 @@ import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material';
 import {UserService} from '../services/user.service';
 import {TranslationService} from '../services/translation.service';
-import {GroupService} from '../services/group.service';
+import {WordService} from '../services/word.service';
 import {ActiveBook} from '../active-book';
 
 @Component({
@@ -19,7 +19,7 @@ export class WordTranslationViewDialogComponent implements OnInit {
   constructor(
     private userService: UserService,
     private translationService: TranslationService,
-    private groupService: GroupService,
+    private wordService: WordService,
     private activeBook: ActiveBook,
     @Inject(MAT_DIALOG_DATA) public word: string
   ) {
@@ -55,7 +55,7 @@ export class WordTranslationViewDialogComponent implements OnInit {
   }
 
   private getGroupOccurrences(word: string): any {
-    const group: string[] = this.groupService.getGroup(word);
+    const group: string[] = this.wordService.getRelated(word);
     const groupOccurrences = {};
     group
     // no need to filter because group members are built based on real book tokens, so their appearance in the book is guaranteed

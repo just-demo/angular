@@ -10,29 +10,25 @@ export class AuthService {
   private authUser = null;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
   ) {
-    // TODO: remove hardcoded values
-    this.authUser = 'test.user';
-    this.authHeaders = {};
   }
 
   login(username: string, password: string): Observable<Object> {
     const response = this.http.post('/auth', new Credentials(username, password));
-    response.subscribe(authHeaders => {
-      this.authUser = username;
-      this.authHeaders = authHeaders;
-    });
+    response.subscribe(authHeaders => this.onSuccessfulLogin(username, authHeaders));
     return response;
   }
 
   register(username: string, password: string): Observable<Object> {
     const response = this.http.put('/auth', new Credentials(username, password));
-    response.subscribe(authHeaders => {
-      this.authUser = username;
-      this.authHeaders = authHeaders;
-    });
+    response.subscribe(authHeaders => this.onSuccessfulLogin(username, authHeaders));
     return response;
+  }
+
+  private onSuccessfulLogin(username: string, authHeaders: any): void {
+    this.authUser = username;
+    this.authHeaders = authHeaders;
   }
 
   changePassword(oldPassword: string, newPassword: string): Observable<Object> {
