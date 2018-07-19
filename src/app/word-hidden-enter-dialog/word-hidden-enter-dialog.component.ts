@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {FormControl, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {GroupService} from '../services/group.service';
@@ -10,7 +10,7 @@ import {GroupService} from '../services/group.service';
   styleUrls: ['./word-hidden-enter-dialog.component.css']
 })
 export class WordHiddenEnterDialogComponent implements OnInit {
-  word = new FormControl();
+  word = new FormControl('', [Validators.required]);
   filteredOptions: Observable<string[]>;
   options: string[];
 

@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {UserService} from '../services/user.service';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+import {MatDialog} from '@angular/material';
+import {DataTableComponent} from '../data-table/data-table.component';
+import {WordHiddenEnterDialogComponent} from '../word-hidden-enter-dialog/word-hidden-enter-dialog.component';
 
 @Component({
   selector: 'app-words-selected',
@@ -6,10 +11,53 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./words-selected.component.css']
 })
 export class WordsSelectedComponent implements OnInit {
+  words = [];
+  @ViewChild(DataTableComponent) dataTable: DataTableComponent;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(
+    private userService: UserService,
+    private dialog: MatDialog
+  ) {
   }
 
+  ngOnInit() {
+    this.refreshTable();
+  }
+
+  isAnySelected(): boolean {
+    return !!this.dataTable.getSelected().length;
+  }
+
+  delete(): void {
+    this.dialog.open(ConfirmationDialogComponent, {
+      autoFocus: false,
+      data: 'Are you sure you want to delete the words selected?'
+    }).afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        console.log(`Deleting ${this.dataTable.getSelected().length} words...`);
+        this.dataTable.getSelected().forEach(row => this.userService.removeTranslation(row.word, row.translation));
+        this.refreshTable();
+      }
+    });
+  }
+
+  openWordEnterDialog(): void {
+    this.dialog.open(WordHiddenEnterDialogComponent).afterClosed().subscribe(word => {
+      if (word) {
+        // TODO: implement
+        this.userService.addTranslation(word, word);
+        this.refreshTable();
+      }
+    });
+  }
+
+  private refreshTable(): void {
+    const translations = this.userService.getTranslations();
+    const words = [];
+    Object.keys(translations).forEach(word => translations[word].forEach(translation => words.push({
+      word: word,
+      translation: translation
+    })));
+    this.words = words;
+  }
 }

@@ -11,12 +11,15 @@ import {SelectionModel} from '@angular/cdk/collections';
 })
 export class DataTableComponent implements OnInit {
   @Input() iconType: string;
-  @Input() valueType: string;
-  _values: string[];
-  displayedColumns: string[] = ['icon', 'value', 'select'];
+  // @Input() column: string;
+  @Input() columns: any;
+  // @Input() valueType: string;
+  customColumns: any;
+  identityColumn: string;
+  displayedColumns: string[];
   pageSizeOptions: number[];
-  dataSource: MatTableDataSource<string>;
-  selection = new SelectionModel<string>(true, []);
+  dataSource: MatTableDataSource<any>;
+  selection = new SelectionModel<any>(true, []);
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -26,6 +29,10 @@ export class DataTableComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.identityColumn = this.buildIdentityColumn(this.columns);
+    this.customColumns = {};
+    Object.keys(this.columns).forEach(column => this.customColumns[column || this.identityColumn] = this.columns[column]);
+    this.displayedColumns = ['icon', ...Object.keys(this.customColumns), 'select'];
   }
 
   @Input()
@@ -34,6 +41,14 @@ export class DataTableComponent implements OnInit {
     this.pageSizeOptions = this.paginationHelperService.getPageSizeOptions(values.length);
     this.dataSource = new MatTableDataSource(values);
     this.dataSource.paginator = this.paginator;
+  }
+
+  getFieldValue(row: any, field: string) {
+    let value = row;
+    for (const key of field.split('.')) {
+      value = key && key !== this.identityColumn ? value[key] : value;
+    }
+    return value;
   }
 
   applyFilter(filterValue: string): void {
@@ -45,7 +60,7 @@ export class DataTableComponent implements OnInit {
     return this.selection.selected.length === this.dataSource.data.length;
   }
 
-  getSelected(): string[] {
+  getSelected(): any[] {
     return this.selection.selected;
   }
 
@@ -53,5 +68,13 @@ export class DataTableComponent implements OnInit {
     this.isAllSelected() ?
       this.selection.clear() :
       this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  private buildIdentityColumn(columns: any) {
+    return Object.keys(columns)
+      .filter(column => column)
+      .map(column => column.replace(/\./g, '-'))
+      .concat('identity')
+      .join('-');
   }
 }

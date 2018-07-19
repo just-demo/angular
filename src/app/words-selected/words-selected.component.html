@@ -1,3 +1,4 @@
-<p>
-  selected-words works!
-</p>
+<app-data-table iconType="school" [columns]="{word: 'Word', translation: 'Translation'}" [values]="words">
+  <mat-icon (click)="openWordEnterDialog()">create</mat-icon>
+  <mat-icon [class.disabled]="!isAnySelected()" (click)="isAnySelected() && delete()">delete</mat-icon>
+</app-data-table>

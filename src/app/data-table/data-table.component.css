@@ -6,9 +6,14 @@ table {
   margin: 10px;
 }
 
-th:first-child, th:last-child {
-  width: 40px;
+th:first-child {
+  width: 50px;
 }
+
+th:last-child {
+  width: 30px;
+}
+
 
 .mat-form-field.search {
   width: 350px;
