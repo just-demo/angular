@@ -1,11 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {Credentials} from '../credentials';
 import {MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
   selector: 'app-confirmation-dialog',
-  templateUrl: './confirmation-dialog.component.html',
-  styleUrls: ['./confirmation-dialog.component.css']
+  templateUrl: './confirmation-dialog.component.html'
 })
 export class ConfirmationDialogComponent implements OnInit {
 

@@ -2,9 +2,9 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {BookParserService} from '../services/book-parser.service';
 import {PaginationService} from './pagination.service';
 import {MatDialog} from '@angular/material';
-import {WordDialogComponent} from '../word-dialog/word-dialog.component';
 import {ActivatedRoute} from '@angular/router';
 import {ActiveBook} from '../active-book';
+import {WordTranslationViewDialogComponent} from '../dialogs/word-translation-view-dialog.component';
 
 @Component({
   selector: 'app-book-reader',
@@ -95,7 +95,7 @@ export class BookReaderComponent implements OnInit {
   }
 
   openWordDialog(token: string): void {
-    this.dialog.open(WordDialogComponent, {
+    this.dialog.open(WordTranslationViewDialogComponent, {
       width: '300px',
       data: this.activeBook.words[token]
     });

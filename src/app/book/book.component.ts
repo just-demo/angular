@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {BookParserService} from '../services/book-parser.service';
 import {ActiveBook} from '../active-book';
 import {MatDialog} from '@angular/material';
-import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+import {ConfirmationDialogComponent} from '../dialogs/confirmation-dialog.component';
 import {UserService} from '../services/user.service';
 import {TitleService} from '../services/title.service';
 

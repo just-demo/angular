@@ -7,8 +7,7 @@ import {TranslationService} from '../services/translation.service';
 
 @Component({
   selector: 'app-word-translation-enter-dialog',
-  templateUrl: './word-translation-enter-dialog.component.html',
-  styleUrls: ['./word-translation-enter-dialog.component.css']
+  templateUrl: './word-translation-enter-dialog.component.html'
 })
 export class WordTranslationEnterDialogComponent implements OnInit {
   word = new FormControl('', [Validators.required]);

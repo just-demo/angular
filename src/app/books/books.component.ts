@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserService} from '../services/user.service';
 import {MatDialog} from '@angular/material';
 import {DataTableComponent} from '../data-table/data-table.component';
-import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+import {ConfirmationDialogComponent} from '../dialogs/confirmation-dialog.component';
 
 @Component({
   selector: 'app-books',

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {FormControl, Validators} from '@angular/forms';
 import {MatDialogRef} from '@angular/material';
@@ -6,8 +6,7 @@ import {AppComponent} from '../app.component';
 
 @Component({
   selector: 'app-registration-dialog',
-  templateUrl: './registration-dialog.component.html',
-  styleUrls: ['./registration-dialog.component.css']
+  templateUrl: './registration-dialog.component.html'
 })
 export class RegistrationDialogComponent {
   username = new FormControl('', [Validators.required]);
@@ -20,10 +19,7 @@ export class RegistrationDialogComponent {
   }
 
   register() {
-    this.authService.register({
-      username: this.username.value,
-      password: this.password.value
-    }).subscribe(
+    this.authService.register(this.username.value, this.password.value).subscribe(
       () => {
         this.dialogRef.close();
       },

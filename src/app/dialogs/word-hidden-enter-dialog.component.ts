@@ -6,8 +6,7 @@ import {GroupService} from '../services/group.service';
 
 @Component({
   selector: 'app-word-hidden-enter-dialog',
-  templateUrl: './word-hidden-enter-dialog.component.html',
-  styleUrls: ['./word-hidden-enter-dialog.component.css']
+  templateUrl: './word-hidden-enter-dialog.component.html'
 })
 export class WordHiddenEnterDialogComponent implements OnInit {
   word = new FormControl('', [Validators.required]);

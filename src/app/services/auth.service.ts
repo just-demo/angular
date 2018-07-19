@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Credentials} from '../credentials';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,19 +17,19 @@ export class AuthService {
     this.authHeaders = {};
   }
 
-  login(credentials: Credentials): Observable<Object> {
-    const response = this.http.post('/auth', credentials);
+  login(username: string, password: string): Observable<Object> {
+    const response = this.http.post('/auth', new Credentials(username, password));
     response.subscribe(authHeaders => {
-      this.authUser = credentials.username;
+      this.authUser = username;
       this.authHeaders = authHeaders;
     });
     return response;
   }
 
-  register(credentials: Credentials): Observable<Object> {
-    const response = this.http.put('/auth', credentials);
+  register(username: string, password: string): Observable<Object> {
+    const response = this.http.put('/auth', new Credentials(username, password));
     response.subscribe(authHeaders => {
-      this.authUser = credentials.username;
+      this.authUser = username;
       this.authHeaders = authHeaders;
     });
     return response;
@@ -62,5 +61,10 @@ export class AuthService {
 
   getAuthUser() {
     return this.authUser;
+  }
+}
+
+export class Credentials {
+  constructor(username: string, password: string) {
   }
 }

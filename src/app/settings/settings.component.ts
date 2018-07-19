@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TitleService} from '../services/title.service';
 import {AuthService} from '../services/auth.service';
 import {MatDialog} from '@angular/material';
-import {ChangePasswordDialogComponent} from '../change-password-dialog/change-password-dialog.component';
+import {ChangePasswordDialogComponent} from '../dialogs/change-password-dialog.component';
 
 @Component({
   selector: 'app-settings',

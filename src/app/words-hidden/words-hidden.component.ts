@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {UserService} from '../services/user.service';
-import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
-import {WordHiddenEnterDialogComponent} from '../word-hidden-enter-dialog/word-hidden-enter-dialog.component';
+import {ConfirmationDialogComponent} from '../dialogs/confirmation-dialog.component';
+import {WordHiddenEnterDialogComponent} from '../dialogs/word-hidden-enter-dialog.component';
 import {DataTableComponent} from '../data-table/data-table.component';
 
 @Component({

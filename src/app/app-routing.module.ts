@@ -16,7 +16,7 @@ const routes: Routes = [
   {
     path: 'books/:bookId',
     component: BookComponent,
-    canActivate: [ActiveBookGuard],
+    canActivate: [ActiveBookGuard], // TODO: change it because a book can be loaded from server on demand
     children: [
       {path: '', redirectTo: 'pages', pathMatch: 'full'},
       {path: 'pages', redirectTo: 'pages/1', pathMatch: 'full'},

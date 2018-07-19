@@ -14,14 +14,14 @@ th:last-child {
   width: 30px;
 }
 
-
 .mat-form-field.search {
   width: 350px;
   margin-left: 10px;
 }
 
-td:hover {
+tr:not(.mat-header-row):hover {
   cursor: pointer;
+  background-color: #eee;
 }
 
 .buttons {

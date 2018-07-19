@@ -1,20 +1,16 @@
-import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
-import {Credentials} from '../credentials';
-import {AppComponent} from '../app.component';
-import {BookReaderComponent} from '../book-reader/book-reader.component';
-import {FormControl} from '@angular/forms';
+import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA} from '@angular/material';
 import {UserService} from '../services/user.service';
 import {TranslationService} from '../services/translation.service';
 import {GroupService} from '../services/group.service';
 import {ActiveBook} from '../active-book';
 
 @Component({
-  selector: 'app-word-dialog',
-  templateUrl: './word-dialog.component.html',
-  styleUrls: ['./word-dialog.component.css']
+  selector: 'app-word-translation-view-dialog',
+  templateUrl: './word-translation-view-dialog.component.html',
+  styleUrls: ['./word-translation-view-dialog.component.css']
 })
-export class WordDialogComponent implements OnInit {
+export class WordTranslationViewDialogComponent implements OnInit {
   redirect: EventEmitter<string> = new EventEmitter<string>();
   translations: string[];
   occurrence: number;
@@ -22,7 +18,6 @@ export class WordDialogComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    public dialogRef: MatDialogRef<BookReaderComponent>,
     private translationService: TranslationService,
     private groupService: GroupService,
     private activeBook: ActiveBook,
@@ -47,8 +42,6 @@ export class WordDialogComponent implements OnInit {
   }
 
   redirectTo(word: string): void {
-    // TODO: consider making the dialog to gather information directly from bookDetails
-    // this.redirect.emit(word);
     this.word = word;
     this.ngOnInit();
   }
@@ -60,12 +53,6 @@ export class WordDialogComponent implements OnInit {
   private getOccurrence(word: string): number {
     return this.activeBook.occurrences[word] || 0;
   }
-
-  // private getGroupOccurrence(word: string): number {
-  //   const group: string[] = this.activeBook.groups[word] || [];
-  //   return group.map(groupWord => this.activeBook.occurrences[groupWord] || 0)
-  //     .reduce((groupOccurrence, wordOccurrence) => groupOccurrence + wordOccurrence, 0);
-  // }
 
   private getGroupOccurrences(word: string): any {
     const group: string[] = this.groupService.getGroup(word);

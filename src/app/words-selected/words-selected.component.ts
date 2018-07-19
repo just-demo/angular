@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserService} from '../services/user.service';
-import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+import {ConfirmationDialogComponent} from '../dialogs/confirmation-dialog.component';
 import {MatDialog} from '@angular/material';
 import {DataTableComponent} from '../data-table/data-table.component';
-import {WordTranslationEnterDialogComponent} from '../word-translation-enter-dialog/word-translation-enter-dialog.component';
+import {WordTranslationEnterDialogComponent} from '../dialogs/word-translation-enter-dialog.component';
 
 @Component({
   selector: 'app-words-selected',

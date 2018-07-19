@@ -1,12 +1,11 @@
-///<reference path="../../../node_modules/@angular/animations/src/animation_metadata.d.ts"/>
-import {ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {TranslationService} from '../services/translation.service';
 import {ActiveBook} from '../active-book';
 import {KeyValue} from '../quiz/key-value';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {WordDialogComponent} from '../word-dialog/word-dialog.component';
 import {UserService} from '../services/user.service';
 import {PaginationHelperService} from '../services/pagination-helper.service';
+import {WordTranslationViewDialogComponent} from '../dialogs/word-translation-view-dialog.component';
 
 @Component({
   selector: 'app-book-statistics',
@@ -53,7 +52,7 @@ export class BookStatisticsComponent implements OnInit {
   }
 
   openWordDialog(word: string): void {
-    this.dialog.open(WordDialogComponent, {
+    this.dialog.open(WordTranslationViewDialogComponent, {
       width: '300px',
       data: word
     });

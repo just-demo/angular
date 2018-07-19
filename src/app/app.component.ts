@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
 import {AuthService} from './services/auth.service';
 import {MatDialog} from '@angular/material';
-import {LoginDialogComponent} from './login-dialog/login-dialog.component';
+import {LoginDialogComponent} from './dialogs/login-dialog.component';
 import {ActiveBook} from './active-book';
 import {Router} from '@angular/router';
 import {UserService} from './services/user.service';
 import {TitleService} from './services/title.service';
-import {RegistrationDialogComponent} from './registration-dialog/registration-dialog.component';
+import {RegistrationDialogComponent} from './dialogs/registration-dialog.component';
 
 @Component({
   selector: 'app-root',

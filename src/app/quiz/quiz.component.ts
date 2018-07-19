@@ -3,7 +3,7 @@ import {ComparatorService, MatchResult} from './comparator.service';
 import {RandomService} from './random.service';
 import {UserService} from '../services/user.service';
 import {KeyValue} from './key-value';
-import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+import {ConfirmationDialogComponent} from '../dialogs/confirmation-dialog.component';
 import {MatDialog} from '@angular/material';
 import {TitleService} from '../services/title.service';
 import {ActivatedRoute, Router} from '@angular/router';

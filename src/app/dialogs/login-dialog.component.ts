@@ -6,8 +6,7 @@ import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-login-dialog',
-  templateUrl: './login-dialog.component.html',
-  styleUrls: ['./login-dialog.component.css']
+  templateUrl: './login-dialog.component.html'
 })
 export class LoginDialogComponent {
   username = new FormControl('', [Validators.required]);
@@ -20,10 +19,7 @@ export class LoginDialogComponent {
   }
 
   login() {
-    this.authService.login({
-      username: this.username.value,
-      password: this.password.value
-    }).subscribe(
+    this.authService.login(this.username.value, this.password.value).subscribe(
       () => {
         this.dialogRef.close();
       },
