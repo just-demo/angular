@@ -16,7 +16,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class QuizComponent implements OnInit, OnDestroy {
   @ViewChild('input') input: ElementRef;
   sequenceModes = ['uniform', 'ordered', 'random'];
-
   translations: KeyValue[] = [];
   sequenceIndex: number;
 
@@ -74,30 +73,26 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
-    if (this.translations.length > 0) {
-      this.sequenceIndex = (this.sequenceIndex + 1) % this.translations.length;
-      let currentIndex;
-      switch (this.sequenceMode) {
-        case 'uniform':
-          // TODO: optimize with slice???
-          if (this.sequenceIndex === 0 || !this.randomIndexes) {
-            this.randomIndexes = this.randomService.randomIntArray(this.translations.length);
-          }
-          currentIndex = this.randomIndexes[this.sequenceIndex];
-          break;
-        case 'ordered':
-          currentIndex = this.sequenceIndex;
-          break;
-        case 'random':
-          currentIndex = this.randomService.randomInt(this.translations.length);
-          break;
-      }
-      this.history.push(currentIndex);
-      this.updateTitle();
-      this.resetResult();
-    } else {
-      this.titleService.setTitle('Quiz');
+    this.sequenceIndex = (this.sequenceIndex + 1) % this.translations.length;
+    let currentIndex;
+    switch (this.sequenceMode) {
+      case 'uniform':
+        // TODO: optimize with slice???
+        if (this.sequenceIndex === 0 || !this.randomIndexes) {
+          this.randomIndexes = this.randomService.randomIntArray(this.translations.length);
+        }
+        currentIndex = this.randomIndexes[this.sequenceIndex];
+        break;
+      case 'ordered':
+        currentIndex = this.sequenceIndex;
+        break;
+      case 'random':
+        currentIndex = this.randomService.randomInt(this.translations.length);
+        break;
     }
+    this.history.push(currentIndex);
+    this.updateTitle();
+    this.resetResult();
   }
 
   back(): void {
@@ -148,7 +143,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   isQuizEmpty(): boolean {
-    return !this.translations.length;
+    return !Object.keys(this.userService.getTranslations()).length;
   }
 
   delete(): void {
@@ -171,6 +166,13 @@ export class QuizComponent implements OnInit, OnDestroy {
     Object.keys(translations).forEach(value => translations[value].forEach(key =>
       this.translations.push(new KeyValue(key, value))
     ));
+    if (!this.translations.length) {
+      // Just to show ability of the screen
+      this.translations.push(
+        new KeyValue('пример', 'example'),
+        new KeyValue('демонстрация', 'demonstration')
+      );
+    }
     this.sequenceIndex = -1;
     this.history = [];
     this.next();

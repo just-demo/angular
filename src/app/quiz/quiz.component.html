@@ -16,10 +16,10 @@
   </mat-icon>
   <mat-icon [routerLink]="['/data', 'selected']" class="bottom">list</mat-icon>
   <mat-icon (click)="!isQuizEmpty() && delete()" class="bottom" [class.disabled]="isQuizEmpty()">delete</mat-icon>
-  <div *ngIf="isQuizEmpty()" class="quiz">
-    You have not selected any words for quiz
+  <div *ngIf="isQuizEmpty()" class="demo-message">
+    Quiz is running in demo mode because you have no selected words for it.
   </div>
-  <div *ngIf="!isQuizEmpty()" class="quiz">
+  <div class="quiz">
     <div class="inputs">
       <div class="source">
         {{getTranslationKey()}}

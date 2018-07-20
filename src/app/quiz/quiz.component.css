@@ -34,6 +34,11 @@ button:hover {
   text-align: center;
 }
 
+.demo-message {
+  text-align: center;
+  color: #aaa;
+}
+
 .inputs {
   display: inline-block;
   text-align: left;
