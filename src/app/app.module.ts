@@ -33,6 +33,8 @@ import {WordTranslationEnterDialogComponent} from './dialogs/word-translation-en
 import {RegistrationDialogComponent} from './dialogs/registration-dialog.component';
 import {WordTranslationViewDialogComponent} from './dialogs/word-translation-view-dialog.component';
 import { BooksDialogComponent } from './dialogs/books-dialog.component';
+import {RouteReuseStrategy} from '@angular/router';
+import {CustomRouteReuseStrategy} from './custom-route-reuse-strategy';
 
 @NgModule({
   declarations: [
@@ -73,6 +75,7 @@ import { BooksDialogComponent } from './dialogs/books-dialog.component';
     MaterialAllModule
   ],
   providers: [
+    {provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: BackendRequestInterceptor, multi: true},
     ActiveBook
   ],

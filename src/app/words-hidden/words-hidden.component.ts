@@ -34,7 +34,6 @@ export class WordsHiddenComponent implements OnInit {
       data: 'Are you sure you want to delete the words selected?'
     }).afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        console.log(`Deleting ${this.dataTable.getSelected().length} words...`);
         this.dataTable.getSelected().forEach(word => this.userService.setHidden(word, false));
         this.refreshTable();
       }

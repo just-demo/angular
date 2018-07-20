@@ -82,12 +82,7 @@ export class AppComponent {
     reader.onload = () => {
       this.userService.addBook(file.name, reader.result);
       this.activeBook.load(file.name, reader.result);
-      console.log('RRRRRRRRRRRRREEEEEEEEEEEEEEDDDDDDDDDD');
-      console.log(this.activeBook.id);
-      const bookId =  this.activeBook.id.split('').join('');
-      // TODO: why is it throwing an error???????????????????????????????????????????????????????
-      this.router.navigate(['/books',  this.activeBook.id]);
-      // this.router.navigate(['/data', 'books']);
+      this.router.navigate(['/books', this.activeBook.id]);
     };
     reader.readAsText(file);
   }

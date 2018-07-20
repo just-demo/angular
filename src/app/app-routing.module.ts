@@ -4,7 +4,6 @@ import {BookStatisticsComponent} from './book-statistics/book-statistics.compone
 import {ActiveBookGuard} from './active-book.guard';
 import {QuizComponent} from './quiz/quiz.component';
 import {BookReaderComponent} from './book-reader/book-reader.component';
-import {BooksComponent} from './books/books.component';
 import {BookComponent} from './book/book.component';
 import {HomeComponent} from './home/home.component';
 import {SettingsComponent} from './settings/settings.component';

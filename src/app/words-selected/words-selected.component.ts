@@ -34,7 +34,6 @@ export class WordsSelectedComponent implements OnInit {
       data: 'Are you sure you want to delete the words selected?'
     }).afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        console.log(`Deleting ${this.dataTable.getSelected().length} words...`);
         this.dataTable.getSelected().forEach(row => this.userService.removeTranslation(row.word, row.translation));
         this.refreshTable();
       }
