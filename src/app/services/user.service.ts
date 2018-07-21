@@ -38,17 +38,13 @@ export class UserService {
     return Object.keys(this.books).filter(bookId => this.books[bookId]);
   }
 
-  hasBook(bookId: string): boolean {
-    return this.books[bookId] || this.isBookInitialized(this.books[bookId]);
-  }
-
   getBook(bookId: string): Observable<string> {
     if (this.isBookInitialized(this.books[bookId])) {
       return of(this.books[bookId]);
     }
 
     if (this.books[bookId] && this.authService.isAuthenticated()) {
-      const book = this.http.get(this.urlBook(bookId));
+      const book = this.http.get<string>(this.urlBook(bookId));
       book.subscribe(text => this.books[bookId] = text);
       return book;
     }
