@@ -7,8 +7,9 @@ import {Observable, of} from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  private selected = {};
-  private hidden = {};
+  // Working data structure is optimized for performance
+  private selected: { [word: string]: { [translation: string]: boolean } } = {};
+  private hidden: { [word: string]: boolean } = {};
   // private books: { [bookId: string]: boolean | string } = {};
   private books: { [bookId: string]: any } = {};
 
@@ -19,15 +20,15 @@ export class UserService {
   }
 
   syncUserData(): void {
-    const url = '/users/' + this.authService.getAuthUser();
     const userPatch = {
       selected: this.getSelected(),
       hidden: this.getHidden(),
       books: this.getBooks()
     };
-    this.http.patch(url, userPatch)
-    // TODO: refresh current page to get new data displayed!
-      .subscribe(user => this.copyState(user));
+    this.patchUser(userPatch).subscribe(() =>
+      this.readUser().subscribe(user =>
+        // TODO: refresh current page to get new data displayed!
+        this.copyState(user)));
   }
 
   clearUserData(): void {
@@ -44,7 +45,7 @@ export class UserService {
     }
 
     if (this.books[bookId] && this.authService.isAuthenticated()) {
-      const book = this.http.get<string>(this.urlBook(bookId));
+      const book = this.http.get<string>('/users/' + this.authService.getAuthUser() + '/books/' + bookId);
       book.subscribe(text => this.books[bookId] = text);
       return book;
     }
@@ -55,30 +56,31 @@ export class UserService {
   saveBook(bookId: string, text: string): void {
     this.books[bookId] = text;
     if (this.authService.isAuthenticated()) {
-      this.http.put(this.urlBook(bookId), text).subscribe();
+      const patch = {
+        books: [{
+          name: bookId,
+          content: text,
+          language: 'en'
+        }]
+      };
+      this.patchUser(patch);
     }
   }
 
   removeBook(bookId: string): void {
     this.books[bookId] = false;
     if (this.authService.isAuthenticated()) {
-      this.http.delete(this.urlBook(bookId)).subscribe();
+      const patch = {books: [{name: bookId}]};
+      this.patchUserRemove(patch);
     }
   }
 
-  /**
-   * @return {word: [translation, ...]}
-   */
-  getSelected(): any {
-    const selected = {};
-    Object.keys(this.selected).forEach(word => {
-      Object.keys(this.selected[word]).forEach(translation => {
-        if (this.selected[word][translation]) {
-          selected[word] = selected[word] || [];
-          selected[word].push(translation);
-        }
-      });
-    });
+  getSelected(): { en: string, ru: string }[] {
+    const selected = [];
+    Object.keys(this.selected).forEach(word =>
+      Object.keys(this.selected[word])
+        .filter(translation => this.selected[word][translation])
+        .forEach(translation => selected.push({en: word, ru: translation})));
     return selected;
   }
 
@@ -108,31 +110,46 @@ export class UserService {
   saveHidden(word: string, hidden: boolean) {
     this.hidden[word] = hidden;
     if (this.authService.isAuthenticated()) {
-      // TODO: encode values!!!
-      const url = '/users/' + this.authService.getAuthUser() + '/hidden/' + word;
-      hidden ?
-        this.http.put(url, {}).subscribe() :
-        this.http.delete(url).subscribe();
+      const patch = {hidden: [word]};
+      hidden ? this.patchUser(patch) : this.patchUserRemove(patch);
     }
   }
 
-  private getBooks(): { [bookId: string]: string } {
-    const books = {};
-    Object.keys(this.books)
+  private readUser(): Observable<any> {
+    // No need to subscribe since this is a read operation
+    return this.http.get<any>('/users/' + this.authService.getAuthUser());
+  }
+
+  private patchUser(userPatch: any): Observable<any> {
+    const response = this.http.patch<any>('/users/' + this.authService.getAuthUser(), userPatch);
+    response.subscribe();
+    return response;
+  }
+
+  private patchUserRemove(userPatch: any): Observable<any> {
+    const response = this.http.patch<any>('/users/' + this.authService.getAuthUser() + '/remove', userPatch);
+    response.subscribe();
+    return response;
+  }
+
+  private getBooks(): { name: string, content: string, language: string }[] {
+    return Object.keys(this.books)
       .filter(bookId => this.isBookInitialized(this.books[bookId]))
-      .forEach(bookId => books[bookId] = this.books[bookId]);
-    return books;
+      .map(bookId => {
+        return {
+          name: bookId,
+          content: this.books[bookId],
+          language: 'en'
+        };
+      });
   }
 
   private saveSelectedInternal(word: string, translation: string, selected: boolean): void {
     this.selected[word] = this.selected[word] || {};
     this.selected[word][translation] = selected;
     if (this.authService.isAuthenticated()) {
-      // TODO: encode values!!!
-      const url = '/users/' + this.authService.getAuthUser() + '/selected/' + word + '/' + translation;
-      selected ?
-        this.http.put(url, {}).subscribe() :
-        this.http.delete(url).subscribe();
+      const patch = {selected: [{en: word, ru: translation}]};
+      selected ? this.patchUser(patch) : this.patchUserRemove(patch);
     }
   }
 
@@ -140,20 +157,16 @@ export class UserService {
     return typeof text === 'string';
   }
 
-  private urlBook(bookId: string): string {
-    // TODO: encode values!!!
-    return '/users/' + this.authService.getAuthUser() + '/books/' + bookId;
-  }
-
   private copyState(user: any): void {
     user = user || {};
     this.selected = {};
     this.hidden = {};
-    Object.keys(user.selected || {}).forEach(word => {
-      this.selected[word] = this.selected[word] || {};
-      user.selected[word].forEach(translation => this.selected[word][translation] = true);
+    this.books = {};
+    (user.selected || []).forEach(selection => {
+      this.selected[selection.en] = this.selected[selection.en] || {};
+      this.selected[selection.en][selection.ru] = true;
     });
-    Object.keys(user.hidden || {}).forEach(word => this.hidden[word] = true);
-    this.books = user.books || [];
+    (user.hidden || []).forEach(word => this.hidden[word] = true);
+    (user.books || []).forEach(book => this.books[book.name] = true);
   }
 }

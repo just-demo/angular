@@ -50,12 +50,8 @@ export class WordsSelectedComponent implements OnInit {
   }
 
   private refreshTable(): void {
-    const translations = this.userService.getSelected();
-    const words = [];
-    Object.keys(translations).forEach(word => translations[word].forEach(translation => words.push({
-      word: word,
-      translation: translation
-    })));
-    this.words = words;
+    this.words = this.userService.getSelected().map(selected => {
+      return {word: selected.en, translation: selected.ru};
+    });
   }
 }

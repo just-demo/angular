@@ -143,7 +143,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   isQuizEmpty(): boolean {
-    return !Object.keys(this.userService.getSelected()).length;
+    return !this.userService.getSelected().length;
   }
 
   delete(): void {
@@ -162,10 +162,8 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   private startQuiz(mode: string): void {
     this.sequenceMode = mode;
-    const translations = this.userService.getSelected();
-    Object.keys(translations).forEach(value => translations[value].forEach(key =>
-      this.translations.push(new KeyValue(key, value))
-    ));
+    this.translations = this.userService.getSelected()
+      .map(selected => new KeyValue(selected.en, selected.ru));
     if (!this.translations.length) {
       // Just to show ability of the screen
       this.translations.push(
