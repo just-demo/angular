@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BookParserService} from './services/book-parser.service';
+import {BookParserService} from '../services/book-parser.service';
 
 @Injectable()
 export class ActiveBook {

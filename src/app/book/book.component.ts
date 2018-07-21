@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BookParserService} from '../services/book-parser.service';
-import {ActiveBook} from '../active-book';
+import {ActiveBook} from './active-book';
 import {MatDialog} from '@angular/material';
 import {ConfirmationDialogComponent} from '../dialogs/confirmation-dialog.component';
 import {UserService} from '../services/user.service';

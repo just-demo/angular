@@ -3,7 +3,7 @@ import {BookParserService} from '../services/book-parser.service';
 import {PaginationService} from './pagination.service';
 import {MatDialog} from '@angular/material';
 import {ActivatedRoute} from '@angular/router';
-import {ActiveBook} from '../active-book';
+import {ActiveBook} from '../book/active-book';
 import {WordTranslationViewDialogComponent} from '../dialogs/word-translation-view-dialog.component';
 
 @Component({

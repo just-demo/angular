@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {TranslationService} from '../services/translation.service';
-import {ActiveBook} from '../active-book';
+import {ActiveBook} from '../book/active-book';
 import {KeyValue} from '../quiz/key-value';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {UserService} from '../services/user.service';

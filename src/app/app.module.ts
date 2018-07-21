@@ -13,7 +13,7 @@ import {BookReaderComponent} from './book-reader/book-reader.component';
 import {LoginDialogComponent} from './dialogs/login-dialog.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialAllModule} from './material-all/material-all.module';
-import {ActiveBook} from './active-book';
+import {ActiveBook} from './book/active-book';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {QuizComponent} from './quiz/quiz.component';
 import {IndexesPipe} from './pipes/indexes.pipe';

@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA} from '@angular/material';
 import {UserService} from '../services/user.service';
 import {TranslationService} from '../services/translation.service';
 import {WordService} from '../services/word.service';
-import {ActiveBook} from '../active-book';
+import {ActiveBook} from '../book/active-book';
 
 @Component({
   selector: 'app-word-translation-view-dialog',

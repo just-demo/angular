@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {AuthService} from './services/auth.service';
 import {MatDialog} from '@angular/material';
 import {LoginDialogComponent} from './dialogs/login-dialog.component';
-import {ActiveBook} from './active-book';
+import {ActiveBook} from './book/active-book';
 import {Router} from '@angular/router';
 import {UserService} from './services/user.service';
 import {TitleService} from './services/title.service';
@@ -91,8 +91,9 @@ export class AppComponent {
   }
 
   logout(): void {
-    // TODO: either clear active book or keep it in user data
+    this.activeBook.clear();
     this.userService.clearUserData();
+    // TODO: refresh current page to get relevant data displayed! E.g. user should be redirected out of active book page
     this.authService.logout();
   }
 
