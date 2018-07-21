@@ -48,15 +48,15 @@ export class AppComponent {
   }
 
   hasSavedBooks(): boolean {
-    return !!this.userService.getBooks().length;
+    return !!this.userService.getBookIds().length;
   }
 
   getRecentSavedBookIds(): string[] {
-    return this.userService.getBooks().slice(0, this.recentBookCount);
+    return this.userService.getBookIds().slice(0, this.recentBookCount);
   }
 
   hasNonRecentSavedBooks(): boolean {
-    return this.userService.getBooks().length > this.recentBookCount;
+    return this.userService.getBookIds().length > this.recentBookCount;
   }
 
   openBooksDialog(): void {
@@ -86,8 +86,10 @@ export class AppComponent {
     this.activeBook.clear();
     const reader = new FileReader();
     reader.onload = () => {
-      this.userService.addBook(file.name, reader.result);
-      this.activeBook.load(file.name, reader.result);
+      // TODO: consider making server side support dots
+      const bookId = file.name.replace(/\./g, '-');
+      this.userService.saveBook(bookId, reader.result);
+      this.activeBook.load(bookId, reader.result);
       this.router.navigate(['/books', this.activeBook.id]);
     };
     reader.readAsText(file);

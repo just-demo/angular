@@ -38,7 +38,7 @@ export class WordTranslationViewDialogComponent implements OnInit {
   toggleSelection(word: string, translation: string): void {
     return this.userService.isSelected(word, translation) ?
       this.userService.removeSelected(word, translation) :
-      this.userService.putSelected(word, translation);
+      this.userService.saveSelected(word, translation);
   }
 
   redirectTo(word: string): void {

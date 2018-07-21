@@ -8,7 +8,7 @@ import {AuthService} from './auth.service';
 export class UserService {
   private selected = {};
   private hidden = {};
-  private books: string[] = [];
+  private books: { [bookId: string]: boolean | string } = {};
 
   constructor(
     private http: HttpClient,
@@ -17,30 +17,40 @@ export class UserService {
   }
 
   syncUserData(): void {
-    this.http.get<any>('/users/' + this.authService.getAuthUser(), this.getAuthOptions())
-      .subscribe(user => this.copyState(user || {}));
-    // TODO: flush unsaved data to server, for hidden and selected build a map with true/false values in the end
-    // so that it will be clear if user wants to delete something already persisted on server
+    const url = '/users/' + this.authService.getAuthUser();
+    const userPatch = {
+      selected: this.getSelected(),
+      hidden: this.getHidden(),
+      books: this.getBooks()
+    };
+    this.http.patch(url, userPatch, this.getAuthOptions())
+    // TODO: refresh current page to get new data displayed!
+      .subscribe(user => this.copyState(user));
   }
 
   clearUserData(): void {
     this.copyState({});
   }
 
-  getBooks(): string[] {
-    return this.books;
+  getBookIds(): string[] {
+    return Object.keys(this.books).filter(bookId => this.books[bookId]);
   }
 
-  addBook(name: string, text: string): void {
-    // TODO: implement http request
-    this.books.unshift(name);
+  saveBook(bookId: string, text: string): void {
+    this.books[bookId] = text;
+    if (this.authService.isAuthenticated()) {
+      // TODO: encode values!!!
+      const url = '/users/' + this.authService.getAuthUser() + '/books/' + bookId;
+      this.http.put(url, text, this.getAuthOptions()).subscribe();
+    }
   }
 
-  deleteBook(bookId: string): void {
-    // TODO: implement http request
-    const index = this.books.indexOf(bookId);
-    if (index > -1) {
-      this.books.splice(index, 1);
+  removeBook(bookId: string): void {
+    this.books[bookId] = false;
+    if (this.authService.isAuthenticated()) {
+      // TODO: encode values!!!
+      const url = '/users/' + this.authService.getAuthUser() + '/books/' + bookId;
+      this.http.delete(url, this.getAuthOptions()).subscribe();
     }
   }
 
@@ -60,12 +70,12 @@ export class UserService {
     return selected;
   }
 
-  putSelected(word: string, translation: string): void {
-    this.setSelected(word, translation, true);
+  saveSelected(word: string, translation: string): void {
+    this.saveSelectedInternal(word, translation, true);
   }
 
   removeSelected(word: string, translation: string): void {
-    this.setSelected(word, translation, false);
+    this.saveSelectedInternal(word, translation, false);
   }
 
   isSelected(word: string, translation?: string): boolean {
@@ -83,26 +93,39 @@ export class UserService {
     return !!this.hidden[word];
   }
 
-  setHidden(word: string, hidden: boolean) {
+  saveHidden(word: string, hidden: boolean) {
     this.hidden[word] = hidden;
-    // TODO: encode values!!!
-    const url = '/users/' + this.authService.getAuthUser() + '/hidden/' + word;
-    hidden ?
-      this.http.put(url, {}, this.getAuthOptions()).subscribe() :
-      this.http.delete(url, this.getAuthOptions()).subscribe();
+    if (this.authService.isAuthenticated()) {
+      // TODO: encode values!!!
+      const url = '/users/' + this.authService.getAuthUser() + '/hidden/' + word;
+      hidden ?
+        this.http.put(url, {}, this.getAuthOptions()).subscribe() :
+        this.http.delete(url, this.getAuthOptions()).subscribe();
+    }
   }
 
-  private setSelected(word: string, translation: string, selected: boolean): void {
+  private getBooks(): { [bookId: string]: string } {
+    const books = {};
+    Object.keys(this.books)
+      .filter(bookId => typeof this.books[bookId] === 'string')
+      .forEach(bookId => books[bookId] = this.books[bookId]);
+    return books;
+  }
+
+  private saveSelectedInternal(word: string, translation: string, selected: boolean): void {
     this.selected[word] = this.selected[word] || {};
     this.selected[word][translation] = selected;
-    // TODO: encode values!!!
-    const url = '/users/' + this.authService.getAuthUser() + '/selected/' + word + '/' + translation;
-    selected ?
-      this.http.put(url, {}, this.getAuthOptions()).subscribe() :
-      this.http.delete(url, this.getAuthOptions()).subscribe();
+    if (this.authService.isAuthenticated()) {
+      // TODO: encode values!!!
+      const url = '/users/' + this.authService.getAuthUser() + '/selected/' + word + '/' + translation;
+      selected ?
+        this.http.put(url, {}, this.getAuthOptions()).subscribe() :
+        this.http.delete(url, this.getAuthOptions()).subscribe();
+    }
   }
 
   private copyState(user: any): void {
+    user = user || {};
     this.selected = {};
     this.hidden = {};
     Object.keys(user.selected || {}).forEach(word => {

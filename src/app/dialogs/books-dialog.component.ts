@@ -27,7 +27,7 @@ export class BooksDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.bookIds = this.userService.getBooks();
+    this.bookIds = this.userService.getBookIds();
     this.filteredBookIds = this.bookIds;
   }
 

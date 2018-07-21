@@ -43,7 +43,7 @@ export class WordsSelectedComponent implements OnInit {
   openWordEnterDialog(): void {
     this.dialog.open(WordTranslationEnterDialogComponent).afterClosed().subscribe(data => {
       if (data && data.word && data.translation) {
-        this.userService.putSelected(data.word, data.translation);
+        this.userService.saveSelected(data.word, data.translation);
         this.refreshTable();
       }
     });

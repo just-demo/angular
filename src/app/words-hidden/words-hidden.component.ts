@@ -34,7 +34,7 @@ export class WordsHiddenComponent implements OnInit {
       data: 'Are you sure you want to delete the words selected?'
     }).afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        this.dataTable.getSelected().forEach(word => this.userService.setHidden(word, false));
+        this.dataTable.getSelected().forEach(word => this.userService.saveHidden(word, false));
         this.refreshTable();
       }
     });
@@ -43,7 +43,7 @@ export class WordsHiddenComponent implements OnInit {
   openWordEnterDialog(): void {
     this.dialog.open(WordHiddenEnterDialogComponent).afterClosed().subscribe(word => {
       if (word) {
-        this.userService.setHidden(word, true);
+        this.userService.saveHidden(word, true);
         this.refreshTable();
       }
     });

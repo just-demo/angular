@@ -39,7 +39,7 @@ export class BookComponent implements OnInit, OnDestroy {
       data: 'Are you sure you want to delete the book?'
     }).afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        this.userService.deleteBook(this.activeBook.id);
+        this.userService.removeBook(this.activeBook.id);
         this.activeBook.clear();
         this.router.navigateByUrl('/');
       }

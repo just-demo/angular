@@ -59,7 +59,7 @@ export class BookStatisticsComponent implements OnInit {
   }
 
   toggleVisibility(word: string): void {
-    this.userService.setHidden(word, !this.userService.isHidden(word));
+    this.userService.saveHidden(word, !this.userService.isHidden(word));
     this.refreshTable();
   }
 

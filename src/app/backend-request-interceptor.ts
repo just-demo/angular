@@ -1,14 +1,23 @@
 import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {AuthService} from './services/auth.service';
 
 @Injectable()
 export class BackendRequestInterceptor implements HttpInterceptor {
+
+  constructor(private authService: AuthService) {
+  }
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const url = 'http://localhost:8080';
     req = req.clone({
-      url: url + req.url
+      url: url + req.url,
+      setHeaders: this.authService.getAuthHeaders() || {}
     });
+    // const headers = this.authService.getAuthHeaders() || {};
+    // Object.keys(headers).forEach(header => req.headers.set(header, headers[header]));
+    console.log(req);
     return next.handle(req);
   }
 }
