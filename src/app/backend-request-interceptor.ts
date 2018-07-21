@@ -15,9 +15,6 @@ export class BackendRequestInterceptor implements HttpInterceptor {
       url: url + req.url,
       setHeaders: this.authService.getAuthHeaders() || {}
     });
-    // const headers = this.authService.getAuthHeaders() || {};
-    // Object.keys(headers).forEach(header => req.headers.set(header, headers[header]));
-    console.log(req);
     return next.handle(req);
   }
 }

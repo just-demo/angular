@@ -14,7 +14,9 @@ const routes: Routes = [
   {
     path: 'books/:bookId',
     component: BookComponent,
-    canActivate: [ActiveBookGuard], // TODO: change it because a book can be loaded from server on demand
+    // It is not possible to navigate to a particular book directly via a link
+    // because the user will not be logged in and the content of the book could not be loaded anyway
+    canActivate: [ActiveBookGuard],
     children: [
       // TODO: why does't redirection via 'pages' work here?
       {path: '', redirectTo: 'pages/1', pathMatch: 'full'},

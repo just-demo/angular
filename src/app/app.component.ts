@@ -10,6 +10,7 @@ import {RegistrationDialogComponent} from './dialogs/registration-dialog.compone
 import {BooksDialogComponent} from './dialogs/books-dialog.component';
 import {TranslationService} from './services/translation.service';
 import {WordService} from './services/word.service';
+import {MessageService} from './services/message.service';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ export class AppComponent {
   private recentBookCount = 5;
 
   constructor(
+    private messageService: MessageService,
     // TODO: find a better way to eagerly initialize the services
     // Injecting WordService TranslationService just to get them initialized on early stages
     private wordService: WordService,
@@ -59,10 +61,21 @@ export class AppComponent {
     return this.userService.getBookIds().length > this.recentBookCount;
   }
 
+  openBook(bookId: string): void {
+    this.userService.getBook(bookId).subscribe(text => {
+      if (text === null) {
+        this.messageService.error(`Book "${bookId}" was not found`);
+      } else {
+        this.activeBook.load(bookId, text);
+        this.router.navigate(['/books', this.activeBook.id]);
+      }
+    });
+  }
+
   openBooksDialog(): void {
     this.dialog.open(BooksDialogComponent, {
       width: '300px'
-    });
+    }).afterClosed().subscribe(bookId => this.openBook(bookId));
   }
 
   getAuthUser(): string {
@@ -78,6 +91,7 @@ export class AppComponent {
   }
 
   logout(): void {
+    // TODO: either clear active book or keep it in user data
     this.userService.clearUserData();
     this.authService.logout();
   }

@@ -7,12 +7,9 @@
   <mat-menu #bookMenu="matMenu">
     <ng-template matMenuContent>
       <button mat-menu-item (click)="bookUpload.click()">Open...</button>
-      <!-- TODO: do not create option to copy paste a new book because it is not a likely scenario and there will be more
-      difficult to specify book name to show it as active book for example... -->
-      <!-- TODO: 1) disable saved if not logged in 2) create a sublist or popup dialog with saved books selection -->
+      <!-- TODO: 1) disable saved if not logged in -->
       <mat-divider></mat-divider>
-      <button mat-menu-item [matMenuTriggerFor]="bookSavedMenu" [disabled]="!isAuthenticated()">Saved</button>
-      <!-- TODO: show active book item if present, consider naming it Draft with a submenu with single item -->
+      <button mat-menu-item [matMenuTriggerFor]="bookSavedMenu">Saved</button>
       <mat-divider *ngIf="hasActiveBook()"></mat-divider>
       <button class="activeBook" mat-menu-item *ngIf="hasActiveBook()" [routerLink]="['/books', getActiveBookId()]">
         {{getActiveBookId()}}
@@ -22,7 +19,7 @@
   <mat-menu #bookSavedMenu="matMenu">
     <ng-template matMenuContent>
       <button mat-menu-item *ngIf="!hasSavedBooks()" disabled>(None)</button>
-      <button mat-menu-item *ngFor="let bookId of getRecentSavedBookIds()" [routerLink]="['/books', bookId]">{{bookId}}
+      <button mat-menu-item *ngFor="let bookId of getRecentSavedBookIds()" (click)="openBook(bookId)">{{bookId}}
       </button>
       <mat-divider *ngIf="hasNonRecentSavedBooks()"></mat-divider>
       <button mat-menu-item *ngIf="hasNonRecentSavedBooks()" (click)="openBooksDialog()">Show All...</button>

@@ -25,8 +25,6 @@ export class BookComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const bookId = this.route.snapshot.paramMap.get('bookId');
-    this.initBook(bookId);
   }
 
   ngOnDestroy(): void {
@@ -48,12 +46,5 @@ export class BookComponent implements OnInit, OnDestroy {
 
   getBookId(): string {
     return this.activeBook.id;
-  }
-
-  private initBook(bookId: string): void {
-    if (this.activeBook.id !== bookId) {
-      // TODO: retrieve from database;
-      this.router.navigateByUrl('/');
-    }
   }
 }

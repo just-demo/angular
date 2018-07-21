@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../services/user.service';
-import {AuthService} from '../services/auth.service';
 import {MatDialogRef} from '@angular/material';
 import {AppComponent} from '../app.component';
 import {Router} from '@angular/router';
@@ -22,8 +21,7 @@ export class BooksDialogComponent implements OnInit {
   }
 
   redirectTo(bookId: string): void {
-    this.router.navigate(['/books', bookId]);
-    this.dialogRef.close();
+    this.dialogRef.close(bookId);
   }
 
   ngOnInit() {

@@ -32,9 +32,10 @@ import {DataTableComponent} from './data-table/data-table.component';
 import {WordTranslationEnterDialogComponent} from './dialogs/word-translation-enter-dialog.component';
 import {RegistrationDialogComponent} from './dialogs/registration-dialog.component';
 import {WordTranslationViewDialogComponent} from './dialogs/word-translation-view-dialog.component';
-import { BooksDialogComponent } from './dialogs/books-dialog.component';
+import {BooksDialogComponent} from './dialogs/books-dialog.component';
 import {RouteReuseStrategy} from '@angular/router';
 import {CustomRouteReuseStrategy} from './custom-route-reuse-strategy';
+import {MessageDialogComponent} from './dialogs/message-dialog.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import {CustomRouteReuseStrategy} from './custom-route-reuse-strategy';
     DataTableComponent,
     WordTranslationEnterDialogComponent,
     RegistrationDialogComponent,
-    BooksDialogComponent
+    BooksDialogComponent,
+    MessageDialogComponent
   ],
   imports: [
     NgbModule.forRoot(),
@@ -87,7 +89,8 @@ import {CustomRouteReuseStrategy} from './custom-route-reuse-strategy';
     WordHiddenEnterDialogComponent,
     WordTranslationEnterDialogComponent,
     RegistrationDialogComponent,
-    BooksDialogComponent
+    BooksDialogComponent,
+    MessageDialogComponent
   ],
   bootstrap: [AppComponent]
 })
