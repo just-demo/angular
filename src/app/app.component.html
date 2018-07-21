@@ -33,6 +33,11 @@
 
   <span class="fill-remaining-space">{{title}}</span>
 
+  <button mat-button class="mainMenuItem" routerLink="/data">
+    <!-- TODO: find true icon names -->
+    <mat-icon>{{isAuthenticated() ? 'online' : 'offline'}}</mat-icon>
+  </button>
+
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem" (click)="openLoginDialog()">Login</button>
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem" (click)="openRegistrationDialog()">Register
   </button>
@@ -44,8 +49,8 @@
   <!-- TODO: redirect to Data tabs (Books (read icon), Quiz (school icon), Hidden (eye icon) from different places -->
   <mat-menu #userMenu="matMenu">
     <button mat-menu-item (click)="logout()">Logout</button>
+    <!-- TODO: implement SettingsGuard what checks isAuthenticated() -->
     <button mat-menu-item routerLink="/settings">Settings...</button>
-    <button mat-menu-item routerLink="/data">Data...</button>
   </mat-menu>
 </mat-toolbar>
 <!-- TODO: create default home page with a list of saved books /books

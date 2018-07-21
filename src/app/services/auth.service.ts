@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +16,17 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<Object> {
-    const response = this.http.post('/auth', {
+    return this.http.post('/auth', {
       username: username,
       password: password
-    });
-    response.subscribe(authHeaders => this.onSuccessfulLogin(username, authHeaders));
-    return response;
+    }).pipe(
+      // subscribe is not applicable here because another subsequent subscriber needs authHeaders be initialized
+      // TODO: find a better function like "visit"
+      map(authHeaders => {
+        this.onSuccessfulLogin(username, authHeaders);
+        return authHeaders;
+      })
+    );
   }
 
   register(username: string, password: string): Observable<Object> {

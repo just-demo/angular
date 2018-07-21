@@ -18,7 +18,7 @@ export class UserService {
 
   syncUserData(): void {
     this.http.get<any>('/users/' + this.authService.getAuthUser(), this.getAuthOptions())
-      .subscribe(user => this.copyState(user));
+      .subscribe(user => this.copyState(user || {}));
     // TODO: flush unsaved data to server, for hidden and selected build a map with true/false values in the end
     // so that it will be clear if user wants to delete something already persisted on server
   }

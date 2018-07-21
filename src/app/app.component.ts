@@ -8,6 +8,8 @@ import {UserService} from './services/user.service';
 import {TitleService} from './services/title.service';
 import {RegistrationDialogComponent} from './dialogs/registration-dialog.component';
 import {BooksDialogComponent} from './dialogs/books-dialog.component';
+import {TranslationService} from './services/translation.service';
+import {WordService} from './services/word.service';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +21,10 @@ export class AppComponent {
   private recentBookCount = 5;
 
   constructor(
+    // TODO: find a better way to eagerly initialize the services
+    // Injecting WordService TranslationService just to get them initialized on early stages
+    private wordService: WordService,
+    private translationService: TranslationService,
     private authService: AuthService,
     private userService: UserService,
     private dialog: MatDialog,
