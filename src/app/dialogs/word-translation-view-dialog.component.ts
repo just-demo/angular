@@ -32,13 +32,13 @@ export class WordTranslationViewDialogComponent implements OnInit {
   }
 
   isSelected(word: string, translation?: string): boolean {
-    return this.userService.hasTranslation(word, translation);
+    return this.userService.isSelected(word, translation);
   }
 
   toggleSelection(word: string, translation: string): void {
-    return this.userService.hasTranslation(word, translation) ?
-      this.userService.removeTranslation(word, translation) :
-      this.userService.addTranslation(word, translation);
+    return this.userService.isSelected(word, translation) ?
+      this.userService.removeSelected(word, translation) :
+      this.userService.putSelected(word, translation);
   }
 
   redirectTo(word: string): void {

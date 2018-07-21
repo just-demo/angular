@@ -76,7 +76,7 @@ export class BookStatisticsComponent implements OnInit {
   }
 
   isSelected(word: string, translation?: string): boolean {
-    return this.userService.hasTranslation(word, translation);
+    return this.userService.isSelected(word, translation);
   }
 
   refreshTable() {

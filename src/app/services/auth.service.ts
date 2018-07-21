@@ -6,8 +6,8 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private authHeaders = null;
-  private authUser = null;
+  private authHeaders: { [header: string]: string } = null;
+  private authUser: string = null;
 
   constructor(
     private http: HttpClient,
@@ -15,13 +15,19 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<Object> {
-    const response = this.http.post('/auth', new Credentials(username, password));
+    const response = this.http.post('/auth', {
+      username: username,
+      password: password
+    });
     response.subscribe(authHeaders => this.onSuccessfulLogin(username, authHeaders));
     return response;
   }
 
   register(username: string, password: string): Observable<Object> {
-    const response = this.http.put('/auth', new Credentials(username, password));
+    const response = this.http.put('/auth', {
+      username: username,
+      password: password
+    });
     response.subscribe(authHeaders => this.onSuccessfulLogin(username, authHeaders));
     return response;
   }
@@ -32,7 +38,7 @@ export class AuthService {
   }
 
   changePassword(oldPassword: string, newPassword: string): Observable<Object> {
-    const response = this.http.post('/auth/password', {
+    const response = this.http.post<any>('/auth/password', {
       oldPassword: oldPassword,
       newPassword: newPassword
     });
@@ -51,16 +57,11 @@ export class AuthService {
     return !!this.authHeaders;
   }
 
-  getAuthHeaders() {
+  getAuthHeaders(): { [header: string]: string } {
     return this.authHeaders;
   }
 
   getAuthUser() {
     return this.authUser;
-  }
-}
-
-export class Credentials {
-  constructor(username: string, password: string) {
   }
 }

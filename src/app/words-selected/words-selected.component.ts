@@ -34,7 +34,7 @@ export class WordsSelectedComponent implements OnInit {
       data: 'Are you sure you want to delete the words selected?'
     }).afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        this.dataTable.getSelected().forEach(row => this.userService.removeTranslation(row.word, row.translation));
+        this.dataTable.getSelected().forEach(row => this.userService.removeSelected(row.word, row.translation));
         this.refreshTable();
       }
     });
@@ -43,14 +43,14 @@ export class WordsSelectedComponent implements OnInit {
   openWordEnterDialog(): void {
     this.dialog.open(WordTranslationEnterDialogComponent).afterClosed().subscribe(data => {
       if (data && data.word && data.translation) {
-        this.userService.addTranslation(data.word, data.translation);
+        this.userService.putSelected(data.word, data.translation);
         this.refreshTable();
       }
     });
   }
 
   private refreshTable(): void {
-    const translations = this.userService.getTranslations();
+    const translations = this.userService.getSelected();
     const words = [];
     Object.keys(translations).forEach(word => translations[word].forEach(translation => words.push({
       word: word,

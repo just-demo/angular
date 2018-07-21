@@ -1,28 +1,30 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {AuthService} from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private translations = {};
+  private selected = {};
   private hidden = {};
   private books: string[] = [];
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {
   }
 
   syncUserData(): void {
-    // TODO: load user from server
-    // return this.http.get('/user/' + username);
+    this.http.get<any>('/users/' + this.authService.getAuthUser(), this.getAuthOptions())
+      .subscribe(user => this.copyState(user));
     // TODO: flush unsaved data to server, for hidden and selected build a map with true/false values in the end
     // so that it will be clear if user wants to delete something already persisted on server
   }
 
   clearUserData(): void {
-    this.translations = {};
-    this.hidden = {};
-    this.books = [];
+    this.copyState({});
   }
 
   getBooks(): string[] {
@@ -45,34 +47,31 @@ export class UserService {
   /**
    * @return {word: [translation, ...]}
    */
-  getTranslations(): any {
-    // TODO: find a better data structure
-    const translations = {};
-    Object.keys(this.translations).forEach(word => {
-      Object.keys(this.translations[word]).forEach(translation => {
-        if (this.translations[word][translation]) {
-          translations[word] = translations[word] || [];
-          translations[word].push(translation);
+  getSelected(): any {
+    const selected = {};
+    Object.keys(this.selected).forEach(word => {
+      Object.keys(this.selected[word]).forEach(translation => {
+        if (this.selected[word][translation]) {
+          selected[word] = selected[word] || [];
+          selected[word].push(translation);
         }
       });
     });
-
-    return translations;
+    return selected;
   }
 
-  // TODO: selected instead of translation?
-  addTranslation(word: string, translation: string): void {
-    this.putTranslation(word, translation, true);
+  putSelected(word: string, translation: string): void {
+    this.setSelected(word, translation, true);
   }
 
-  removeTranslation(word: string, translation: string): void {
-    this.putTranslation(word, translation, false);
+  removeSelected(word: string, translation: string): void {
+    this.setSelected(word, translation, false);
   }
 
-  hasTranslation(word: string, translation?: string): boolean {
-    return this.translations[word] && (translation === undefined ?
-        Object.values(this.translations[word]).some(status => !!status) :
-        this.translations[word][translation]
+  isSelected(word: string, translation?: string): boolean {
+    return this.selected[word] && (translation === undefined ?
+        Object.values(this.selected[word]).some(status => !!status) :
+        this.selected[word][translation]
     );
   }
 
@@ -85,11 +84,36 @@ export class UserService {
   }
 
   setHidden(word: string, hidden: boolean) {
-    return this.hidden[word] = hidden;
+    this.hidden[word] = hidden;
+    // TODO: encode values!!!
+    const url = '/users/' + this.authService.getAuthUser() + '/hidden/' + word;
+    hidden ?
+      this.http.put(url, {}, this.getAuthOptions()).subscribe() :
+      this.http.delete(url, this.getAuthOptions()).subscribe();
   }
 
-  private putTranslation(word: string, translation: string, status: boolean): void {
-    this.translations[word] = this.translations[word] || {};
-    this.translations[word][translation] = status;
+  private setSelected(word: string, translation: string, selected: boolean): void {
+    this.selected[word] = this.selected[word] || {};
+    this.selected[word][translation] = selected;
+    // TODO: encode values!!!
+    const url = '/users/' + this.authService.getAuthUser() + '/selected/' + word + '/' + translation;
+    selected ?
+      this.http.put(url, {}, this.getAuthOptions()).subscribe() :
+      this.http.delete(url, this.getAuthOptions()).subscribe();
+  }
+
+  private copyState(user: any): void {
+    this.selected = {};
+    this.hidden = {};
+    Object.keys(user.selected || {}).forEach(word => {
+      this.selected[word] = this.selected[word] || {};
+      user.selected[word].forEach(translation => this.selected[word][translation] = true);
+    });
+    Object.keys(user.hidden || {}).forEach(word => this.hidden[word] = true);
+    this.books = user.books || [];
+  }
+
+  private getAuthOptions() {
+    return {headers: this.authService.getAuthHeaders()};
   }
 }
