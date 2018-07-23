@@ -3,6 +3,7 @@ import {TitleService} from '../services/title.service';
 import {AuthService} from '../services/auth.service';
 import {MatDialog} from '@angular/material';
 import {ChangePasswordDialogComponent} from '../dialogs/change-password-dialog.component';
+import {MessageService} from '../services/message.service';
 
 @Component({
   selector: 'app-settings',
@@ -14,6 +15,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   constructor(
     private titleService: TitleService,
+    private messageService: MessageService,
     private dialog: MatDialog,
     private authService: AuthService
   ) {
@@ -35,7 +37,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // TODO: show a message somewhere that password change successfully
+        this.messageService.info('Password changed successfully');
       }
     });
   }

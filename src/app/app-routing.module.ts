@@ -18,6 +18,7 @@ const routes: Routes = [
     // It is not possible to navigate to a particular book directly via a link
     // because the user will not be logged in and the content of the book could not be loaded anyway
     canActivate: [ActiveBookGuard],
+    runGuardsAndResolvers: 'always',
     children: [
       // TODO: why does't redirection via 'pages' work here?
       {path: '', redirectTo: 'pages/1', pathMatch: 'full'},
@@ -28,13 +29,18 @@ const routes: Routes = [
   },
   {path: 'quiz', redirectTo: 'quiz/uniform', pathMatch: 'full'},
   {path: 'quiz/:mode', component: QuizComponent},
-  {path: 'settings', component: SettingsComponent, canActivate: [SettingsGuard]},
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    canActivate: [SettingsGuard],
+    runGuardsAndResolvers: 'always'
+  },
   {path: 'data', redirectTo: 'data/words', pathMatch: 'full'},
   {path: 'data/:tab', component: UserDataComponent},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

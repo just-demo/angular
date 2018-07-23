@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from './auth.service';
 import {Observable, of} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class UserService {
   private books: { [bookId: string]: any } = {};
 
   constructor(
+    private router: Router,
     private http: HttpClient,
     private authService: AuthService
   ) {
@@ -26,9 +28,11 @@ export class UserService {
       books: this.getBooks()
     };
     this.patchUser(userPatch).subscribe(() =>
-      this.readUser().subscribe(user =>
-        // TODO: refresh current page to get new data displayed!
-        this.copyState(user)));
+      this.readUser().subscribe(user => {
+          this.copyState(user);
+          this.router.navigate([this.router.url]);
+        }
+      ));
   }
 
   clearUserData(): void {

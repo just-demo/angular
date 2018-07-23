@@ -9,7 +9,7 @@
     </mat-form-field>
     <br/>
     <mat-form-field>
-      <input matInput [formControl]="password" placeholder="Password" required>
+      <input matInput [formControl]="password" placeholder="Password" required autocomplete="off">
       <mat-error *ngIf="password.hasError('required')">
         The input is required
       </mat-error>
@@ -20,6 +20,6 @@
   </form>
 </div>
 <div mat-dialog-actions align="center">
-  <button mat-button [mat-dialog-close]>Cancel</button>
+  <button mat-button [mat-dialog-close] tabindex="-1">Cancel</button>
   <button mat-button (click)="login()" [disabled]="!username.value || !password.value">Login</button>
 </div>

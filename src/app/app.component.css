@@ -7,7 +7,7 @@ mat-toolbar .mainMenuItem {
   height: 100%;
 }
 
-mat-toolbar .mainMenuItem.home {
+mat-toolbar .mainMenuItem.home, mat-toolbar .mainMenuItem.data {
   min-width: 20px;
   padding-left: 15px;
   padding-right: 15px;

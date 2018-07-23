@@ -18,4 +18,13 @@ export class MessageService {
       }
     });
   }
+
+  info(message: string): void {
+    this.dialog.open(MessageDialogComponent, {
+      data: {
+        message: message,
+        type: 'info'
+      }
+    });
+  }
 }

@@ -44,7 +44,7 @@ export class AuthService {
   }
 
   changePassword(oldPassword: string, newPassword: string): Observable<Object> {
-    const response = this.http.post<any>('/auth/password', {
+    const response = this.http.post<any>('/auth/' + this.getAuthUser() + '/password', {
       oldPassword: oldPassword,
       newPassword: newPassword
     });

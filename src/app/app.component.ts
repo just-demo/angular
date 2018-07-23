@@ -93,8 +93,9 @@ export class AppComponent {
   logout(): void {
     this.activeBook.clear();
     this.userService.clearUserData();
-    // TODO: refresh current page to get relevant data displayed! E.g. user should be redirected out of active book page
     this.authService.logout();
+    // this.router.navigated = false;
+    this.router.navigate([this.router.url]);
   }
 
   uploadBook(file: File) {

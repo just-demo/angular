@@ -30,9 +30,8 @@
 
   <span class="fill-remaining-space">{{title}}</span>
 
-  <button mat-button class="mainMenuItem" routerLink="/data">
-    <!-- TODO: find true icon names -->
-    <mat-icon>{{isAuthenticated() ? 'online' : 'offline'}}</mat-icon>
+  <button mat-button class="mainMenuItem data" routerLink="/data">
+    <mat-icon>{{isAuthenticated() ? 'cloud_done' : 'cloud_off'}}</mat-icon>
   </button>
 
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem" (click)="openLoginDialog()">Login</button>
@@ -42,15 +41,9 @@
     <mat-icon>account_box</mat-icon>
     {{getAuthUser()}}
   </button>
-  <!-- TODO: create Settings page with tabs: Account, Data -->
-  <!-- TODO: redirect to Data tabs (Books (read icon), Quiz (school icon), Hidden (eye icon) from different places -->
   <mat-menu #userMenu="matMenu">
     <button mat-menu-item (click)="logout()">Logout</button>
-    <!-- TODO: implement SettingsGuard what checks isAuthenticated() -->
     <button mat-menu-item routerLink="/settings">Settings...</button>
   </mat-menu>
 </mat-toolbar>
-<!-- TODO: create default home page with a list of saved books /books
-book -> saved -> top ten sorted by recent activity and All... pointed to home page /books
--->
 <router-outlet></router-outlet>
