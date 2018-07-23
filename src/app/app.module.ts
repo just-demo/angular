@@ -36,6 +36,7 @@ import {BooksDialogComponent} from './dialogs/books-dialog.component';
 import {RouteReuseStrategy} from '@angular/router';
 import {CustomRouteReuseStrategy} from './custom-route-reuse-strategy';
 import {MessageComponent} from './message/message.component';
+import {MAT_TOOLTIP_DEFAULT_OPTIONS} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import {MessageComponent} from './message/message.component';
   providers: [
     {provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: BackendRequestInterceptor, multi: true},
+    {provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: {showDelay: 500}},
     ActiveBook
   ],
   entryComponents: [

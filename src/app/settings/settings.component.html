@@ -1,9 +1,10 @@
 <mat-list role="list">
   <mat-list-item role="listitem">
     Username: {{username}}
+    <mat-icon (click)="deleteUser()" matTooltip="Delete account">delete</mat-icon>
   </mat-list-item>
   <mat-list-item role="listitem">
     Password: ******
-    <mat-icon (click)="openChangePasswordDialog()">edit</mat-icon>
+    <mat-icon (click)="openChangePasswordDialog()" matTooltip="Change password">edit</mat-icon>
   </mat-list-item>
 </mat-list>

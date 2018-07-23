@@ -29,9 +29,9 @@
 
   <span class="fill-remaining-space">{{title}}</span>
 
-  <button mat-button class="mainMenuItem data" routerLink="/data">
-    <mat-icon *ngIf="isAuthenticated()" matTooltip="Online data" [matTooltipShowDelay]="500">cloud_done</mat-icon>
-    <mat-icon *ngIf="!isAuthenticated()" matTooltip="Offline data" [matTooltipShowDelay]="500">cloud_off</mat-icon>
+  <button mat-button class="mainMenuItem data" routerLink="/data"
+          [matTooltip]="isAuthenticated() ? 'Online data' : 'Offline data'">
+    <mat-icon>{{isAuthenticated() ? 'cloud_done' : 'cloud_off'}}</mat-icon>
   </button>
 
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem" (click)="openLoginDialog()">Login</button>

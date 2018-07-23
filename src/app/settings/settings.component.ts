@@ -4,6 +4,8 @@ import {AuthService} from '../services/auth.service';
 import {MatDialog} from '@angular/material';
 import {ChangePasswordDialogComponent} from '../dialogs/change-password-dialog.component';
 import {MessageService} from '../message/message.service';
+import {ConfirmationDialogComponent} from '../dialogs/confirmation-dialog.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -17,6 +19,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     private titleService: TitleService,
     private messageService: MessageService,
     private dialog: MatDialog,
+    private router: Router,
     private authService: AuthService
   ) {
   }
@@ -28,6 +31,26 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.titleService.clearTitle();
+  }
+
+  deleteUser(): void {
+    this.dialog.open(ConfirmationDialogComponent, {
+      autoFocus: false,
+      data: 'Are you sure you want to delete your account?'
+    }).afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        const username = this.authService.getAuthUser();
+        this.authService.delete().subscribe(
+          () => {
+            this.router.navigateByUrl('/');
+            this.messageService.info(`Your account and all its associated data has been deleted`);
+          },
+          () => {
+            this.messageService.error(`Error deleting the account`);
+          }
+        );
+      }
+    });
   }
 
   openChangePasswordDialog(): void {

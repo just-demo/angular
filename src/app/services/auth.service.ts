@@ -21,7 +21,7 @@ export class AuthService {
       password: password
     }).pipe(
       // subscribe is not applicable here because another subsequent subscriber needs authHeaders be initialized
-      // TODO: find a better function like "visit"
+      // TODO: find a better function like "visit" instead of "map"
       map(authHeaders => {
         this.onSuccessfulLogin(username, authHeaders);
         return authHeaders;
@@ -51,6 +51,19 @@ export class AuthService {
     response.subscribe(authHeaders => {
       this.authHeaders = authHeaders;
     });
+    return response;
+  }
+
+  delete(): Observable<Object> {
+    const response = this.http.delete<any>('/auth/' + this.getAuthUser())
+      .pipe(
+        // TODO: find a better function like "visit" instead of "map"
+        map(result => {
+          this.logout();
+          return result;
+        })
+      );
+    response.subscribe();
     return response;
   }
 

@@ -1,18 +1,15 @@
 <app-iconbar>
   <mat-icon [routerLink]="['/quiz', 'uniform']"
             routerLinkActive="active"
-            matTooltip="Uniform"
-            [matTooltipShowDelay]="500">repeat
+            matTooltip="Uniform">repeat
   </mat-icon>
   <mat-icon [routerLink]="['/quiz', 'random']"
             routerLinkActive="active"
-            matTooltip="Random"
-            [matTooltipShowDelay]="500">shuffle
+            matTooltip="Random">shuffle
   </mat-icon>
   <mat-icon [routerLink]="['/quiz', 'ordered']"
             routerLinkActive="active"
-            matTooltip="Ordered"
-            [matTooltipShowDelay]="500">replay
+            matTooltip="Ordered">replay
   </mat-icon>
   <mat-icon [routerLink]="['/data', 'selected']" class="bottom">list</mat-icon>
   <mat-icon (click)="!isQuizEmpty() && delete()" class="bottom" [class.disabled]="isQuizEmpty()">delete</mat-icon>
