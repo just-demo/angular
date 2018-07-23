@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {TranslationService} from '../services/translation.service';
 import {ActiveBook} from '../book/active-book';
-import {KeyValue} from '../quiz/key-value';
-import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {KeyValue} from '../key-value';
+import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
 import {UserService} from '../services/user.service';
 import {PaginationHelperService} from '../services/pagination-helper.service';
 import {WordTranslationViewDialogComponent} from '../dialogs/word-translation-view-dialog.component';
@@ -14,13 +14,12 @@ import {WordService} from '../services/word.service';
   styleUrls: ['./book-statistics.component.css']
 })
 export class BookStatisticsComponent implements OnInit {
-  // mainColumns: string[] = ['word', 'translation', 'occurrence'];
+  displayedColumns: string[] = ['word', 'translation', 'occurrence', 'visibility'];
   dataSource: MatTableDataSource<string>;
   pageSizeOptions: number[];
   showHidden = true;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort; // TODO: still needed?
 
   constructor(
     private translationService: TranslationService,
@@ -43,7 +42,6 @@ export class BookStatisticsComponent implements OnInit {
       return defaultFilterPredicate(data, filter.trim()) && (this.showHidden || !this.isHidden(data));
     };
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   applyFilter(filterValue: string) {

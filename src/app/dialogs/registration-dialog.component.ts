@@ -4,6 +4,7 @@ import {FormControl, Validators} from '@angular/forms';
 import {MatDialogRef} from '@angular/material';
 import {AppComponent} from '../app.component';
 import {UserService} from '../services/user.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-registration-dialog',
@@ -26,10 +27,13 @@ export class RegistrationDialogComponent {
         this.dialogRef.close();
         this.userService.syncUserData();
       },
-      error => {
-        console.error('Login error: ' + error);
-        // TODO: set 'conflict' on 409 response only
-        this.password.setErrors({'conflict': true});
+      (error: HttpErrorResponse) => {
+        if (error.status === 409) {
+          this.username.setErrors({'conflict': true});
+        } else {
+          this.username.setErrors({'system': true});
+          this.password.setErrors({'system': true});
+        }
       }
     );
   }

@@ -7,7 +7,6 @@
   <mat-menu #bookMenu="matMenu">
     <ng-template matMenuContent>
       <button mat-menu-item (click)="bookUpload.click()">Open...</button>
-      <!-- TODO: 1) disable saved if not logged in -->
       <mat-divider></mat-divider>
       <button mat-menu-item [matMenuTriggerFor]="bookSavedMenu">Saved</button>
       <mat-divider *ngIf="hasActiveBook()"></mat-divider>
@@ -31,7 +30,8 @@
   <span class="fill-remaining-space">{{title}}</span>
 
   <button mat-button class="mainMenuItem data" routerLink="/data">
-    <mat-icon>{{isAuthenticated() ? 'cloud_done' : 'cloud_off'}}</mat-icon>
+    <mat-icon *ngIf="isAuthenticated()" matTooltip="Online data" [matTooltipShowDelay]="500">cloud_done</mat-icon>
+    <mat-icon *ngIf="!isAuthenticated()" matTooltip="Offline data" [matTooltipShowDelay]="500">cloud_off</mat-icon>
   </button>
 
   <button *ngIf="!isAuthenticated()" mat-button class="mainMenuItem" (click)="openLoginDialog()">Login</button>

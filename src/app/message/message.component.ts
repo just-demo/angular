@@ -15,7 +15,7 @@ import {MAT_SNACK_BAR_DATA} from '@angular/material';
     }
   `],
 })
-export class MessageComponent implements OnInit {
+export class MessageComponent {
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) {
   }
 }

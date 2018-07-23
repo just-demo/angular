@@ -20,7 +20,7 @@ const routes: Routes = [
     canActivate: [ActiveBookGuard],
     runGuardsAndResolvers: 'always',
     children: [
-      // TODO: why does't redirection via 'pages' work here?
+      // Multi redirection via 'pages' does not work
       {path: '', redirectTo: 'pages/1', pathMatch: 'full'},
       {path: 'pages', redirectTo: 'pages/1', pathMatch: 'full'},
       {path: 'pages/:pageId', component: BookReaderComponent},

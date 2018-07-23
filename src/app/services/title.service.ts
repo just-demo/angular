@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
-import {KeyValue} from '../quiz/key-value';
+import {KeyValue} from '../key-value';
 
 @Injectable({
   providedIn: 'root'

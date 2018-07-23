@@ -2,7 +2,7 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 import {ComparatorService, MatchResult} from './comparator.service';
 import {RandomService} from './random.service';
 import {UserService} from '../services/user.service';
-import {KeyValue} from './key-value';
+import {KeyValue} from '../key-value';
 import {ConfirmationDialogComponent} from '../dialogs/confirmation-dialog.component';
 import {MatDialog} from '@angular/material';
 import {TitleService} from '../services/title.service';
@@ -77,7 +77,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     let currentIndex;
     switch (this.sequenceMode) {
       case 'uniform':
-        // TODO: optimize with slice???
+        // TODO: optimize with slice??? maybe not... e.g. Back functionality might be broken
         if (this.sequenceIndex === 0 || !this.randomIndexes) {
           this.randomIndexes = this.randomService.randomIntArray(this.translations.length);
         }
