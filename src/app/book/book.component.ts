@@ -25,6 +25,7 @@ export class BookComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.titleService.setTitle(this.activeBook.id);
   }
 
   ngOnDestroy(): void {

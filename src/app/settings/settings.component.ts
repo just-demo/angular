@@ -3,7 +3,7 @@ import {TitleService} from '../services/title.service';
 import {AuthService} from '../services/auth.service';
 import {MatDialog} from '@angular/material';
 import {ChangePasswordDialogComponent} from '../dialogs/change-password-dialog.component';
-import {MessageService} from '../services/message.service';
+import {MessageService} from '../message/message.service';
 
 @Component({
   selector: 'app-settings',

@@ -10,7 +10,7 @@ import {RegistrationDialogComponent} from './dialogs/registration-dialog.compone
 import {BooksDialogComponent} from './dialogs/books-dialog.component';
 import {TranslationService} from './services/translation.service';
 import {WordService} from './services/word.service';
-import {MessageService} from './services/message.service';
+import {MessageService} from './message/message.service';
 
 @Component({
   selector: 'app-root',
@@ -102,10 +102,8 @@ export class AppComponent {
     this.activeBook.clear();
     const reader = new FileReader();
     reader.onload = () => {
-      // TODO: consider making server side support dots
-      const bookId = file.name.replace(/\./g, '-');
-      this.userService.saveBook(bookId, reader.result);
-      this.activeBook.load(bookId, reader.result);
+      this.userService.saveBook(file.name, reader.result);
+      this.activeBook.load(file.name, reader.result);
       this.router.navigate(['/books', this.activeBook.id]);
     };
     reader.readAsText(file);

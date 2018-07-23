@@ -38,3 +38,8 @@ mat-toolbar .authUser {
   text-align: center;
   flex: 1 1 auto;
 }
+
+::ng-deep .mat-snack-bar-container {
+  background-color: #ddd;
+  text-align: center;
+}
