@@ -20,12 +20,7 @@ export class AuthService {
       username: username,
       password: password
     }).pipe(
-      // subscribe is not applicable here because another subsequent subscriber needs authHeaders be initialized
-      // TODO: find a better function like "visit" instead of "map"
-      map(authHeaders => {
-        this.onSuccessfulLogin(username, authHeaders);
-        return authHeaders;
-      })
+      map(authHeaders => this.setAuthUser(username, authHeaders))
     );
   }
 
@@ -33,43 +28,35 @@ export class AuthService {
     const response = this.http.put('/auth', {
       username: username,
       password: password
-    });
-    response.subscribe(authHeaders => this.onSuccessfulLogin(username, authHeaders));
+    }).pipe(
+      map(authHeaders => this.setAuthUser(username, authHeaders))
+    );
+    response.subscribe();
     return response;
-  }
-
-  private onSuccessfulLogin(username: string, authHeaders: any): void {
-    this.authUser = username;
-    this.authHeaders = authHeaders;
   }
 
   changePassword(oldPassword: string, newPassword: string): Observable<Object> {
     const response = this.http.post<any>('/auth/' + this.getAuthUser() + '/password', {
       oldPassword: oldPassword,
       newPassword: newPassword
-    });
-    response.subscribe(authHeaders => {
-      this.authHeaders = authHeaders;
-    });
+    }).pipe(
+      map(authHeaders => this.setAuthUser(this.getAuthUser(), authHeaders))
+    );
+    response.subscribe();
     return response;
   }
 
   delete(): Observable<Object> {
     const response = this.http.delete<any>('/auth/' + this.getAuthUser())
       .pipe(
-        // TODO: find a better function like "visit" instead of "map"
-        map(result => {
-          this.logout();
-          return result;
-        })
+        map(ignored => this.setAuthUser(null, null))
       );
     response.subscribe();
     return response;
   }
 
   logout(): void {
-    this.authHeaders = null;
-    this.authUser = null;
+    this.setAuthUser(null, null);
   }
 
   isAuthenticated(): boolean {
@@ -82,5 +69,13 @@ export class AuthService {
 
   getAuthUser() {
     return this.authUser;
+  }
+
+  // TODO: find a better function like "visit" instead of "map" (see usages of this function for details)
+  // subscribe is not applicable here because another subsequent subscriber needs username and authHeaders be initialized
+  private setAuthUser(username: string, authHeaders: any): any {
+    this.authUser = username;
+    this.authHeaders = authHeaders;
+    return this.authHeaders;
   }
 }
