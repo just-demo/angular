@@ -5,7 +5,7 @@
   <mat-icon matSuffix>search</mat-icon>
 </mat-form-field>
 <div mat-dialog-content>
-  <button *ngFor="let bookId of filteredBookIds" class="book" mat-button [mat-dialog-close]="bookId">{{bookId}}</button>
+  <button *ngFor="let name of filteredBookNames" class="book" mat-button [mat-dialog-close]="name">{{name}}</button>
 </div>
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="center">

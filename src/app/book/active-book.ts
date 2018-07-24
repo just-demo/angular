@@ -3,7 +3,7 @@ import {BookParserService} from '../services/book-parser.service';
 
 @Injectable()
 export class ActiveBook {
-  id: string;
+  name: string;
   tokens: string[];
   words: any;
   groups: any;
@@ -14,18 +14,18 @@ export class ActiveBook {
   }
 
   clear(): void {
-    this.id = null;
+    this.name = null;
     this.copyState({});
   }
 
   load(id: string, text: string): void {
     const parseResult = this.bookParserService.parse(text);
     this.copyState(parseResult);
-    this.id = id;
+    this.name = id;
   }
 
   isLoaded(): boolean {
-    return !!this.id;
+    return !!this.name;
   }
 
   private copyState(data: any): void {

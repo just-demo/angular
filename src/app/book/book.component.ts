@@ -25,7 +25,7 @@ export class BookComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.titleService.setTitle(this.activeBook.id);
+    this.titleService.setTitle(this.activeBook.name);
   }
 
   ngOnDestroy(): void {
@@ -38,14 +38,14 @@ export class BookComponent implements OnInit, OnDestroy {
       data: 'Are you sure you want to delete the book?'
     }).afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        this.userService.removeBook(this.activeBook.id);
+        this.userService.removeBook(this.activeBook.name);
         this.activeBook.clear();
         this.router.navigateByUrl('/');
       }
     });
   }
 
-  getBookId(): string {
-    return this.activeBook.id;
+  getBookName(): string {
+    return this.activeBook.name;
   }
 }

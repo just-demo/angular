@@ -1,6 +1,6 @@
 <app-iconbar>
-  <mat-icon [routerLink]="['/books', getBookId(), 'pages']" routerLinkActive="active">local_library</mat-icon>
-  <mat-icon [routerLink]="['/books', getBookId(), 'statistics']" routerLinkActive="active">poll</mat-icon>
+  <mat-icon [routerLink]="['/books', getBookName(), 'pages']" routerLinkActive="active">local_library</mat-icon>
+  <mat-icon [routerLink]="['/books', getBookName(), 'statistics']" routerLinkActive="active">poll</mat-icon>
   <mat-icon [routerLink]="['/data', 'books']" class="bottom">list</mat-icon>
   <mat-icon (click)="deleteBook()" class="bottom">delete</mat-icon>
   <router-outlet></router-outlet>

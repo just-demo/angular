@@ -33,13 +33,13 @@ export class BooksComponent implements OnInit {
       data: 'Are you sure you want to delete the books selected?'
     }).afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        this.dataTable.getSelected().forEach(bookId => this.userService.removeBook(bookId));
+        this.dataTable.getSelected().forEach(name => this.userService.removeBook(name));
         this.refreshTable();
       }
     });
   }
 
   private refreshTable(): void {
-    this.books = this.userService.getBookIds();
+    this.books = this.userService.getBookNames();
   }
 }

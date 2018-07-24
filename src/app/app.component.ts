@@ -45,29 +45,29 @@ export class AppComponent {
     return this.activeBook.isLoaded();
   }
 
-  getActiveBookId(): string {
-    return this.activeBook.id;
+  getActiveBookName(): string {
+    return this.activeBook.name;
   }
 
   hasSavedBooks(): boolean {
-    return !!this.userService.getBookIds().length;
+    return !!this.userService.getBookNames().length;
   }
 
-  getRecentSavedBookIds(): string[] {
-    return this.userService.getBookIds().slice(0, this.recentBookCount);
+  getRecentSavedBookNames(): string[] {
+    return this.userService.getBookNames().slice(0, this.recentBookCount);
   }
 
   hasNonRecentSavedBooks(): boolean {
-    return this.userService.getBookIds().length > this.recentBookCount;
+    return this.userService.getBookNames().length > this.recentBookCount;
   }
 
-  openBook(bookId: string): void {
-    this.userService.getBook(bookId).subscribe(text => {
+  openBook(name: string): void {
+    this.userService.getBook(name).subscribe(text => {
       if (text === null) {
-        this.messageService.error(`Book "${bookId}" was not found`);
+        this.messageService.error(`Book "${name}" was not found`);
       } else {
-        this.activeBook.load(bookId, text);
-        this.router.navigate(['/books', this.activeBook.id]);
+        this.activeBook.load(name, text);
+        this.router.navigate(['/books', this.activeBook.name]);
       }
     });
   }
@@ -75,7 +75,7 @@ export class AppComponent {
   openBooksDialog(): void {
     this.dialog.open(BooksDialogComponent, {
       width: '300px'
-    }).afterClosed().subscribe(bookId => this.openBook(bookId));
+    }).afterClosed().subscribe(name => this.openBook(name));
   }
 
   getAuthUser(): string {
@@ -105,7 +105,7 @@ export class AppComponent {
     reader.onload = () => {
       this.userService.saveBook(file.name, reader.result);
       this.activeBook.load(file.name, reader.result);
-      this.router.navigate(['/books', this.activeBook.id]);
+      this.router.navigate(['/books', this.activeBook.name]);
     };
     reader.readAsText(file);
   }

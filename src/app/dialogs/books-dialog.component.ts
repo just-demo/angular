@@ -7,19 +7,19 @@ import {UserService} from '../services/user.service';
   styleUrls: ['./books-dialog.component.css']
 })
 export class BooksDialogComponent implements OnInit {
-  private bookIds: string[];
-  filteredBookIds: string[];
+  private bookNames: string[];
+  filteredBookNames: string[];
 
   constructor(private userService: UserService) {
   }
 
   ngOnInit() {
-    this.bookIds = this.userService.getBookIds();
-    this.filteredBookIds = this.bookIds;
+    this.bookNames = this.userService.getBookNames();
+    this.filteredBookNames = this.bookNames;
   }
 
   applyFilter(filterValue: string): void {
     const filter = filterValue.trim().toLowerCase();
-    this.filteredBookIds = this.bookIds.filter(bookId => bookId.toLowerCase().startsWith(filter));
+    this.filteredBookNames = this.bookNames.filter(name => name.toLowerCase().startsWith(filter));
   }
 }

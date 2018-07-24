@@ -13,7 +13,7 @@ import {SettingsGuard} from './settings/settings.guard';
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {
-    path: 'books/:bookId',
+    path: 'books/:name',
     component: BookComponent,
     // It is not possible to navigate to a particular book directly via a link
     // because the user will not be logged in and the content of the book could not be loaded anyway

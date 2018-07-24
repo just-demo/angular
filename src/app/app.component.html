@@ -10,15 +10,15 @@
       <mat-divider></mat-divider>
       <button mat-menu-item [matMenuTriggerFor]="bookSavedMenu">Saved</button>
       <mat-divider *ngIf="hasActiveBook()"></mat-divider>
-      <button class="activeBook" mat-menu-item *ngIf="hasActiveBook()" [routerLink]="['/books', getActiveBookId()]">
-        {{getActiveBookId()}}
+      <button class="activeBook" mat-menu-item *ngIf="hasActiveBook()" [routerLink]="['/books', getActiveBookName()]">
+        {{getActiveBookName()}}
       </button>
     </ng-template>
   </mat-menu>
   <mat-menu #bookSavedMenu="matMenu">
     <ng-template matMenuContent>
       <button mat-menu-item *ngIf="!hasSavedBooks()" disabled>(None)</button>
-      <button mat-menu-item *ngFor="let bookId of getRecentSavedBookIds()" (click)="openBook(bookId)">{{bookId}}
+      <button mat-menu-item *ngFor="let bookName of getRecentSavedBookNames()" (click)="openBook(bookName)">{{bookName}}
       </button>
       <mat-divider *ngIf="hasNonRecentSavedBooks()"></mat-divider>
       <button mat-menu-item *ngIf="hasNonRecentSavedBooks()" (click)="openBooksDialog()">Show All...</button>

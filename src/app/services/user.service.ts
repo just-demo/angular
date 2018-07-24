@@ -11,8 +11,8 @@ export class UserService {
   // Working data structure is optimized for performance
   private selected: { [word: string]: { [translation: string]: boolean } } = {};
   private hidden: { [word: string]: boolean } = {};
-  // private books: { [bookId: string]: boolean | string } = {};
-  private books: { [bookId: string]: any } = {};
+  // private books: { [name: string]: boolean | string } = {};
+  private books: { [name: string]: any } = {};
 
   constructor(
     private router: Router,
@@ -39,31 +39,31 @@ export class UserService {
     this.copyState({});
   }
 
-  getBookIds(): string[] {
-    return Object.keys(this.books).filter(bookId => this.books[bookId]);
+  getBookNames(): string[] {
+    return Object.keys(this.books).filter(name => this.books[name]);
   }
 
-  getBook(bookId: string): Observable<string> {
-    if (this.isBookInitialized(this.books[bookId])) {
-      return of(this.books[bookId]);
+  getBook(name: string): Observable<string> {
+    if (this.isBookInitialized(this.books[name])) {
+      return of(this.books[name]);
     }
 
-    if (this.books[bookId] && this.authService.isAuthenticated()) {
-      const book = this.http.get<string>('/users/' + this.authService.getAuthUser() + '/books/' + bookId);
-      book.subscribe(text => this.books[bookId] = text);
+    if (this.books[name] && this.authService.isAuthenticated()) {
+      const book = this.http.get<string>('/users/' + this.authService.getAuthUser() + '/books/' + name);
+      book.subscribe(content => this.books[name] = content);
       return book;
     }
 
     return of(null);
   }
 
-  saveBook(bookId: string, text: string): void {
-    this.books[bookId] = text;
+  saveBook(name: string, content: string): Observable<any> {
+    this.books[name] = content;
     if (this.authService.isAuthenticated()) {
       const patch = {
         books: [{
-          name: bookId,
-          content: text,
+          name: name,
+          content: content,
           language: 'en'
         }]
       };
@@ -71,10 +71,10 @@ export class UserService {
     }
   }
 
-  removeBook(bookId: string): void {
-    this.books[bookId] = false;
+  removeBook(name: string): void {
+    this.books[name] = false;
     if (this.authService.isAuthenticated()) {
-      const patch = {books: [{name: bookId}]};
+      const patch = {books: [{name: name}]};
       this.patchUserRemove(patch);
     }
   }
@@ -138,11 +138,11 @@ export class UserService {
 
   private getBooks(): { name: string, content: string, language: string }[] {
     return Object.keys(this.books)
-      .filter(bookId => this.isBookInitialized(this.books[bookId]))
-      .map(bookId => {
+      .filter(name => this.isBookInitialized(this.books[name]))
+      .map(name => {
         return {
-          name: bookId,
-          content: this.books[bookId],
+          name: name,
+          content: this.books[name],
           language: 'en'
         };
       });
@@ -157,8 +157,8 @@ export class UserService {
     }
   }
 
-  private isBookInitialized(text: boolean): boolean {
-    return typeof text === 'string';
+  private isBookInitialized(content: boolean): boolean {
+    return typeof content === 'string';
   }
 
   private copyState(user: any): void {
