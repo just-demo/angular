@@ -75,7 +75,7 @@ export class UserService {
     this.books[name] = false;
     if (this.authService.isAuthenticated()) {
       const patch = {books: [{name: name}]};
-      this.patchUserRemove(patch);
+      this.patchUserRemove(patch).subscribe();
     }
   }
 
