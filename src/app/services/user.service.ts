@@ -57,7 +57,7 @@ export class UserService {
     return of(null);
   }
 
-  saveBook(name: string, content: string): Observable<any> {
+  saveBook(name: string, content: string): void {
     this.books[name] = content;
     if (this.authService.isAuthenticated()) {
       const patch = {
