@@ -25,34 +25,28 @@ export class AuthService {
   }
 
   register(username: string, password: string): Observable<Object> {
-    const response = this.http.put('/auth', {
+    return this.http.put('/auth', {
       username: username,
       password: password
     }).pipe(
       map(authHeaders => this.setAuthUser(username, authHeaders))
     );
-    response.subscribe();
-    return response;
   }
 
   changePassword(oldPassword: string, newPassword: string): Observable<Object> {
-    const response = this.http.post<any>('/auth/' + this.getAuthUser() + '/password', {
+    return this.http.post<any>('/auth/' + this.getAuthUser() + '/password', {
       oldPassword: oldPassword,
       newPassword: newPassword
     }).pipe(
       map(authHeaders => this.setAuthUser(this.getAuthUser(), authHeaders))
     );
-    response.subscribe();
-    return response;
   }
 
   delete(): Observable<Object> {
-    const response = this.http.delete<any>('/auth/' + this.getAuthUser())
+    return this.http.delete<any>('/auth/' + this.getAuthUser())
       .pipe(
         map(ignored => this.setAuthUser(null, null))
       );
-    response.subscribe();
-    return response;
   }
 
   logout(): void {

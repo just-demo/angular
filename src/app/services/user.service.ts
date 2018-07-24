@@ -67,7 +67,7 @@ export class UserService {
           language: 'en'
         }]
       };
-      this.patchUser(patch);
+      this.patchUser(patch).subscribe();
     }
   }
 
@@ -115,7 +115,7 @@ export class UserService {
     this.hidden[word] = hidden;
     if (this.authService.isAuthenticated()) {
       const patch = {hidden: [word]};
-      hidden ? this.patchUser(patch) : this.patchUserRemove(patch);
+      hidden ? this.patchUser(patch).subscribe() : this.patchUserRemove(patch).subscribe();
     }
   }
 
@@ -125,15 +125,11 @@ export class UserService {
   }
 
   private patchUser(userPatch: any): Observable<any> {
-    const response = this.http.patch<any>('/users/' + this.authService.getAuthUser(), userPatch);
-    response.subscribe();
-    return response;
+    return this.http.patch<any>('/users/' + this.authService.getAuthUser(), userPatch);
   }
 
   private patchUserRemove(userPatch: any): Observable<any> {
-    const response = this.http.patch<any>('/users/' + this.authService.getAuthUser() + '/remove', userPatch);
-    response.subscribe();
-    return response;
+    return this.http.patch<any>('/users/' + this.authService.getAuthUser() + '/remove', userPatch);
   }
 
   private getBooks(): { name: string, content: string, language: string }[] {
@@ -153,7 +149,7 @@ export class UserService {
     this.selected[word][translation] = selected;
     if (this.authService.isAuthenticated()) {
       const patch = {selected: [{en: word, ru: translation}]};
-      selected ? this.patchUser(patch) : this.patchUserRemove(patch);
+      selected ? this.patchUser(patch).subscribe() : this.patchUserRemove(patch).subscribe();
     }
   }
 
