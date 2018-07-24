@@ -94,8 +94,9 @@ export class AppComponent {
     this.activeBook.clear();
     this.userService.clearUserData();
     this.authService.logout();
-    // this.router.navigated = false;
-    this.router.navigate([this.router.url]);
+    // Refreshing did no work when when logging out from book reader page
+    this.router.navigateByUrl('/');
+    this.messageService.info('You have been successfully logged out');
   }
 
   uploadBook(file: File) {
