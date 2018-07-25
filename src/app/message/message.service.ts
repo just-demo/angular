@@ -16,6 +16,10 @@ export class MessageService {
     this.show(message, 'error', 3000);
   }
 
+  ward(message: string): void {
+    this.show(message, 'warn', 3000);
+  }
+
   info(message: string): void {
     this.show(message, 'info', 1000);
   }

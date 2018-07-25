@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {FormControl, Validators} from '@angular/forms';
 import {MatDialogRef} from '@angular/material';
@@ -24,8 +24,8 @@ export class RegistrationDialogComponent {
   register() {
     this.authService.register(this.username.value, this.password.value).subscribe(
       () => {
-        this.dialogRef.close();
         this.userService.syncUserData();
+        this.dialogRef.close();
       },
       (error: HttpErrorResponse) => {
         if (error.status === 409) {

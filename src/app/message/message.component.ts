@@ -10,6 +10,10 @@ import {MAT_SNACK_BAR_DATA} from '@angular/material';
       color: red;
     }
 
+    .warn {
+      color: darkorange;
+    }
+
     .info {
       color: green;
     }

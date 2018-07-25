@@ -37,6 +37,7 @@ import {RouteReuseStrategy} from '@angular/router';
 import {CustomRouteReuseStrategy} from './custom-route-reuse-strategy';
 import {MessageComponent} from './message/message.component';
 import {MAT_TOOLTIP_DEFAULT_OPTIONS} from '@angular/material';
+import { ProductionNoticeComponent } from './production-notice/production-notice.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import {MAT_TOOLTIP_DEFAULT_OPTIONS} from '@angular/material';
     WordTranslationEnterDialogComponent,
     RegistrationDialogComponent,
     BooksDialogComponent,
-    MessageComponent
+    MessageComponent,
+    ProductionNoticeComponent
   ],
   imports: [
     NgbModule.forRoot(),
