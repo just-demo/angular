@@ -8,7 +8,7 @@ export class TranslationService {
   private translations = {};
 
   constructor(private http: HttpClient) {
-    this.http.get('/translations').subscribe(translations => {
+    this.http.get('/assets/translations.json').subscribe(translations => {
       this.translations = translations;
     });
   }

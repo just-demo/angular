@@ -11,13 +11,17 @@ export class BackendRequestInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (req.url.startsWith('/assets/')) {
+      return next.handle(req);
+    }
+
     if (environment.production) {
-      // Some services expect array, it will not break those ones that expect an object
+      // Some services may expect an array and it will not break those ones that expect an object
       return of(new HttpResponse({body: []}));
     }
-    const url = 'http://localhost:8080';
+
     req = req.clone({
-      url: url + req.url,
+      url: 'http://localhost:8080' + req.url,
       setHeaders: this.authService.getAuthHeaders() || {}
     });
     return next.handle(req);

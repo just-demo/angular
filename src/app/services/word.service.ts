@@ -8,7 +8,7 @@ export class WordService {
   private relatedWords = {};
 
   constructor(private http: HttpClient) {
-    this.http.get<string[][]>('/words').subscribe(words => {
+    this.http.get<string[][]>('/assets/words.json').subscribe(words => {
       words.forEach(relatedWords => relatedWords.forEach(word => this.relatedWords[word] = relatedWords));
     });
   }
